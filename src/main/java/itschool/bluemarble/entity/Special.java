@@ -1,4 +1,4 @@
-package itschool.bluemarble.enttiy;
+package itschool.bluemarble.entity;
 
 public class Special extends Tile{
     private String type;

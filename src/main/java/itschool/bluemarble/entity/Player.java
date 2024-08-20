@@ -1,4 +1,4 @@
-package itschool.bluemarble.enttiy;
+package itschool.bluemarble.entity;
 
 public class Player {
     private String name;

@@ -1,4 +1,4 @@
-package itschool.bluemarble.enttiy;
+package itschool.bluemarble.entity;
 
 // 게임 안에는 매턴이 발생하며 (플레이어가) 매턴마다 순서에 따라 주사위를 굴린다.
 public class Game {

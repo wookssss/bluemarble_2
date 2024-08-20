@@ -1,4 +1,4 @@
-package itschool.bluemarble.enttiy;
+package itschool.bluemarble.entity;
 
 import java.util.Random;
 

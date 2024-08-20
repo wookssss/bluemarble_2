@@ -1,4 +1,4 @@
-package itschool.bluemarble.enttiy;
+package itschool.bluemarble.entity;
 
 import lombok.Getter;
 import lombok.Setter;
