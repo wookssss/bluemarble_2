@@ -1,9 +1,9 @@
 package itschool.bluemarble.enttiy;
 
 public class Player {
+    private String name;
     // 현재 위치 : 타일 번호 0 ~ 39
     private int curPos = 0;
-
     private Dice dice = new Dice();
 
     public int rollDice() {
