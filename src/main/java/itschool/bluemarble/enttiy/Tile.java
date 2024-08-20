@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class Tile {
+public abstract class Tile {
     private String name;
 }
 // amend
