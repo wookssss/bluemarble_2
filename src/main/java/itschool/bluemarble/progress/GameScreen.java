@@ -1,10 +1,8 @@
 package itschool.bluemarble.progress;
 
-import itschool.bluemarble.entity.Player;
 import itschool.bluemarble.progress.abs.Game;
 
-import java.util.Scanner;
-
+// 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameScreen extends Game {
     private GameScreen(int numberOfPlayer) {
         super(numberOfPlayer);
@@ -15,53 +13,6 @@ public class GameScreen extends Game {
             return new GameScreen(numberOfPlayer);
         }
         return null;
-    }
-
-    public void start() {
-
-        Scanner sc = new Scanner(System.in);
-
-        while(true) {
-            for (Player player : PLAYERS) {
-
-                String flag = "Y";
-
-                int location = 0; // player.getCurPos();
-                System.out.println(turn+"번째 턴입니다. "+ player/*.getName()*/+"님 주사위를 굴리시겠습니까? (Y/n)");
-
-                String input = sc.nextLine();
-                // sc.reset();
-
-                int rollValue = 0;
-
-                if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
-                    /*rollValue = player.rollDice();
-                    location += rollValue;*/
-                }
-
-                if(location > 39) {
-                    /*location = location - 40;*/
-                }
-
-                // player.setCurPos(location);
-
-                showMapByConsole();
-
-                System.out.println(player/*.getName()*/ + "님의 주사위 값 : " + rollValue);
-
-                /*if (player.getBudget() < 0) {
-                    System.out.println(player.getName() + "님이 패배하셨습니다.");
-                    PLAYERS.remove(player);
-                }*/
-
-                turn++;
-            }
-            // 라운드 개념을 추가할 수도 있음
-            if(PLAYERS.size() == 1) break;
-        }
-        System.out.println(PLAYERS/*.get(0).getName()*/ + "님이 승리하셨습니다. 게임을 종료합니다.");
-
-        // PLAYERS.get(0).setWinCount(PLAYERS.get(0).getWinCount()+1);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package itschool.bluemarble;
 
 import itschool.bluemarble.progress.GameScreen;
+import itschool.bluemarble.progress.abs.Game;
 
 import java.util.Scanner;
 
@@ -16,7 +17,7 @@ public class Application {
             // 플레이어 이름은 글자 수를 고정해야함.. 콘솔의 단점
         } while(numberOfPlayer >= 2 && numberOfPlayer <= 4);
 
-        GameScreen game = GameScreen.createGame(numberOfPlayer);
+        Game game = GameScreen.createGame(numberOfPlayer);
 
         if(null != game) {
             game.start();
