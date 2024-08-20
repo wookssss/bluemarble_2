@@ -1,17 +1,16 @@
 package itschool.bluemarble.factory;
 
-import itschool.bluemarble.GoldenKey.TollFreePassKey;
+import itschool.bluemarble.goldenKey.TollFreePassKey;
 import itschool.bluemarble.entity.Tile;
 import itschool.bluemarble.ifs.GoldenKey;
 import itschool.bluemarble.ifs.InstantKey;
-import itschool.bluemarble.ifs.HoldableKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class GoldenKeys extends Tile {
     // 싱글톤 시작
-    private static GoldenKeys instance = new GoldenKeys();
+    final private static GoldenKeys instance = new GoldenKeys();
 
     public static GoldenKeys getInstance() {
         return instance;
@@ -22,7 +21,7 @@ public class GoldenKeys extends Tile {
     }
     // 싱글톤 끝
 
-    private ArrayList<GoldenKey> goldenKeyList = new ArrayList<GoldenKey>();
+    private ArrayList<GoldenKey> goldenKeyList = new ArrayList<>();
 
     // 인스턴스 초기화 블록
     {
