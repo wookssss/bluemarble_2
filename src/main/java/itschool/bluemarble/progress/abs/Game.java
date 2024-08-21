@@ -12,7 +12,7 @@ import java.util.Scanner;
 // 게임 안에는 매턴이 발생하며 (플레이어가) 매턴마다 순서에 따라 주사위를 굴린다.
 public abstract class Game {
     protected final int NUMBER_OF_PLAYER;
-    protected int turn = 0;
+    protected int turn = 1;
     final protected List TILES = TileFactory.getTiles(); // Tiles에 getTiles 메소드 필요
     final protected List<Player> PLAYERS = new ArrayList<Player>();
 
