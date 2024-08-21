@@ -15,12 +15,11 @@ public class Application {
             System.out.print("플레이어 수를 입력하세요 : ");
             numberOfPlayer = sc.nextInt();
             // 플레이어 이름은 글자 수를 고정해야함.. 콘솔의 단점
-        } while(numberOfPlayer >= 2 && numberOfPlayer <= 4);
+        } while(numberOfPlayer < 2 && numberOfPlayer > 4);
 
         Game game = GameByConsole.createGame(numberOfPlayer);
 
-        if(null != game) {
-            game.start();
-        }
+        game.start();
+
     }
 }

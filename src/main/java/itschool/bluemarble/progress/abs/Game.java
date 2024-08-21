@@ -17,8 +17,16 @@ public abstract class Game {
 
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
+
+        Scanner sc = new Scanner(System.in);
+
         for (int i = 0; i < numberOfPlayer; i++) {
-            PLAYERS.add(new Player()); // name을 세팅할 생성자 필요
+            System.out.print("사용자" + (i+1) + "의 이름을 입력해주세요(5글자)");
+            String playerName = sc.next();
+
+            do {
+                PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
+            } while (playerName.length() != 5);
         }
     }
 
@@ -33,7 +41,7 @@ public abstract class Game {
 
                 String flag = "Y";
 
-                int location = 0; // player.getCurPos();
+                int location = player.getCurPos(); // ;
                 System.out.println(turn+"번째 턴입니다. "+ player/*.getName()*/+"님 주사위를 굴리시겠습니까? (Y/n)");
 
                 String input = sc.nextLine();

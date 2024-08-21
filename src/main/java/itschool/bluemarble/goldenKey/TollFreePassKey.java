@@ -1,7 +1,7 @@
 package itschool.bluemarble.goldenKey;
 
 import itschool.bluemarble.entity.Player;
-import itschool.bluemarble.ifs.HoldableKey;
+import itschool.bluemarble.goldenKey.ifs.HoldableKey;
 
 public class TollFreePassKey implements HoldableKey {
     @Override

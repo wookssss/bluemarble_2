@@ -1,4 +1,4 @@
-package itschool.bluemarble.ifs;
+package itschool.bluemarble.goldenKey.ifs;
 
 import itschool.bluemarble.entity.Player;
 

@@ -2,8 +2,8 @@ package itschool.bluemarble.factory;
 
 import itschool.bluemarble.goldenKey.TollFreePassKey;
 import itschool.bluemarble.entity.Tile;
-import itschool.bluemarble.ifs.GoldenKey;
-import itschool.bluemarble.ifs.InstantKey;
+import itschool.bluemarble.goldenKey.ifs.GoldenKey;
+import itschool.bluemarble.goldenKey.ifs.InstantKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
