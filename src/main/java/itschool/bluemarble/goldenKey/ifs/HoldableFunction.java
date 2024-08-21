@@ -3,6 +3,6 @@ package itschool.bluemarble.goldenKey.ifs;
 import itschool.bluemarble.entity.Player;
 
 @FunctionalInterface
-public interface InstantKey extends GoldenKey {
-    void execute(Player player);
+public interface HoldableFunction extends Function {
+    void use(Player player);
 }
