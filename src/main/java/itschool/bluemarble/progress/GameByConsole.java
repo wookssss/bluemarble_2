@@ -1,9 +1,14 @@
 package itschool.bluemarble.progress;
 
+import itschool.bluemarble.entity.City;
+import itschool.bluemarble.entity.Player;
+import itschool.bluemarble.entity.Tile;
 import itschool.bluemarble.progress.abs.Game;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameByConsole extends Game {
+    final int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
+
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
     }
@@ -14,14 +19,13 @@ public class GameByConsole extends Game {
 
     @Override
     public void showMapByConsole() {
-        // showHeaderOrFooterTiles(true);
+        showHeaderOrFooterTiles(true);
 
-        // showMiddleTiles();
+        showMiddleTiles();
 
-        // showHeaderOrFooterTiles(false);
+        showHeaderOrFooterTiles(false);
     }
 
-    /*
     public void showHeaderOrFooterTiles(boolean isHeader) {
 
         // ┌ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┐
@@ -43,7 +47,7 @@ public class GameByConsole extends Game {
         if(isHeader) {
             for (int i = 20; i <= 30; i++) {
 
-                showTileName(TILES.get(i));
+                showTileName((Tile) TILES.get(i));
 
                 if(i != 30) {
                     System.out.print("│");
@@ -52,7 +56,7 @@ public class GameByConsole extends Game {
         } else {
             for (int i = 10; i >= 0; i--) {
 
-                showTileName(TILES.get(i));
+                showTileName((Tile) TILES.get(i));
 
                 if(i != 0) {
                     System.out.print("│");
@@ -104,14 +108,17 @@ public class GameByConsole extends Game {
         if(isHeader) {
             for (int i = 20; i <= 30; i++) {
                 if(TILES.get(i) instanceof City) {
-                    if(((City) TILES.get(i)).getVilla() != null) System.out.print(" 별장│");
-                    else System.out.print("     │");
+                    /*if(((City) TILES.get(i)).getVilla() != null) System.out.print(" 별장│");
+                    else*/
+                    System.out.print("     │");
 
-                    if(((City) TILES.get(i)).getBuilding() != null) System.out.print(" 빌딩│");
-                    else System.out.print("     │");
+                    /*if(((City) TILES.get(i)).getBuilding() != null) System.out.print(" 빌딩│");
+                    else*/
+                    System.out.print("     │");
 
-                    if(((City) TILES.get(i)).getHotel() != null) System.out.print(" 호텔 ");
-                    else System.out.print("      ");
+                    /*if(((City) TILES.get(i)).getHotel() != null) System.out.print(" 호텔 ");
+                    else*/
+                    System.out.print("      ");
 
                     if(i != 30) System.out.print("│");
                 } else {
@@ -122,14 +129,17 @@ public class GameByConsole extends Game {
         } else {
             for (int i = 10; i >= 0; i--) {
                 if(TILES.get(i) instanceof City) {
-                    if(((City) TILES.get(i)).getVilla() != null) System.out.print(" 별장│");
-                    else System.out.print("     │");
+                    /*if(((City) TILES.get(i)).getVilla() != null) System.out.print(" 별장│");
+                    else*/
+                    System.out.print("     │");
 
-                    if(((City) TILES.get(i)).getBuilding() != null) System.out.print(" 빌딩│");
-                    else System.out.print("     │");
+                    /*if(((City) TILES.get(i)).getBuilding() != null) System.out.print(" 빌딩│");
+                    else*/
+                    System.out.print("     │");
 
-                    if(((City) TILES.get(i)).getHotel() != null) System.out.print(" 호텔 ");
-                    else System.out.print("      ");
+                    /*if(((City) TILES.get(i)).getHotel() != null) System.out.print(" 호텔 ");
+                    else*/
+                    System.out.print("      ");
 
                     if(i != 0) System.out.print("│");
                 } else {
@@ -202,19 +212,19 @@ public class GameByConsole extends Game {
         while (leftIndex > 10) {
             // │  사회복지기금접수  │  부에노스아이레스  │      황금열쇠      │      상파울루      │       시드니       │        부산        │       하와이       │       리스본       │   퀸엘리자베스호   │      마드리드      │      우주여행      │
             System.out.print("│");
-            showTileName(TILES.get(leftIndex));
+            showTileName((Tile) TILES.get(leftIndex));
             System.out.print("│");
             for (int i = 0; i < 9; i++) {
                 System.out.print(i!=8?"                   ":"                  │");
             }
-            showTileName(TILES.get(rightIndex));
+            showTileName((Tile) TILES.get(rightIndex));
             System.out.println("│");
 
 
 
 
             System.out.print("│");
-            System.out.print(TILES.get(leftIndex) instanceof City? "ㅡㅡㅡㅡㅡㅡㅡㅡㅡ":"                  ");
+            System.out.print(TILES.get(leftIndex) instanceof City ? "ㅡㅡㅡㅡㅡㅡㅡㅡㅡ":"                  ");
             System.out.print("│");
 
             for (int i = 0; i < 9; i++) {
@@ -230,14 +240,17 @@ public class GameByConsole extends Game {
 
             System.out.print("│");
             if(TILES.get(leftIndex) instanceof City) {
-                if (((City) TILES.get(leftIndex)).getVilla() != null) System.out.print(" 별장│");
-                else System.out.print("     │");
+                /*if (((City) TILES.get(leftIndex)).getVilla() != null) System.out.print(" 별장│");
+                else*/
+                    System.out.print("     │");
 
-                if (((City) TILES.get(leftIndex)).getBuilding() != null) System.out.print(" 빌딩│");
-                else System.out.print("     │");
+                /*if (((City) TILES.get(leftIndex)).getBuilding() != null) System.out.print(" 빌딩│");
+                else*/
+                    System.out.print("     │");
 
-                if (((City) TILES.get(leftIndex)).getHotel() != null) System.out.print(" 호텔 ");
-                else System.out.print("      ");
+                /*if (((City) TILES.get(leftIndex)).getHotel() != null) System.out.print(" 호텔 ");
+                else*/
+                    System.out.print("      ");
             } else {
                 System.out.print("                  ");
             }
@@ -248,14 +261,17 @@ public class GameByConsole extends Game {
             }
 
             if(TILES.get(rightIndex) instanceof City) {
-                if (((City) TILES.get(rightIndex)).getVilla() != null) System.out.print(" 별장│");
-                else System.out.print("     │");
+                /*if (((City) TILES.get(rightIndex)).getVilla() != null) System.out.print(" 별장│");
+                else*/
+                System.out.print("     │");
 
-                if (((City) TILES.get(rightIndex)).getBuilding() != null) System.out.print(" 빌딩│");
-                else System.out.print("     │");
+                /*if (((City) TILES.get(rightIndex)).getBuilding() != null) System.out.print(" 빌딩│");
+                else*/
+                System.out.print("     │");
 
-                if (((City) TILES.get(rightIndex)).getHotel() != null) System.out.print(" 호텔 ");
-                else System.out.print("      ");
+                /*if (((City) TILES.get(rightIndex)).getHotel() != null) System.out.print(" 호텔 ");
+                else*/
+                System.out.print("      ");
             } else {
                 System.out.print("                  ");
             }
@@ -304,7 +320,7 @@ public class GameByConsole extends Game {
 
     public void showTileName(Tile tile) {
 
-        int prefix = (tileWidth - tile.getName().length());
+        int prefix = (TILE_WIDTH - tile.getName().length());
         int suffix = prefix;
 
         for (int i = 0; i < prefix; i++) {
@@ -321,25 +337,25 @@ public class GameByConsole extends Game {
 
     public void showPlayerLocation(Player player, int index) {
 
-        if(index == player.getLocation()) {
-            int prefix = (tileWidth - player.getName().length());
+        if(index == player.getCurPos()) {
+            int prefix = (TILE_WIDTH - player.getPlayerName().length());
             int suffix = prefix;
 
             for (int j = 0; j < prefix; j++) {
                 System.out.print(" ");
             }
 
-            System.out.printf("%s", player.getName());
+            System.out.printf("%s", player.getPlayerName());
 
             for (int k = 0; k < suffix; k++) {
                 System.out.print(" ");
             }
             System.out.print(" ");
         } else {
-            for (int j = 0; j < tileWidth; j++) {
+            for (int j = 0; j < TILE_WIDTH; j++) {
                 System.out.print(" ");
                 System.out.print(" ");
             }
         }
-    }*/
+    }
 }
