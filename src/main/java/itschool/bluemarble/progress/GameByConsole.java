@@ -3,8 +3,8 @@ package itschool.bluemarble.progress;
 import itschool.bluemarble.progress.abs.Game;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
-public class GameByConsole extends Game {
-    private GameByConsole(int numberOfPlayer) {
+public class GameScreen extends Game {
+    private GameScreen(int numberOfPlayer) {
         super(numberOfPlayer);
     }
 
