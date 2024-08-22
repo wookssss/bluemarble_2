@@ -58,22 +58,22 @@ public class Price {
     public static int getStructurePrice(City city) {
         Price price = getColorPrice(city);
 
-        if(city.getStructure()[0]) { // 지역을 구매하는가?
+        if(city.getStructure()[0]) {
             
-            if(city.getStructure()[1]) { // 지역을 구매 + 빌라를 건설하는가?
+            if(city.getStructure()[1]) { // 지역 + 빌라 구매가
                 return city.getPrice() + price.getVilla(); 
 
-            } else if(city.getStructure()[2]) { // 지역을 구매 + 빌딩을 건설하는가?
+            } else if(city.getStructure()[2]) { // 지역 + 빌딩 구메가
                 return city.getPrice() + price.getBuilding();
 
-            } else if(city.getStructure()[3]) { // 지역을 구매 + 호텔을 건설하는가?
+            } else if(city.getStructure()[3]) { // 지역 + 호텔 구매가
                 return city.getPrice() + price.getHotel();
 
-            } else { // 지역만 구매
+            } else { // 지역만 구매할 때 구매가
                 return city.getPrice();
             }
         }
-
+        // 지역을 구매하지 않을 때 0원
         return 0;
     }
 }
