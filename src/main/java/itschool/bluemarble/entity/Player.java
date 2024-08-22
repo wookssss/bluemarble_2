@@ -36,9 +36,13 @@ public class Player {
         curPos += rel;
         if(curPos > 39) {
             curPos -= 39;
+            if(curPos < 0){
+                curPos = 0;
+            }
             return curPos;
             // 월급에 대한 부분 호출 필요할까?
         }
+
         return curPos;
     }
 
