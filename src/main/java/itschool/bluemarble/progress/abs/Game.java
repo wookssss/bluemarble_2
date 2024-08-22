@@ -70,7 +70,7 @@ public abstract class Game {
 
                 turn++;
             }
-            
+
             if(PLAYERS.size() == 1) break;
 
             // 라운드 개념을 추가하려면 추가 또는 수정 바람
