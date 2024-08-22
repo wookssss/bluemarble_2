@@ -56,7 +56,7 @@ public abstract class Game {
                         int index = player.moveByRelativeValue(rollValue);
                         //rollCount++;
 
-                        if(TILES.get(index) instanceof Dice){
+                        if(TILES.get(index) instanceof GoldenKeyTile){
                             GoldenKey goldenKey = player.drawGoldenKey(goldenKeyTile);
                             if(goldenKey.getFunction() instanceof  InstantFunction){// 인스턴트 평션을 뽑았구나
                                 ((InstantFunction)goldenKey.getFunction()).execute(player);
