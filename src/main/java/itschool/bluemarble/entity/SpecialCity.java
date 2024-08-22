@@ -1,7 +1,5 @@
 package itschool.bluemarble.entity;
 
-import itschool.bluemarble.entity.ifs.Tile;
-
 public class SpecialCity extends Tile {
     private Player owner;
     private int price;

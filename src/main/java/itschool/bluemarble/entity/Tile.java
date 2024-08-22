@@ -1,11 +1,11 @@
-package itschool.bluemarble.entity.ifs;
+package itschool.bluemarble.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public abstract class Tile {
+public class Tile {
     private String name;
 }
 // amend
