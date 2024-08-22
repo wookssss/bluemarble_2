@@ -53,18 +53,21 @@ public abstract class Game {
 
                     if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
                         rollValue = dice.roll();
-                        int index = player.moveByRelativeValue(rollValue);
-                        //rollCount++;
 
-                        if(TILES.get(index) instanceof GoldenKeyTile){
+                        int index = player.moveByRelativeValue(rollValue);
+
+                        showMapByConsole();
+                        System.out.println(dice.toresultString(player.getPlayerName()));
+
+                        if (TILES.get(index) instanceof GoldenKeyTile) {
                             GoldenKey goldenKey = player.drawGoldenKey(goldenKeyTile);
-                            if(goldenKey.getFunction() instanceof  InstantFunction){// 인스턴트 평션을 뽑았구나
-                                ((InstantFunction)goldenKey.getFunction()).execute(player);
+                            if (goldenKey.getFunction() instanceof InstantFunction) {// 인스턴트 평션을 뽑았구나
+                                ((InstantFunction) goldenKey.getFunction()).execute(player);
                             } // 폴더블 펑션을 뽑았으면 아무것도 수행하지 않는다.
-                        System.out.println("----------------------------------------------------------------");
-                        System.out.println("황금 열쇠를 뽑습니다.");
-                        System.out.println(player.getPlayerName() + "님이 황금열쇠 " + goldenKey.getTitle());
-                        System.out.println("----------------------------------------------------------------");
+                            System.out.println("----------------------------------------------------------------");
+                            System.out.println("황금 열쇠를 뽑습니다.");
+                            System.out.println(player.getPlayerName() + "님이 황금열쇠 " + goldenKey.getTitle());
+                            System.out.println("----------------------------------------------------------------");
                         }
 
                         if (dice.getDoubleCount() == 3 & dice.isDouble()) {
@@ -72,8 +75,6 @@ public abstract class Game {
                             break;
                         }
                     }
-                    showMapByConsole();
-                    System.out.println(dice.toresultString(player.getPlayerName()));
 
                     if (player.getCurMoney() < 0) {
                         System.out.println(player.getCurMoney() + "님이 패배하셨습니다.");
