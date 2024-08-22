@@ -6,8 +6,7 @@ import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.entity.ifs.Tile;
 import itschool.bluemarble.goldenKey.ifs.InstantFunction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class GoldenKeyTile extends Tile {
     // 싱글톤 시작
@@ -19,6 +18,7 @@ public class GoldenKeyTile extends Tile {
 
     private GoldenKeyTile() {
         super("황금열쇠");
+        shuffle();
     }
     // 싱글톤 끝
 
@@ -45,5 +45,9 @@ public class GoldenKeyTile extends Tile {
 
     public GoldenKey draw(){
         return goldenKeyList.remove(0);
+    }
+    private <T> void shuffle(){
+        Collections.shuffle(goldenKeyList);
+
     }
 }
