@@ -1,9 +1,7 @@
 package itschool.bluemarble.entity;
 
 import itschool.bluemarble.factory.GoldenKeyTile;
-import itschool.bluemarble.factory.GoldenKeys;
 import itschool.bluemarble.goldenKey.GoldenKey;
-import itschool.bluemarble.goldenKey.Goldenkey;
 import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +17,7 @@ public class Player {
     private int curMoney;
     private int loanMoney = 0;
     private int islandCount = 0; // 무인도 체류 횟수
-    private ArrayList<Goldenkey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
+    private ArrayList<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
 
 
     public Player(String name) {
@@ -72,10 +70,8 @@ public class Player {
 
         if(goldenKey.getFunction() instanceof HoldableFunction){
             goldenkeyList.add(goldenKey);
-            return null;
-        } else {
-            return goldenKey;
         }
+        return goldenKey;
     }
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
