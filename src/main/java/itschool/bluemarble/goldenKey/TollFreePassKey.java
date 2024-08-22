@@ -1,9 +1,9 @@
 package itschool.bluemarble.goldenKey;
 
 import itschool.bluemarble.entity.Player;
-import itschool.bluemarble.goldenKey.ifs.HoldableKey;
+import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
 
-public class TollFreePassKey implements HoldableKey {
+public class TollFreePassKey implements HoldableFunction {
     @Override
     public void use(Player player) {
         StringBuilder sb = new StringBuilder();

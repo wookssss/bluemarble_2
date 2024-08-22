@@ -28,4 +28,8 @@ public class City extends Tile {
         this.toll = toll;
         this.owner = null;
     }
+
+    public City(String name) {
+        super(name);
+    }
 }
