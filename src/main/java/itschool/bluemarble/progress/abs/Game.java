@@ -5,7 +5,10 @@ package itschool.bluemarble.progress.abs;
 
 import itschool.bluemarble.entity.Dice;
 import itschool.bluemarble.entity.Player;
+import itschool.bluemarble.factory.GoldenKeyTile;
 import itschool.bluemarble.factory.TileFactory;
+import itschool.bluemarble.goldenKey.GoldenKey;
+import itschool.bluemarble.goldenKey.ifs.InstantFunction;
 import itschool.bluemarble.progress.GameByConsole;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ public abstract class Game {
     protected int turn = 1;
     final protected List TILES = TileFactory.getTiles(); // Tiles에 getTiles 메소드 필요
     final protected List<Player> PLAYERS = new ArrayList<Player>();
+    final protected GoldenKeyTile goldenKeyTile = GoldenKeyTile.getInstance();
 
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
@@ -49,8 +53,19 @@ public abstract class Game {
 
                     if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
                         rollValue = dice.roll();
-                        player.moveByRelativeValue(rollValue);
+                        int index = player.moveByRelativeValue(rollValue);
                         //rollCount++;
+
+                        if(TILES.get(index) instanceof GoldenKeyTile){
+                            GoldenKey goldenKey = player.drawGoldenKey(goldenKeyTile);
+                            if(goldenKey.getFunction() instanceof  InstantFunction){// 인스턴트 평션을 뽑았구나
+                                ((InstantFunction)goldenKey.getFunction()).execute(player);
+                            } // 폴더블 펑션을 뽑았으면 아무것도 수행하지 않는다.
+                        System.out.println("----------------------------------------------------------------");
+                        System.out.println("황금 열쇠를 뽑습니다.");
+                        System.out.println(player.getPlayerName() + "님이 황금열쇠 " + goldenKey.getTitle());
+                        System.out.println("----------------------------------------------------------------");
+                        }
 
                         if (dice.getDoubleCount() == 3 & dice.isDouble()) {
                             player.moveByAbsoluteValue(10); // 무인도(10) 타일로 이동

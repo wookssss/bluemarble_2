@@ -1,7 +1,12 @@
 package itschool.bluemarble.entity;
 
+import itschool.bluemarble.factory.GoldenKeyTile;
+import itschool.bluemarble.goldenKey.GoldenKey;
+import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
 
 @Setter
 @Getter
@@ -12,6 +17,7 @@ public class Player {
     private int curMoney;
     private int loanMoney = 0;
     private int islandCount = 0; // 무인도 체류 횟수
+    private ArrayList<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
 
 
     public Player(String name) {
@@ -20,17 +26,20 @@ public class Player {
 
 
     // 절대적인 타일번호로 이동
-    public void moveByAbsoluteValue(int abs) {
+    public int moveByAbsoluteValue(int abs) {
         curPos = abs;
+        return curPos;
     }
 
     // 상대값으로 플레이어 이동
-    public void moveByRelativeValue(int rel) {
+    public int moveByRelativeValue(int rel) {
         curPos += rel;
         if(curPos > 39) {
             curPos -= 39;
+            return curPos;
             // 월급에 대한 부분 호출 필요할까?
         }
+        return curPos;
     }
 
     //
@@ -54,6 +63,15 @@ public class Player {
     // 플레이어의 현재 현금 보유액, 대출금 보유액 보여줌
     public void lookMoney(){
         System.out.println(playerName +"님의 현재 보유 자산 - 1.현금 : " + curMoney + " 2. 대출금 : " + loanMoney );
+    }
+
+    public GoldenKey drawGoldenKey(GoldenKeyTile goldenKeyTile){
+        GoldenKey goldenKey = goldenKeyTile.draw();
+
+        if(goldenKey.getFunction() instanceof HoldableFunction){
+            goldenkeyList.add(goldenKey);
+        }
+        return goldenKey;
     }
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
