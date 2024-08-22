@@ -17,16 +17,17 @@ public class City extends Tile {
     private String owner;
     private Color color;
     private int price;
-    private int toll;
+    private int[] toll;
     private int sold;
     private boolean structure[] = {false, false, false, false};
 
-    public City(String name, Color color, int price, int toll){
+    public City(String name, Color color, int price, int toll[]){
         super(name);
         this.color = color;
         this.price = price;
         this.toll = toll;
         this.owner = null;
+
     }
 
     public City(String name) {
