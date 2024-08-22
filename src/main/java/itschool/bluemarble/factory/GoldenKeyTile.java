@@ -27,15 +27,15 @@ public class GoldenKeyTile extends Tile {
     // 인스턴스 초기화 블록
     {
         goldenKeyList.addAll(Arrays.asList(
-                new GoldenKey("뒤로 2칸 이동", (InstantFunction) ((player) -> player.moveByRelativeValue(-2))), // 뒤로 2칸 이동
-                new GoldenKey("뒤로 2칸 이동", (InstantFunction) ((player) -> player.moveByRelativeValue(-3))), // 뒤로 3칸 이동
-                new GoldenKey("서울로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(39))), // 서울로 이동
-                new GoldenKey("무인도로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(10))), // 무인도로 이동
-                new GoldenKey("우주여행으로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(30))), // 우주여행으로 이동
-                new GoldenKey("제주도로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(5))), // 제주도로 이동
-                new GoldenKey("부산으로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(25))), // 부산으로 이동
-                new GoldenKey("사회복지기금으로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(20))), // 사회복지기금으로 이동
-                new GoldenKey("출발지로 이동", (InstantFunction) ((player) -> player.moveByAbsoluteValue(0))) // 출발지로 이동
+                new GoldenKey("뒤로 2칸 이동", "뒤로 두 칸 이동합니다.",(InstantFunction) ((player) -> player.moveByRelativeValue(-2))), // 뒤로 2칸 이동
+                new GoldenKey("뒤로 3칸 이동","뒤로 세 칸 이동합니다." ,(InstantFunction) ((player) -> player.moveByRelativeValue(-3))), // 뒤로 3칸 이동
+                new GoldenKey("서울로 이동", "서울로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(39))), // 서울로 이동
+                new GoldenKey("무인도로 이동", "무인도로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(10))), // 무인도로 이동
+                new GoldenKey("우주여행으로 이동", "우주여행으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(30))), // 우주여행으로 이동
+                new GoldenKey("제주도로 이동", "제주도로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(5))), // 제주도로 이동
+                new GoldenKey("부산으로 이동", "부산으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(25))), // 부산으로 이동
+                new GoldenKey("사회복지기금으로 이동", "사회복지기금으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(20))), // 사회복지기금으로 이동
+                new GoldenKey("출발지로 이동", "출발지로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(0))) // 출발지로 이동
         ));
         /*(InstantKey) ((player) -> player.moveByRelativeValue(-3)), // 뒤로 3칸 이동
                 (InstantKey) ((player) -> player.moveByAbsoluteValue(39)), // 서울로 이동 황금열쇠
