@@ -12,10 +12,11 @@ import java.util.ArrayList;
 @Getter
 public class Player {
 
-    private String playerName;
+    private String playerName; // 플레이어 이름
     private int curPos = 0; // 현재 위치 : 타일 번호 0 ~ 39
-    private int curMoney;
-    private int loanMoney = 0;
+    private int curMoney;   // 현재 보유 현금
+    private int loanMoney = 0; // 현재 대출금
+    private int asset = 0; // 총 자산
     private int islandCount = 0; // 무인도 체류 횟수
     private ArrayList<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
 
@@ -38,15 +39,14 @@ public class Player {
             curPos -= 39;
             if(curPos < 0){
                 curPos = 0;
+                // 월급에 대한 부분 호출 필요할까?
             }
             return curPos;
-            // 월급에 대한 부분 호출 필요할까?
         }
-
         return curPos;
     }
 
-    //
+    //지불
     public void pay(String receiver, int amount){
         if(curMoney >= amount){
             curMoney -= amount;
@@ -55,6 +55,11 @@ public class Player {
             System.out.println("지불할 돈이 부족합니다.");
             // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
         }
+    }
+
+    //수입
+    public void income(int amount){
+        curMoney += amount;
     }
     
     // 대출금 default 100으로 하기로 함
@@ -76,6 +81,13 @@ public class Player {
             goldenkeyList.add(goldenKey);
         }
         return goldenKey;
+    }
+
+    //무인도 카운트
+    public void islandStatus(){
+        islandCount++;
+        if (islandCount == 4)
+            islandCount = 0;
     }
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
