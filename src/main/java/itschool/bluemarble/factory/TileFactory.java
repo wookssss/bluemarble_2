@@ -1,12 +1,11 @@
 package itschool.bluemarble.factory;
 
 import itschool.bluemarble.entity.City;
-import itschool.bluemarble.entity.Tile;
+import itschool.bluemarble.entity.ifs.Tile;
 import itschool.bluemarble.enumclass.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class TileFactory {
     private static ArrayList<Tile> TILES = new ArrayList<Tile>();

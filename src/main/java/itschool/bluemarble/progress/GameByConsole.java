@@ -2,7 +2,7 @@ package itschool.bluemarble.progress;
 
 import itschool.bluemarble.entity.City;
 import itschool.bluemarble.entity.Player;
-import itschool.bluemarble.entity.Tile;
+import itschool.bluemarble.entity.ifs.Tile;
 import itschool.bluemarble.progress.abs.Game;
 
 import java.util.Scanner;
@@ -38,6 +38,7 @@ public class GameByConsole extends Game {
                 PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
             }
         }
+        System.out.println("----------------------------------------------------------------");
     }
 
     public static GameByConsole createGameByConsole(int numberOfPlayer) {
