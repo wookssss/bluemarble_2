@@ -1,5 +1,6 @@
 package itschool.bluemarble.entity;
 
+import itschool.bluemarble.entity.ifs.Payable;
 import itschool.bluemarble.factory.GoldenKeyTile;
 import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
-public class Player {
+public class Player implements Payable {
 
     private String playerName; // 플레이어 이름
     private int curPos = 0; // 현재 위치 : 타일 번호 0 ~ 39
@@ -50,10 +51,11 @@ public class Player {
     }
 
     //지불
-    public void pay(String receiver, int amount){
+    @Override
+    public void pay(Payable receiver, int amount){
         if(curMoney >= amount){
             curMoney -= amount;
-            // receiver의 curMoney에는 +를 해줘야함 receiver를 어떻게 찾아야 하나?
+            receiver.income(amount);
         } else {
             System.out.println("지불할 돈이 부족합니다.");
             // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
@@ -61,6 +63,7 @@ public class Player {
     }
 
     //수입
+    @Override
     public void income(int amount){
         curMoney += amount;
     }
