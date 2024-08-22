@@ -4,6 +4,7 @@ package itschool.bluemarble.factory;
 
 import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.entity.Tile;
+import itschool.bluemarble.goldenKey.TollFreePassKey;
 import itschool.bluemarble.goldenKey.ifs.InstantFunction;
 
 import java.util.*;
@@ -37,7 +38,10 @@ public class GoldenKeyTile extends Tile {
                 new GoldenKey("제주도로 이동", "제주도로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(5))), // 제주도로 이동
                 new GoldenKey("부산으로 이동", "부산으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(25))), // 부산으로 이동
                 new GoldenKey("사회복지기금으로 이동", "사회복지기금으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(20))), // 사회복지기금으로 이동
-                new GoldenKey("출발지로 이동", "출발지로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(0))) // 출발지로 이동
+                new GoldenKey("출발지로 이동", "출발지로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(0))), // 출발지로 이동
+                new GoldenKey("노벨평화상 수상", "30만원을 받습니다.",(InstantFunction) ((player) -> player.income(300000))),
+                new TollFreePassKey()
+               // new GoldenKey("해외 유학", "해외 유학비로 10만원을 은행에 냅니다.",(InstantFunction) ((player) -> player.pay(0))))
         ));
         /*(InstantKey) ((player) -> player.moveByRelativeValue(-3)), // 뒤로 3칸 이동
                 (InstantKey) ((player) -> player.moveByAbsoluteValue(39)), // 서울로 이동 황금열쇠
