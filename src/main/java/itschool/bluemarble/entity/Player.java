@@ -2,7 +2,6 @@ package itschool.bluemarble.entity;
 
 import itschool.bluemarble.factory.GoldenKeyTile;
 import itschool.bluemarble.goldenKey.GoldenKey;
-import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
 import lombok.Getter;
 import lombok.Setter;
@@ -71,10 +70,8 @@ public class Player {
 
         if(goldenKey.getFunction() instanceof HoldableFunction){
             goldenkeyList.add(goldenKey);
-            return null;
-        } else {
-            return goldenKey;
         }
+        return goldenKey;
     }
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
