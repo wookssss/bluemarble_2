@@ -38,6 +38,7 @@ public class GameByConsole extends Game {
                 PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
             }
         }
+        System.out.println("----------------------------------------------------------------");
     }
 
     public static GameByConsole createGameByConsole(int numberOfPlayer) {
