@@ -1,7 +1,7 @@
 package itschool.bluemarble.factory;
 
 import itschool.bluemarble.goldenKey.Goldenkey;
-import itschool.bluemarble.entity.Tile;
+import itschool.bluemarble.entity.ifs.Tile;
 import itschool.bluemarble.goldenKey.ifs.InstantFunction;
 
 import java.util.ArrayList;
