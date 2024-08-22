@@ -2,7 +2,7 @@ package itschool.bluemarble.progress;
 
 import itschool.bluemarble.entity.City;
 import itschool.bluemarble.entity.Player;
-import itschool.bluemarble.entity.ifs.Tile;
+import itschool.bluemarble.entity.Tile;
 import itschool.bluemarble.progress.abs.Game;
 
 import java.util.Scanner;

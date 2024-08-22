@@ -1,9 +1,6 @@
 package itschool.bluemarble.factory;
 
-import itschool.bluemarble.entity.City;
-import itschool.bluemarble.entity.SpecialCity;
-import itschool.bluemarble.entity.SpecialVehicle;
-import itschool.bluemarble.entity.ifs.Tile;
+import itschool.bluemarble.entity.*;
 import itschool.bluemarble.enumclass.Color;
 
 import java.util.ArrayList;
@@ -15,7 +12,7 @@ public class TileFactory {
 
     static {
         TILES.addAll(Arrays.asList(
-                new City("시작"), // index 0, Special
+                new Tile("시작"), // index 0, Special
                 new City("타이베이", Color.PINK,50000,new int[]{2000,10000,90000,250000}), // index 1
                 goldenKeyTile, // index 2
                 new City("베이징",Color.PINK,80000,new int[]{4000,20000,180000,450000}), // index 3
@@ -25,7 +22,7 @@ public class TileFactory {
                 goldenKeyTile, // index 7
                 new City("카이로",Color.PINK,100000,new int[]{6000,30000,270000,550000}), // index 8
                 new City("이스탄불",Color.PINK,120000,new int[]{8000,40000,300000,600000}), // index 9
-                new City("무인도"), // index 10, Special
+                new Island(), // index 10, Special
 
                 new City("아테네",Color.GREEN,140000,new int[]{10000,50000,450000,750000}), // index 11
                 goldenKeyTile, // index 12
@@ -37,7 +34,7 @@ public class TileFactory {
                 new City("베를린",Color.GREEN,180000,new int[]{14000,70000,500000,950000}), // index 18
                 new City("오타와",Color.GREEN,200000,new int[]{16000,80000,550000,1000000}), // 전 몬트리올 // index 19
 
-                new City("사회복지기금접수"), // index 20, Special
+                new GiveDonation(), // index 20, Special
                 new City("부에노스아이레스",Color.BROWN,220000,new int[]{18000,90000,700000,1050000}), // index 21
                 goldenKeyTile, // index 22
                 new City("상파울루",Color.BROWN,240000,new int[]{20000,100000,750000,1100000}), // index 23
