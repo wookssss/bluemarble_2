@@ -1,3 +1,5 @@
+// 담당자 : 오재헌
+
 package itschool.bluemarble.progress.abs;
 
 import itschool.bluemarble.entity.Dice;
@@ -47,6 +49,7 @@ public abstract class Game {
 
                     do {
                         rollValue = dice.roll();
+                        player.moveByRelativeValue(rollValue);
                         rollCount++;
 
                         if(rollCount == 3 & dice.isDouble()) {
