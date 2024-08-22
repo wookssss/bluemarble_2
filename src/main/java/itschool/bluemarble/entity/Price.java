@@ -54,11 +54,11 @@ public class Price {
         return price;
     }
 
-    // City의 structure[] 속 건물 여부를 확인 후 알맞은 price값 리턴 (지역을 구매하지 않으면 0원 리턴)
+    // City의 structure[] 속 건물 여부를 확인 후 알맞은 구매가를 리턴 (지역을 구매하지 않으면 0원 리턴)
     public static int getStructurePrice(City city) {
         Price price = getColorPrice(city);
 
-        if(city.getStructure()[0]) { // 지역을 구매했는가?
+        if(city.getStructure()[0]) { // 지역을 구매하는가?
             
             if(city.getStructure()[1]) { // 지역을 구매 + 빌라를 건설하는가?
                 return city.getPrice() + price.getVilla(); 
@@ -69,7 +69,7 @@ public class Price {
             } else if(city.getStructure()[3]) { // 지역을 구매 + 호텔을 건설하는가?
                 return city.getPrice() + price.getHotel();
 
-            } else {
+            } else { // 지역만 구매
                 return city.getPrice();
             }
         }
