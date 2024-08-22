@@ -22,6 +22,7 @@ public class Application {
                 sc.nextLine(); // 버퍼 비우기
 
                 if (numberOfPlayer >= 2 && numberOfPlayer <= 4) {
+                    System.out.println("----------------------------------------------------------------");
                     System.out.println(numberOfPlayer + "인 플레이 가능한 게임을 생성합니다.");
                     break; // 유효한 입력이므로 루프 종료
                 } else {

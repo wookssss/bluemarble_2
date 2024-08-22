@@ -23,13 +23,20 @@ public class GameByConsole extends Game {
     }
 
     public void setPlayer(int numberOfPlayer) {
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("플레이어명은 한글 5자, 영문 또는 숫자 10자 이내로 입력이 가능합니다.");
+        System.out.println("----------------------------------------------------------------");
 
         for (int i = 0; i < numberOfPlayer; i++) {
             System.out.print("플레이어" + (i+1) + " 이름 입력 : ");
             String playerName = SCANNER.next();
 
-            PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
-
+            if(checkPlayerNameLength(playerName) > 10) {
+                System.out.println("글자 제한을 초과하셨습니다. 다시 입력해주세요");
+                i--;
+            } else {
+                PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
+            }
         }
     }
 
@@ -358,8 +365,9 @@ public class GameByConsole extends Game {
     public void showPlayerLocation(Player player, int index) {
 
         if(index == player.getCurPos()) {
-            int prefix = (TILE_WIDTH - player.getPlayerName().length());
-            int suffix = prefix - 1;
+            int prefix = (TILE_WIDTH * 2 - checkPlayerNameLength(player.getPlayerName()))/2;
+            int suffix = prefix;
+            suffix += (checkPlayerNameLength(player.getPlayerName()) % 2 == 1)? 1: 0;
 
             for (int j = 0; j < prefix; j++) {
                 System.out.print(" ");
@@ -370,12 +378,28 @@ public class GameByConsole extends Game {
             for (int k = 0; k < suffix; k++) {
                 System.out.print(" ");
             }
-            System.out.print(" ");
+            // System.out.print(" ");
         } else {
             for (int j = 0; j < TILE_WIDTH; j++) {
                 System.out.print(" ");
                 System.out.print(" ");
             }
         }
+    }
+
+    // 영문자와 한글간의 칸수 설정을 위한 메소드
+    public int checkPlayerNameLength(String playerName) {
+        int length = 0;
+
+        for (int i = 0; i < playerName.length(); i++) {
+            if (playerName.charAt(i) >= 'a' && playerName.charAt(i) <= 'z'
+                || playerName.charAt(i) >= 'A' && playerName.charAt(i) <= 'Z'
+                || playerName.charAt(i) >= '1' && playerName.charAt(i) <= '9')
+                length++;
+            else
+                length += 2;
+        }
+
+        return length;
     }
 }
