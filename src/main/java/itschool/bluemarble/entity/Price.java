@@ -12,7 +12,7 @@ public class Price {
 
     public Price(int villa, int building, int hotel) {
         this.villa = villa;
-        this.building = hotel;
+        this.building = building;
         this.hotel = hotel;
     }
 
