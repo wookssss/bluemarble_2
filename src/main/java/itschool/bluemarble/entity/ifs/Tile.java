@@ -1,4 +1,4 @@
-package itschool.bluemarble.entity;
+package itschool.bluemarble.entity.ifs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
