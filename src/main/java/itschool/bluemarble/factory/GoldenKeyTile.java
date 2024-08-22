@@ -9,15 +9,15 @@ import itschool.bluemarble.goldenKey.ifs.InstantFunction;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class GoldenKeys extends Tile {
+public class GoldenKeyTile extends Tile {
     // 싱글톤 시작
-    final private static GoldenKeys instance = new GoldenKeys();
+    final private static GoldenKeyTile instance = new GoldenKeyTile();
 
-    public static GoldenKeys getInstance() {
+    public static GoldenKeyTile getInstance() {
         return instance;
     }
 
-    private GoldenKeys() {
+    private GoldenKeyTile() {
         super("황금열쇠");
     }
     // 싱글톤 끝
