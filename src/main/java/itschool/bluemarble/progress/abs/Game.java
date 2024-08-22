@@ -63,7 +63,7 @@ public abstract class Game {
                             } // 폴더블 펑션을 뽑았으면 아무것도 수행하지 않는다.
                         System.out.println("----------------------------------------------------------------");
                         System.out.println("황금 열쇠를 뽑습니다.");
-                        System.out.println(player.getPlayerName() + "님이 황금열쇠 " + goldenKey.getName());
+                        System.out.println(player.getPlayerName() + "님이 황금열쇠 " + goldenKey.getTitle());
                         System.out.println("----------------------------------------------------------------");
                         }
 
