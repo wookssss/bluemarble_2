@@ -28,6 +28,9 @@ public class Player {
 
     // 절대적인 타일번호로 이동
     public int moveByAbsoluteValue(int abs) {
+        if(abs < curPos){
+            getPaid();
+        }
         curPos = abs;
         return curPos;
     }
@@ -38,9 +41,9 @@ public class Player {
         if(curPos > 39) {
             curPos -= 39;
             if(curPos < 0){
-                curPos = 0;
-                // 월급에 대한 부분 호출 필요할까?
+                curPos = 40 + curPos;
             }
+            getPaid(); // 월급 받기
             return curPos;
         }
         return curPos;
@@ -61,6 +64,13 @@ public class Player {
     public void income(int amount){
         curMoney += amount;
     }
+
+    public void getPaid(){
+        income(20);
+        System.out.println(playerName + "님이 월급 20만원을 받았습니다.");
+    }
+
+
     
     // 대출금 default 100으로 하기로 함
     public void loan(){
