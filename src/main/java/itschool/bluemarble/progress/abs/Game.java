@@ -1,8 +1,12 @@
+// 담당자 : 오재헌
+// 부루마블 판이 나오고 주사위 결과 나오도록 수정
+
 package itschool.bluemarble.progress.abs;
 
 import itschool.bluemarble.entity.Dice;
 import itschool.bluemarble.entity.Player;
 import itschool.bluemarble.factory.TileFactory;
+import itschool.bluemarble.progress.GameByConsole;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,68 +22,54 @@ public abstract class Game {
 
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
-
-        Scanner sc = new Scanner(System.in);
-
-        for (int i = 0; i < numberOfPlayer; i++) {
-            System.out.print("사용자" + (i+1) + "의 이름을 입력해주세요(5글자)");
-            String playerName = sc.next();
-
-            do {
-                PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
-            } while (playerName.length() != 5);
-        }
     }
 
     public abstract void showMapByConsole();
 
     public void start() {
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = GameByConsole.getScanner();
+        sc.nextLine();
 
-        while(true) {
+        while (true) {
 
             Dice dice = new Dice();
 
             for (Player player : PLAYERS) {
+                do {
+                    String flag = "Y";
 
-                String flag = "Y";
+                    int location = player.getCurPos();
+                    System.out.println(turn + "번째 턴입니다. " + player.getPlayerName() + "님 주사위를 굴리시겠습니까? (Y)");
 
-                int location = player.getCurPos();
-                System.out.println(turn+"번째 턴입니다. "+ player.getPlayerName() +"님 주사위를 굴리시겠습니까? (Y/n)");
+                    String input = sc.nextLine();
+                    sc.reset(); // 스캐너 초기화
 
-                String input = sc.nextLine();
-                sc.reset(); // 스캐너 초기화
+                    int rollValue = 0;
 
-                int rollValue = 0;
-
-                if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
-                    int rollCount = 0;
-
-                    do {
+                    if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
                         rollValue = dice.roll();
-                        rollCount++;
+                        player.moveByRelativeValue(rollValue);
+                        //rollCount++;
 
-                        if(rollCount == 3 & dice.isDouble()) {
+                        if (dice.getDoubleCount() == 3 & dice.isDouble()) {
                             player.moveByAbsoluteValue(10); // 무인도(10) 타일로 이동
                             break;
                         }
-                    } while(dice.isDouble());
-                }
+                    }
+                    showMapByConsole();
+                    System.out.println(dice.toresultString(player.getPlayerName()));
 
-                showMapByConsole();
+                    if (player.getCurMoney() < 0) {
+                        System.out.println(player.getCurMoney() + "님이 패배하셨습니다.");
+                        PLAYERS.remove(player);
+                    }
 
-                System.out.println(player.getPlayerName() + "님의 주사위 값 : " + rollValue);
-
-                if(player.getCurMoney() < 0) {
-                    System.out.println(player.getCurMoney() + "님이 패배하셨습니다.");
-                    PLAYERS.remove(player);
-                }
-
+                } while (dice.isDouble());
                 turn++;
             }
-            
-            if(PLAYERS.size() == 1) break;
+
+            if (PLAYERS.size() == 1) break;
 
             // 라운드 개념을 추가하려면 추가 또는 수정 바람
         }
