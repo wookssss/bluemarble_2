@@ -8,9 +8,9 @@ public class Price {
     private int building;
     private int hotel;
 
-    public Price() {}
+    private Price() {}
 
-    public Price(int villa, int building, int hotel) {
+    private Price(int villa, int building, int hotel) {
         this.villa = villa;
         this.building = building;
         this.hotel = hotel;
@@ -29,7 +29,7 @@ public class Price {
     }
 
     // City의 color별 건물의 가격을 Price객체로 리턴
-    // 1. 플레이어에게 도착한 지역의 건물별 가격을 안내할 때 사용 가능하다,
+    // 1. 플레이어에게 도착한 지역의 건물별 가격을 안내할 때 사용 가능하다.
     // 2. getStructurePrice() 메소드 안에서 사용한다.
     public static Price getColorPrice(City city) {
         Color color = city.getColor();
@@ -76,4 +76,6 @@ public class Price {
         // 지역을 구매하지 않을 때 0원
         return 0;
     }
+    
+    // 지역 주인 여부에 따라 통행료 리턴
 }
