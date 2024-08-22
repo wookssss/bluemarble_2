@@ -18,17 +18,6 @@ public abstract class Game {
 
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
-
-        Scanner sc = new Scanner(System.in);
-
-        for (int i = 0; i < numberOfPlayer; i++) {
-            System.out.print("사용자" + (i+1) + "의 이름을 입력해주세요(5글자)");
-            String playerName = sc.next();
-
-            do {
-                PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
-            } while (playerName.length() != 5);
-        }
     }
 
     public abstract void showMapByConsole();

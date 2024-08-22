@@ -5,15 +5,35 @@ import itschool.bluemarble.entity.Player;
 import itschool.bluemarble.entity.Tile;
 import itschool.bluemarble.progress.abs.Game;
 
+import java.util.Scanner;
+
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameByConsole extends Game {
-    final int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
+    private final int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
+
+    public final static Scanner SCANNER = new Scanner(System.in);
+
+    public static Scanner getScanner() {
+        return SCANNER;
+    }
 
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
+        setPlayer(numberOfPlayer);
     }
 
-    public static GameByConsole createGame(int numberOfPlayer) {
+    public void setPlayer(int numberOfPlayer) {
+
+        for (int i = 0; i < numberOfPlayer; i++) {
+            System.out.print("플레이어" + (i+1) + " 이름 입력 : ");
+            String playerName = SCANNER.next();
+
+            PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
+
+        }
+    }
+
+    public static GameByConsole createGameByConsole(int numberOfPlayer) {
         return new GameByConsole(numberOfPlayer);
     }
 
@@ -339,7 +359,7 @@ public class GameByConsole extends Game {
 
         if(index == player.getCurPos()) {
             int prefix = (TILE_WIDTH - player.getPlayerName().length());
-            int suffix = prefix;
+            int suffix = prefix - 1;
 
             for (int j = 0; j < prefix; j++) {
                 System.out.print(" ");
