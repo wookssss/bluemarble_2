@@ -29,6 +29,8 @@ public class Price {
     }
 
     // City의 color별 건물의 가격을 Price객체로 리턴
+    // 1. 플레이어에게 도착한 지역의 건물별 가격을 안내할 때 사용 가능하다,
+    // 2. getStructurePrice() 메소드 안에서 사용한다.
     public static Price getColorPrice(City city) {
         Color color = city.getColor();
 
