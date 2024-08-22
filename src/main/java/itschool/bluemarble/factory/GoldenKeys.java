@@ -1,3 +1,5 @@
+//담당자: 이승종, 이승환
+
 package itschool.bluemarble.factory;
 
 import itschool.bluemarble.goldenKey.Goldenkey;
@@ -41,4 +43,7 @@ public class GoldenKeys extends Tile {
                 new TollFreePassKey() // 통행료 면제*/
     }
 
+    public Goldenkey draw(){
+        return goldenKeyList.remove(0);
+    }
 }
