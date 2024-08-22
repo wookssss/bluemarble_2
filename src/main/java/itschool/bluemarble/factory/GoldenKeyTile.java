@@ -12,12 +12,14 @@ public class GoldenKeyTile extends Tile {
     // 싱글톤 시작
     final private static GoldenKeyTile instance = new GoldenKeyTile();
 
+
     public static GoldenKeyTile getInstance() {
         return instance;
     }
 
     private GoldenKeyTile() {
         super("황금열쇠");
+        initializeGoldenKeys();
         shuffle();
     }
     // 싱글톤 끝
@@ -25,7 +27,7 @@ public class GoldenKeyTile extends Tile {
     private ArrayList<GoldenKey> goldenKeyList = new ArrayList<>();
 
     // 인스턴스 초기화 블록
-    {
+    private void initializeGoldenKeys(){
         goldenKeyList.addAll(Arrays.asList(
                 new GoldenKey("뒤로 2칸 이동", "뒤로 두 칸 이동합니다.",(InstantFunction) ((player) -> player.moveByRelativeValue(-2))), // 뒤로 2칸 이동
                 new GoldenKey("뒤로 3칸 이동","뒤로 세 칸 이동합니다." ,(InstantFunction) ((player) -> player.moveByRelativeValue(-3))), // 뒤로 3칸 이동
@@ -44,9 +46,15 @@ public class GoldenKeyTile extends Tile {
     }
 
     public GoldenKey draw(){
-        return goldenKeyList.remove(0);
+        if (goldenKeyList.size() == 0){
+            initializeGoldenKeys();
+            shuffle();
+        }
+            return goldenKeyList.remove(0);
+
+
     }
-    private <T> void shuffle(){
+    private void shuffle(){
         Collections.shuffle(goldenKeyList);
 
     }
