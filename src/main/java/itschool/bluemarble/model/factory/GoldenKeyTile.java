@@ -1,7 +1,16 @@
 //담당자: 이승종, 이승환
 
+//황금 열쇠 추상화
+//황금 열쇠 이동
+//draw로 뽑은 카드 제거
+//suffle로 카드 섞는 기능 추가
+//카드가 전부 떨어졌을 때 다시 배치 및 셔플
+//프리 패스 키, 수입 기능 추가
+
 package itschool.bluemarble.model.factory;
 
+import itschool.bluemarble.model.entity.Bank;
+import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.Tile;
 import itschool.bluemarble.model.entity.goldenKey.TollFreePassKey;
@@ -44,14 +53,22 @@ public class GoldenKeyTile extends Tile {
                 new GoldenKey("경주 우승", "10만원을 받습니다.",(InstantFunction) ((player) -> player.income(100000))),
                 new GoldenKey("장학금 혜택", "10만원을 받습니다.",(InstantFunction) ((player) -> player.income(100000))),
                 new GoldenKey("연금 혜택", "5만원을 받습니다.",(InstantFunction) ((player) -> player.income(50000))),
+                new GoldenKey("해외 유학", "해외 유학비로 10만원을 은행에 냅니다.",(InstantFunction) ((player) -> {
+                    try {
+                        player.pay(Bank.getInstance(),100000);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    } // 유학비 지출
+                })),
                 new TollFreePassKey()
-               // new GoldenKey("해외 유학", "해외 유학비로 10만원을 은행에 냅니다.",(InstantFunction) ((player) -> player.pay(0))))
         ));
         /*(InstantKey) ((player) -> player.moveByRelativeValue(-3)), // 뒤로 3칸 이동
                 (InstantKey) ((player) -> player.moveByAbsoluteValue(39)), // 서울로 이동 황금열쇠
                 // (HoldableKey) // 뭐가 있을까?
                 new TollFreePassKey() // 통행료 면제*/
     }
+
+
 
     public GoldenKey draw(){
         if (goldenKeyList.size() == 0){
