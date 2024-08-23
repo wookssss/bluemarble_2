@@ -1,14 +1,11 @@
 package itschool.bluemarble.entity;
 
-public class SpecialCity extends Tile {
-    private Player owner;
-    private int price;
-    private int toll;
+import itschool.bluemarble.entity.ifs.PurchasableTile;
 
-    public SpecialCity(String name, int price, int toll){
-        super(name);
-        this.price = price;
-        this.toll = toll;
+public class SpecialCity extends PurchasableTile {
+
+    public SpecialCity(String name, int price, int[] toll) {
+        super(name, price, toll);
     }
 
     void setOwner(Player player){
