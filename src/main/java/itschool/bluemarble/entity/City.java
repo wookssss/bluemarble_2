@@ -1,8 +1,8 @@
 package itschool.bluemarble.entity;
 
-import itschool.bluemarble.entity.abs.ConstructibleTile;
 import itschool.bluemarble.entity.abs.PurchasableTile;
 import itschool.bluemarble.enumclass.Color;
+import itschool.bluemarble.enumclass.Construction;
 import lombok.Getter;
 import lombok.Setter;
 

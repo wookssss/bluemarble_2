@@ -34,7 +34,8 @@ public class TileFactory {
                 new City("베를린",Color.GREEN,180000,new int[]{14000,70000,500000,950000}), // index 18
                 new City("오타와",Color.GREEN,200000,new int[]{16000,80000,550000,1000000}), // 전 몬트리올 // index 19
 
-                goldenKeyTile,//new GiveDonation(), // index 20, Special
+                goldenKeyTile,
+                new GiveDonation(), // index 20, Special
                 new City("부에노스아이레스",Color.BROWN,220000,new int[]{18000,90000,700000,1050000}), // index 21
                 goldenKeyTile, // index 22
                 new City("상파울루",Color.BROWN,240000,new int[]{20000,100000,750000,1100000}), // index 23
@@ -53,7 +54,7 @@ public class TileFactory {
                 goldenKeyTile, // index 35
                 new City("런던",Color.NAVY,350000,new int[]{35000,170000,1100000,1500000}), // index 36
                 new City("뉴욕",Color.NAVY,350000,new int[]{35000,170000,1100000,1500000}), // index 37
-                new City("사회복지기금수령"), // index 38, Special
+                DonationParty.getInstance(), // index 38, Special
                 new SpecialCity("서울",1000000,new int[]{2000000}) // index 39
         ));
     }
