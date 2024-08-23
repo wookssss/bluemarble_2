@@ -36,7 +36,7 @@ public class GoldenKeyTile extends Tile {
 
     private ArrayList<GoldenKey> goldenKeyList = new ArrayList<>();
 
-    // 인스턴스 초기화 블록
+    // 초기화 메서드
     private void initializeGoldenKeys(){
         goldenKeyList.addAll(Arrays.asList(
                 new GoldenKey("뒤로 2칸 이동", "뒤로 두 칸 이동합니다.",(InstantFunction) ((player) -> player.moveByRelativeValue(-2))), // 뒤로 2칸 이동
@@ -48,18 +48,14 @@ public class GoldenKeyTile extends Tile {
                 new GoldenKey("부산으로 이동", "부산으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(25))), // 부산으로 이동
                 new GoldenKey("사회복지기금으로 이동", "사회복지기금으로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(20))), // 사회복지기금으로 이동
                 new GoldenKey("출발지로 이동", "출발지로 이동합니다.",(InstantFunction) ((player) -> player.moveByAbsoluteValue(0))), // 출발지로 이동
-                new GoldenKey("노벨평화상 수상", "30만원을 받습니다.",(InstantFunction) ((player) -> player.income(300000))),
-                new GoldenKey("복권 당첨", "20만원을 받습니다.",(InstantFunction) ((player) -> player.income(200000))),
-                new GoldenKey("경주 우승", "10만원을 받습니다.",(InstantFunction) ((player) -> player.income(100000))),
-                new GoldenKey("장학금 혜택", "10만원을 받습니다.",(InstantFunction) ((player) -> player.income(100000))),
-                new GoldenKey("연금 혜택", "5만원을 받습니다.",(InstantFunction) ((player) -> player.income(50000))),
-                new GoldenKey("해외 유학", "해외 유학비로 10만원을 은행에 냅니다.",(InstantFunction) ((player) -> {
-                    try {
-                        player.pay(Bank.getInstance(),100000);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    } // 유학비 지출
-                })),
+                new GoldenKey("노벨평화상 수상", "30만원을 받습니다.",(InstantFunction) ((player) -> player.plusAmount(300000))),
+                new GoldenKey("복권 당첨", "20만원을 받습니다.",(InstantFunction) ((player) -> player.plusAmount(200000))),
+                new GoldenKey("경주 우승", "10만원을 받습니다.",(InstantFunction) ((player) -> player.plusAmount(100000))),
+                new GoldenKey("장학금 혜택", "10만원을 받습니다.",(InstantFunction) ((player) -> player.plusAmount(100000))),
+                new GoldenKey("연금 혜택", "5만원을 받습니다.",(InstantFunction) ((player) -> player.plusAmount(50000))),
+                new GoldenKey("해외 유학", "해외 유학비로 10만원을 은행에 냅니다.",(InstantFunction) ((player) ->  player.minusAmount(50000))),
+
+
                 new TollFreePassKey()
         ));
         /*(InstantKey) ((player) -> player.moveByRelativeValue(-3)), // 뒤로 3칸 이동

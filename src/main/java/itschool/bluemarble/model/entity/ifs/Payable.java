@@ -20,7 +20,7 @@ public abstract class Payable {
     public void plusAmount(int amount){
         this.amount += amount;
     }
-    void minusAmount (int amount){
+    public void minusAmount (int amount){
         this.amount -= amount;
     }
 
