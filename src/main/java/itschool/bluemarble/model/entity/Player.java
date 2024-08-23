@@ -1,3 +1,8 @@
+// 백지혜 Player
+// 플레이어 이동, 지불, 수입, 대출, 현재 자산 보여주기
+// 무인도체류 카운트, 땅 사기, 땅 팔기, 제일 비싼 땅 반값팔기(황금열쇠)
+
+
 package itschool.bluemarble.model.entity;
 
 import itschool.bluemarble.model.entity.ifs.Payable;
@@ -106,6 +111,7 @@ public class Player implements Payable {
             islandCount = 0;
     }
 
+    // 땅 사기
     public void buyLand(PurchasableTile tile) throws Exception {
         try {
             tile.purchaseTile(this);
@@ -116,11 +122,13 @@ public class Player implements Payable {
 
     }
 
+    // 땅 팔기
     private void sellLand(PurchasableTile tile) throws Exception {
         tile.purchaseTile(this);
         myLandList.remove(tile);
     }
 
+    //황금열쇠 : 가장 비싼 땅 팔기
     public void sellAtHalfPrice() throws Exception {
 
         PurchasableTile mostExpensive = null;
