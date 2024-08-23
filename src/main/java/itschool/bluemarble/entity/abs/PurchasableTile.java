@@ -11,14 +11,15 @@ public abstract class PurchasableTile extends Tile {
     protected int price;
     protected int toll[];
 
+    public PurchasableTile(String name, int price) {
+        super(name);
+        this.price = price;
+    }
+
     public PurchasableTile(String name, int price, int[] toll) {
         super(name);
         this.price = price;
         this.toll = toll;
-    }
-
-    public PurchasableTile(String name){
-        super(name);
     }
 
     public boolean isPurchasable(){

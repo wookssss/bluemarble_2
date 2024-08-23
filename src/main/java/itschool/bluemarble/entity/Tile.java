@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class Tile {
-    private String name;
+    protected String name;
 }
