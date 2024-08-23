@@ -1,6 +1,7 @@
 package itschool.bluemarble.entity;
 
 import itschool.bluemarble.entity.ifs.Payable;
+import itschool.bluemarble.entity.abs.PurchasableTile;
 import itschool.bluemarble.factory.GoldenKeyTile;
 import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
@@ -8,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -19,7 +21,8 @@ public class Player implements Payable {
     private int loanMoney = 0; // 현재 대출금
     private int asset = 0; // 총 자산
     private int islandCount = 0; // 무인도 체류 횟수
-    private ArrayList<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
+    private List<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
+    private List<PurchasableTile> myLandList = new ArrayList<>(); //보유하고 있는 땅
 
 
     public Player(String name) {
@@ -52,12 +55,12 @@ public class Player implements Payable {
 
     //지불
     @Override
-    public void pay(Payable receiver, int amount){
+    public void pay(Payable receiver, int amount) throws Exception {
         if(curMoney >= amount){
             curMoney -= amount;
             receiver.income(amount);
         } else {
-            System.out.println("지불할 돈이 부족합니다.");
+            throw new Exception("지불할 돈이 부족합니다.");
             // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
         }
     }
@@ -102,6 +105,43 @@ public class Player implements Payable {
         if (islandCount == 4)
             islandCount = 0;
     }
+
+    public void buyLand(PurchasableTile tile) throws Exception {
+        try {
+            tile.purchaseTile(this);
+            myLandList.add(tile);
+        } catch (Exception e){
+            throw e;
+        }
+
+    }
+
+    private void sellLand(PurchasableTile tile) throws Exception {
+        tile.purchaseTile(this);
+        myLandList.remove(tile);
+    }
+
+    public void sellAtHalfPrice() throws Exception {
+
+        PurchasableTile mostExpensive = null;
+        int max = Integer.MIN_VALUE;
+        //  제일 비싼 땅 (현재 땅값 기준 이후 수정필요)
+        if(myLandList.size() == 0){
+            // 팔 땅이 없음
+        } else {
+            for(PurchasableTile myland : myLandList){
+                int price =  myland.getPrice();
+                if(max < price) {
+                    max = price;
+                    mostExpensive = myland;
+                }
+            }
+        }
+
+        sellLand(mostExpensive);
+    }
+
+
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
     public void loanRepay(int amount){

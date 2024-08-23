@@ -8,7 +8,8 @@ public class Price {
     private int building;
     private int hotel;
 
-    private Price() {}
+    private Price() {
+    }
 
     private Price(int villa, int building, int hotel) {
         this.villa = villa;
@@ -37,16 +38,16 @@ public class Price {
         Price price = new Price();
 
         switch (color) {
-            case PINK :
+            case PINK:
                 price = new Price(50000, 150000, 250000);
                 break;
-            case GREEN :
+            case GREEN:
                 price = new Price(100000, 300000, 500000);
                 break;
-            case BROWN :
+            case BROWN:
                 price = new Price(150000, 450000, 750000);
                 break;
-            case NAVY :
+            case NAVY:
                 price = new Price(200000, 600000, 1000000);
                 break;
         }
@@ -54,28 +55,55 @@ public class Price {
         return price;
     }
 
-    // City의 structure[] 속 건물 여부를 확인 후 알맞은 구매가를 리턴 (지역을 구매하지 않으면 0원 리턴)
-    public static int getStructurePrice(City city) {
+    // 지역 주인이 없을 때 건물에 따라 구매가를 리턴 (지역을 구매하지 않으면 0원 리턴)
+    public static int cityPrice(City city) {
         Price price = getColorPrice(city);
 
-        if(city.getStructure()[0]) {
-            
-            if(city.getStructure()[1]) { // 지역 + 빌라 구매가
-                return city.getPrice() + price.getVilla(); 
+        if (city.getStructure()[0]) {
 
-            } else if(city.getStructure()[2]) { // 지역 + 빌딩 구메가
+            if (city.getStructure()[1]) { // 지역 + 빌라 구매가
+                return city.getPrice() + price.getVilla();
+
+            } else if (city.getStructure()[2]) { // 지역 + 빌딩 구매가
                 return city.getPrice() + price.getBuilding();
 
-            } else if(city.getStructure()[3]) { // 지역 + 호텔 구매가
+            } else if (city.getStructure()[3]) { // 지역 + 호텔 구매가
                 return city.getPrice() + price.getHotel();
 
             } else { // 지역만 구매할 때 구매가
                 return city.getPrice();
             }
         }
+
         // 지역을 구매하지 않을 때 0원
         return 0;
     }
-    
-    // 지역 주인 여부에 따라 통행료 리턴
+
+    // 지역 주인이 있을 때의 통행료 리턴
+    public static int cityToll(City city) {
+        if (city.getStructure()[0]) { // 지역 주인이 있을 때
+
+            if (city.getStructure()[1]) { // 빌라가 있을 때
+                return city.getToll()[1];
+
+            } else if (city.getStructure()[2]) { // 빌딩이 있을 때
+                return city.getToll()[2];
+
+            } else if (city.getStructure()[3]) { // 호텔이 있을 때
+                return city.getToll()[3];
+
+            } else { // 지역만 있을 때
+                return city.getToll()[0];
+            }
+        }
+        
+        // 지역 주인이 없을 때 0원
+        return 0;
+    }
+
+    // 스페셜 지역 주인이 없을 때 구매가를 리턴 (스페셜 지역을 구매하지 않으면 0원 리턴)
+
+
+    // 스페셜 지역 주인이 있을 때의 통행료 리턴
+
 }
