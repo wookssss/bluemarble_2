@@ -13,7 +13,6 @@ import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.tile.Island;
 import itschool.bluemarble.model.entity.tile.SpecialVehicle;
 import itschool.bluemarble.model.entity.tile.Tile;
-import itschool.bluemarble.model.entity.tile.abs.ConstructibleTile;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
@@ -53,7 +52,7 @@ public abstract class Game {
         while (true) {
             for (Player player : PLAYERS) {
                 try {
-                    doTurnPhase(player);
+                    startPhase(player);
                     turn++;
                 } catch (BankruptPlayerViolation e) {
                     println(player.getName() + e.getMessage()); // "님이 파산하셨습니다."
@@ -67,7 +66,7 @@ public abstract class Game {
         // PLAYERS.get(0).setWinCount(PLAYERS.get(0).getWinCount()+1); // 승리 횟수 저장은 제거
     }
 
-    public void doTurnPhase(Player player) throws RuntimeException {
+    public void startPhase(Player player) throws RuntimeException {
         if (checkTurnPhase(player)) { // 턴 수행 여부 확인
             int diceValue = rollDicePhase(player);
 
