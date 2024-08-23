@@ -16,7 +16,7 @@ public class City extends PurchasableTile {
 
     //도시 이름, 소유자, 가격, 지어진 건물
     private Color color;
-    private boolean structure[] = {false, false, false};
+    private boolean structure[] = {false, false, false, false};
 
     public City(String name, Color color, int price, int[] toll) {
         super(name, price, toll);

@@ -11,4 +11,7 @@ public class SpecialCity extends PurchasableTile {
     void setOwner(Player player){
         this.owner = player;
     }
+    public void payToll(Player player) throws Exception{
+        player.pay(owner, toll[0]);
+    }
 }

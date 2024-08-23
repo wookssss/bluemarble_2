@@ -36,5 +36,5 @@ public abstract class PurchasableTile extends Tile {
     }
 
     // 주인이 있는 경우 통행료 지불
-    public abstract void payToll(Player player);
+    public abstract void payToll(Player player) throws Exception;
 }
