@@ -18,81 +18,75 @@ import java.util.List;
 
 @Setter
 @Getter
-public class Player implements Payable {
+public class Player extends Payable {
 
-    private String playerName; // 플레이어 이름
-    private int curPos = 0; // 현재 위치 : 타일 번호 0 ~ 39
-    private int curMoney;   // 현재 보유 현금
-    private int loanMoney = 0; // 현재 대출금
+    private String name; // 플레이어 이름
+    private int location = 0; // 현재 위치 : 타일 번호 0 ~ 39
+    private int debt = 0; // 현재 대출금
     private int asset = 0; // 총 자산
     private int islandCount = 0; // 무인도 체류 횟수
     private List<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
     private List<PurchasableTile> myLandList = new ArrayList<>(); //보유하고 있는 땅
+    private Bank bank = Bank.getInstance();
 
 
     public Player(String name) {
-        this.playerName = name;
+        this.name = name;
     }
 
 
     // 절대적인 타일번호로 이동
     public int moveByAbsoluteValue(int abs) {
-        if(abs < curPos){
+        if(abs < location){
             getPaid();
         }
-        curPos = abs;
-        return curPos;
+        location = abs;
+        return location;
     }
 
     // 상대값으로 플레이어 이동
     public int moveByRelativeValue(int rel) {
-        curPos += rel;
-        if(curPos > 39) {
-            curPos -= 39;
-            if(curPos < 0){
-                curPos = 40 + curPos;
+        location += rel;
+        if(location > 39) {
+            location -= 39;
+            if(location < 0){
+                location = 40 + location;
             }
             getPaid(); // 월급 받기
-            return curPos;
+            return location;
         }
-        return curPos;
+        return location;
     }
 
-    //지불
-    @Override
-    public void pay(Payable receiver, int amount) throws Exception {
-        if(curMoney >= amount){
-            curMoney -= amount;
-            receiver.income(amount);
-        } else {
-            throw new Exception("지불할 돈이 부족합니다.");
-            // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
-        }
+
+
+    public void payAmountToBank(Payable receiver, int amount) throws Exception {
+        payAmountTo(bank, amount);
     }
 
-    //수입
-    @Override
-    public void income(int amount){
-        curMoney += amount;
+    public void payAllAssetsTo(Payable receiver) throws Exception {
+        receiver.payAmountTo(receiver, this.asset);
+        asset = 0;
+        amount = 0;
+        throw new Exception(name + "님이 파산하였습니다.");
     }
 
     public void getPaid(){
-        income(20);
-        System.out.println(playerName + "님이 월급 20만원을 받았습니다.");
+        plusAmount(20_000);
+        System.out.println(name + "님이 월급 20만원을 받았습니다.");
     }
 
 
-    
     // 대출금 default 100으로 하기로 함
     public void loan(){
-        curMoney += 100;
-        loanMoney += 100;
+        amount += 100_000;
+        debt += 100_000;
         
     }
 
     // 플레이어의 현재 현금 보유액, 대출금 보유액 보여줌
-    public void lookMoney(){
-        System.out.println(playerName +"님의 현재 보유 자산 - 1.현금 : " + curMoney + " 2. 대출금 : " + loanMoney );
+    public void showAmount(){
+        System.out.println(name +"님의 현재 보유 자산 - 1.현금 : " + amount + " 2. 대출금 : " + debt);
     }
 
     public GoldenKey drawGoldenKey(GoldenKeyTile goldenKeyTile){

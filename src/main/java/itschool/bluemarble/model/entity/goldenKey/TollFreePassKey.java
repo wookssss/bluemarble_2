@@ -9,7 +9,7 @@ public class TollFreePassKey extends GoldenKey  {
            @Override
            public void use(Player player) {
                StringBuilder sb = new StringBuilder();
-               sb.append("플레이어 ").append(player.getPlayerName()).append("님이 무료통행권을 사용하셨습니다.");
+               sb.append("플레이어 ").append(player.getName()).append("님이 무료통행권을 사용하셨습니다.");
                System.out.println(sb);
            }
        });

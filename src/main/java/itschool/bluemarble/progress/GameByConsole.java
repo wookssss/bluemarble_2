@@ -365,16 +365,16 @@ public class GameByConsole extends Game {
 
     public void showPlayerLocation(Player player, int index) {
 
-        if(index == player.getCurPos()) {
-            int prefix = (TILE_WIDTH * 2 - checkPlayerNameLength(player.getPlayerName()))/2;
+        if(index == player.getLocation()) {
+            int prefix = (TILE_WIDTH * 2 - checkPlayerNameLength(player.getName()))/2;
             int suffix = prefix;
-            suffix += (checkPlayerNameLength(player.getPlayerName()) % 2 == 1)? 1: 0;
+            suffix += (checkPlayerNameLength(player.getName()) % 2 == 1)? 1: 0;
 
             for (int j = 0; j < prefix; j++) {
                 System.out.print(" ");
             }
 
-            System.out.printf("%s", player.getPlayerName());
+            System.out.printf("%s", player.getName());
 
             for (int k = 0; k < suffix; k++) {
                 System.out.print(" ");
