@@ -15,8 +15,8 @@ public abstract class ConstructibleTile extends PurchasableTile {
     private Hotel hotel;
     private Color color;
     
-    public ConstructibleTile(String name, int price) {
-        super(name, price);
+    public ConstructibleTile(String name) {
+        super(name);
     }
 
     // 초기화 블록

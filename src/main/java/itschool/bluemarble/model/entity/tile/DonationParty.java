@@ -2,8 +2,8 @@ package itschool.bluemarble.model.entity.tile;
 
 import itschool.bluemarble.model.entity.ifs.Payable;
 
-public class DonationParty extends Tile implements Payable {
-    private int curMoney;
+public class DonationParty extends Tile {
+    private int amount;
 
     // 싱글톤 시작
     final private static DonationParty instance = new DonationParty();
@@ -14,20 +14,16 @@ public class DonationParty extends Tile implements Payable {
 
     private DonationParty() {
         super("사회복지기금 접수처");
-        this.curMoney = 0;
+        this.amount = 0;
     }
     // 싱글톤 끝
 
-    @Override
-    public void pay(Payable receiver, int amount) {
-        receiver.income(curMoney);
-        curMoney = 0;
+    public void payAmountTo(Payable receiver, int amount) {
+        receiver.plusAmount(this.amount);
+        this.amount = 0;
     }
 
-    //수입
-    @Override
-    public void income(int amount) {
-        curMoney += amount;
-
+    public void plusAmount(int amount) {
+        this.amount += amount;
     }
 }
