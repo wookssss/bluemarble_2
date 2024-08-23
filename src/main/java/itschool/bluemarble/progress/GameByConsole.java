@@ -1,5 +1,7 @@
 package itschool.bluemarble.progress;
 
+import itschool.bluemarble.exception.rule.HoldableKeyEvent;
+import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
@@ -14,6 +16,7 @@ public class GameByConsole extends Game {
     public final static Scanner SCANNER = new Scanner(System.in);
 
     public static Scanner getScanner() {
+        // SCANNER.nextLine(); // 버퍼 지우기용
         return SCANNER;
     }
 
@@ -46,7 +49,7 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void showMapByConsole() {
+    public void showMapPhase() {
         showHeaderOrFooterTiles(true);
 
         showMiddleTiles();
@@ -402,5 +405,52 @@ public class GameByConsole extends Game {
         }
 
         return length;
+    }
+
+    @Override
+    public void wantToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent {
+
+        System.out.println(player.getName() + "님 " + goldenKey.getTitle() + "을 사용하시겠습니까? (Y/N)");
+        // SCANNER.nextLine(); // 버퍼 제거용
+        String input = SCANNER.next();
+
+        if("y".equals(input) || "Y".equals(input) || "".equals(input)) {
+            GoldenKey needUse = player.useGoldenKey(goldenKey);
+            throw new HoldableKeyEvent(needUse.getTitle());
+        }
+    }
+
+    @Override
+    public boolean checkYesOrNo(String message) {
+        sc.reset(); // 스캐너 초기화
+        // sc.nextLine(); // 개행 제거용
+        System.out.println(message);
+
+        String input = sc.nextLine();
+
+        if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
+            return true;
+        }
+        return false;
+    }
+
+    public void showDiceResult(Player player, int dice1, int dice2, boolean isDouble) {
+        String result = "dice1=" + dice1 +
+                "\ndice2=" + dice2;
+
+        if (isDouble)
+            result += "\n더블입니다.";
+
+        result += "\n" + player.getName() + "님의 주사위 값 : " + (dice1 + dice2);
+
+        println(result);
+    }
+
+    public void println(String message) {
+        System.out.println(message);
+    }
+
+    public void print(String message) {
+        System.out.print(message);
     }
 }

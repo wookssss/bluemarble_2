@@ -1,5 +1,6 @@
 package itschool.bluemarble;
 
+import itschool.bluemarble.exception.needchecked.GameOver;
 import itschool.bluemarble.progress.GameByConsole;
 import itschool.bluemarble.progress.abs.Game;
 
@@ -38,6 +39,10 @@ public class Application {
         Game game = GameByConsole.createGameByConsole(numberOfPlayer);
 
         // 게임 시작
-        game.start();
+        try {
+            game.start();
+        } catch (GameOver e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

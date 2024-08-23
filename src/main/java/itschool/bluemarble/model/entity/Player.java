@@ -6,9 +6,13 @@
 
 package itschool.bluemarble.model.entity;
 
+import itschool.bluemarble.exception.violation.BankruptPlayerViolation;
+import itschool.bluemarble.exception.violation.PlayerHasNoLandViolation;
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
+import itschool.bluemarble.model.entity.goldenKey.TollFreePassKey;
 import itschool.bluemarble.model.entity.ifs.Payable;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
-import itschool.bluemarble.model.factory.GoldenKeyTile;
+import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.HoldableFunction;
 import lombok.Getter;
@@ -61,15 +65,15 @@ public class Player extends Payable {
 
 
 
-    public void payAmountToBank(int amount) throws Exception {
+    public void payAmountToBank(int amount) throws PlayerHasNoMoneyViolation {
         payAmountTo(bank, amount);
     }
 
-    public void payAllAssetsTo(Payable receiver) throws Exception {
+    public void payAllAssetsTo(Payable receiver) throws BankruptPlayerViolation {
         receiver.payAmountTo(receiver, this.asset);
         asset = 0;
         amount = 0;
-        throw new Exception(name + "님이 파산하였습니다.");
+        throw new BankruptPlayerViolation();
     }
 
     public void getPaid(){
@@ -90,7 +94,7 @@ public class Player extends Payable {
         System.out.println(name +"님의 현재 보유 자산 - 1.현금 : " + amount + " 2. 대출금 : " + debt);
     }
 
-    public GoldenKey drawGoldenKey(GoldenKeyTile goldenKeyTile){
+    public GoldenKey drawGoldenKey(GoldenKeyTile goldenKeyTile) {
         GoldenKey goldenKey = goldenKeyTile.draw();
 
         if(goldenKey.getFunction() instanceof HoldableFunction){
@@ -107,7 +111,7 @@ public class Player extends Payable {
     }
 
     // 땅 사기
-    public void buyLand(PurchasableTile tile) throws Exception {
+    public void buyLand(PurchasableTile tile) throws PlayerHasNoMoneyViolation {
         try {
             tile.purchaseTile(this);
             myLandList.add(tile);
@@ -118,19 +122,19 @@ public class Player extends Payable {
     }
 
     // 땅 팔기
-    private void sellLand(PurchasableTile tile) throws Exception {
+    private void sellLand(PurchasableTile tile) {
         tile.purchaseTile(this);
         myLandList.remove(tile);
     }
 
     //황금열쇠 : 가장 비싼 땅 팔기
-    public void sellAtHalfPrice() throws Exception {
+    public void sellAtHalfPrice() throws PlayerHasNoLandViolation {
 
         PurchasableTile mostExpensive = null;
         int max = Integer.MIN_VALUE;
         //  제일 비싼 땅 (현재 땅값 기준 이후 수정필요)
         if(myLandList.size() == 0){
-            // 팔 땅이 없음
+            throw new PlayerHasNoLandViolation();
         } else {
             for(PurchasableTile myland : myLandList){
                 int price =  myland.getPrice();
@@ -144,7 +148,32 @@ public class Player extends Payable {
         sellLand(mostExpensive);
     }
 
+    public boolean hasTollFreePassKey(Player player) {
+        for(GoldenKey key : goldenkeyList) {
+            if(key instanceof TollFreePassKey)
+                return true;
+        }
+        return false;
+    }
 
+    public GoldenKey useGoldenKey(GoldenKey needUseKey) throws RuntimeException {
+        for (int i = 0; i < goldenkeyList.size(); i++) {
+            if(goldenkeyList.get(i).equals(needUseKey))
+                return goldenkeyList.remove(i);
+        }
+
+        throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
+    }
+
+    public GoldenKey findTollFreePassKey() throws RuntimeException {
+        if(hasTollFreePassKey(this)) {
+            for(GoldenKey goldenKey : goldenkeyList) {
+                if(goldenKey instanceof TollFreePassKey)
+                    return goldenKey;
+            }
+        }
+        throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
+    }
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
     public void loanRepay(int amount){

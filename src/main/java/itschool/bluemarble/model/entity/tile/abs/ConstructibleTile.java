@@ -1,5 +1,6 @@
 package itschool.bluemarble.model.entity.tile.abs;
 
+import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.construction.Building;
 import itschool.bluemarble.model.entity.construction.Hotel;
 import itschool.bluemarble.model.entity.construction.Villa;
@@ -166,5 +167,4 @@ public abstract class ConstructibleTile extends PurchasableTile {
     // 건물을 산다 (이미 있는 경우에는 판 다음에 살 수 있다)
 
     // 건물을 판다
-
 }

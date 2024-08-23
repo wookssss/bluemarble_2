@@ -12,7 +12,7 @@ public class GiveDonation extends SpecialTile {
             @Override
             public void execute(Player player) throws Exception{
                 try {
-                    player.pay(donationParty, 150000);
+                    // player.payAmountTo(donationParty, 150000);
                     System.out.println("사회복지기금이 접수되었습니다.");
                     player.showAmount();
                 } catch(Exception e){

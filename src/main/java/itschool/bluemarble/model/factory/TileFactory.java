@@ -1,5 +1,6 @@
 package itschool.bluemarble.model.factory;
 
+import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.tile.*;
 
 import java.util.ArrayList;
@@ -7,9 +8,11 @@ import java.util.Arrays;
 
 public class TileFactory {
     private static ArrayList<Tile> TILES = new ArrayList<Tile>();
-    private static GoldenKeyTile goldenKeyTile = GoldenKeyTile.getInstance();
+    private static GoldenKeyTile goldenKeyTile;
 
     static {
+        goldenKeyTile = GoldenKeyTile.getInstance();
+
         TILES.addAll(Arrays.asList(
                 new Tile("시작"),                      // index 0, Special
                 new City("타이베이"),                  // index 1
@@ -41,7 +44,7 @@ public class TileFactory {
                 new City("리스본"),                    // index 27
                 new SpecialVehicle("퀸엘리자베스호"),  // index 28, Vehicle
                 new City("마드리드"),                  // index 29
-                new City("우주여행"),                  // index 30
+                new SpaceTravel("우주여행"),                  // index 30
                 new City("도쿄"),                      // index 31
                 new SpecialVehicle("컬럼비아호"),      // index 32,  Vehicle
                 new City("파리"),                      // index 33
