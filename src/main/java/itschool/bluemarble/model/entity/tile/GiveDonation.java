@@ -8,7 +8,7 @@ public class GiveDonation extends SpecialTile {
     private static DonationParty donationParty = DonationParty.getInstance();
 
     public GiveDonation(){
-        super("사회복지기금 접수처", new SpecialFunction() {
+        super("사회복지기금수령처", new SpecialFunction() {
             @Override
             public void execute(Player player) throws Exception{
                 try {
