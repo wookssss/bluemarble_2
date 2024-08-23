@@ -3,12 +3,12 @@
 
 package itschool.bluemarble.progress.abs;
 
-import itschool.bluemarble.entity.Dice;
-import itschool.bluemarble.entity.Player;
-import itschool.bluemarble.factory.GoldenKeyTile;
-import itschool.bluemarble.factory.TileFactory;
-import itschool.bluemarble.goldenKey.GoldenKey;
-import itschool.bluemarble.goldenKey.ifs.InstantFunction;
+import itschool.bluemarble.model.entity.Dice;
+import itschool.bluemarble.model.entity.Player;
+import itschool.bluemarble.model.factory.GoldenKeyTile;
+import itschool.bluemarble.model.factory.TileFactory;
+import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
+import itschool.bluemarble.model.entity.goldenKey.ifs.InstantFunction;
 import itschool.bluemarble.progress.GameByConsole;
 
 import java.util.ArrayList;
