@@ -1,4 +1,5 @@
 // 백지혜 Player
+// Payable 상속 : payAmountTo() plusAmount() minusAmount()
 // 플레이어 이동, 지불, 수입, 대출, 현재 자산 보여주기
 // 무인도체류 카운트, 땅 사기, 땅 팔기, 제일 비싼 땅 반값팔기(황금열쇠)
 
@@ -60,7 +61,7 @@ public class Player extends Payable {
 
 
 
-    public void payAmountToBank(Payable receiver, int amount) throws Exception {
+    public void payAmountToBank(int amount) throws Exception {
         payAmountTo(bank, amount);
     }
 

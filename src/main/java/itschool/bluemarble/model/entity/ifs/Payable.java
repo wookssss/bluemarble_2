@@ -1,5 +1,5 @@
 // 백지혜
-// payAmountTo, plusAmount 인스턴스
+// payAmountTo, plusAmount 추상클래스
 
 package itschool.bluemarble.model.entity.ifs;
 
