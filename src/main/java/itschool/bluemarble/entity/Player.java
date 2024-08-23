@@ -1,7 +1,7 @@
 package itschool.bluemarble.entity;
 
 import itschool.bluemarble.entity.ifs.Payable;
-import itschool.bluemarble.entity.ifs.PurchasableTile;
+import itschool.bluemarble.entity.abs.PurchasableTile;
 import itschool.bluemarble.factory.GoldenKeyTile;
 import itschool.bluemarble.goldenKey.GoldenKey;
 import itschool.bluemarble.goldenKey.ifs.HoldableFunction;
@@ -116,14 +116,14 @@ public class Player implements Payable {
 
     }
 
-    private void sellLand(PurchasableTile tile) {
+    private void sellLand(PurchasableTile tile) throws Exception {
         tile.purchaseTile(this);
         myLandList.remove(tile);
     }
 
-    public void sellAtHalfPrice(){
+    public void sellAtHalfPrice() throws Exception {
 
-        PurchasableTile mostExpensive;
+        PurchasableTile mostExpensive = null;
         int max = Integer.MIN_VALUE;
         //  제일 비싼 땅 (현재 땅값 기준 이후 수정필요)
         if(myLandList.size() == 0){
