@@ -1,3 +1,6 @@
+// 백지혜
+// 싱글톤, 지불, 수입 기능 완료
+
 package itschool.bluemarble.model.entity;
 
 import itschool.bluemarble.model.entity.ifs.Payable;
@@ -14,6 +17,7 @@ public class Bank implements Payable {
 
     private int curMoney = 100_000_000;
 
+    // 지불
     public void pay(Payable receiver, int amount){
         if(curMoney >= amount){
             curMoney -= amount;

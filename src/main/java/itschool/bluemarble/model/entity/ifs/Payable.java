@@ -1,3 +1,6 @@
+// 백지혜
+// pay, income 인스턴스
+
 package itschool.bluemarble.model.entity.ifs;
 
 public interface Payable {
