@@ -1,6 +1,6 @@
 package itschool.bluemarble.entity;
 
-import itschool.bluemarble.entity.ifs.PurchasableTile;
+import itschool.bluemarble.entity.abs.PurchasableTile;
 import itschool.bluemarble.enumclass.Color;
 import itschool.bluemarble.enumclass.Construction;
 import lombok.Getter;
@@ -26,5 +26,14 @@ public class City extends PurchasableTile {
 
     public City(String name){
         super(name);
+    }
+
+    public void payToll(Player player){
+        int totalToll = 0;
+
+        for(int i=0;i<structure.length;i++){
+            if(structure[i]) totalToll += toll[i];
+        }
+        // player.pay(owner,totalToll);
     }
 }

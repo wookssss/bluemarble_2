@@ -1,6 +1,6 @@
 package itschool.bluemarble.entity;
 
-import itschool.bluemarble.entity.ifs.PurchasableTile;
+import itschool.bluemarble.entity.abs.PurchasableTile;
 
 public class SpecialCity extends PurchasableTile {
 

@@ -9,10 +9,14 @@ public class GiveDonation extends SpecialTile {
     public GiveDonation(DonationParty donationParty){
         super("사회복지기금 접수처", new SpecialFunction() {
             @Override
-            public void execute(Player player) {
-                player.pay(donationParty,150000);
-                System.out.println("사회복지기금이 접수되었습니다.");
-                player.lookMoney();
+            public void execute(Player player) throws Exception{
+                try {
+                    player.pay(donationParty, 150000);
+                    System.out.println("사회복지기금이 접수되었습니다.");
+                    player.lookMoney();
+                } catch(Exception e){
+                    throw e;
+                }
             }
         });
     }
