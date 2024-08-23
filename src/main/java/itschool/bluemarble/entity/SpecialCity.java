@@ -4,7 +4,7 @@ import itschool.bluemarble.entity.abs.PurchasableTile;
 
 public class SpecialCity extends PurchasableTile {
 
-    public SpecialCity(String name, int price, int[] toll) {
+    public SpecialCity(String name, int price, int toll) {
         super(name, price, toll);
     }
 
@@ -12,6 +12,6 @@ public class SpecialCity extends PurchasableTile {
         this.owner = player;
     }
     public void payToll(Player player) throws Exception{
-        player.pay(owner, toll[0]);
+        player.pay(owner, toll);
     }
 }
