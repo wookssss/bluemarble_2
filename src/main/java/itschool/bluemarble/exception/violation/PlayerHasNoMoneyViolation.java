@@ -1,7 +1,7 @@
 package itschool.bluemarble.exception.violation;
 
 public class PlayerHasNoMoneyViolation extends RuntimeException {
-    public PlayerHasNoMoneyViolation() {
-        super("플레이어가 보유한 돈이 부족합니다.");
+    public PlayerHasNoMoneyViolation(String playerName) {
+        super(playerName + "이/가 보유한 돈이 부족합니다.");
     }
 }

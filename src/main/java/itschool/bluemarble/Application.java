@@ -1,6 +1,6 @@
 package itschool.bluemarble;
 
-import itschool.bluemarble.exception.needchecked.GameOver;
+import itschool.bluemarble.exception.needcheck.GameOver;
 import itschool.bluemarble.progress.GameByConsole;
 import itschool.bluemarble.progress.abs.Game;
 
@@ -9,8 +9,8 @@ import java.util.Scanner;
 
 public class Application {
     public static void main(String[] args) {
-        // 스캐너는 GameByConsole에서 만든 하나의 스캐너를 공유받는다.
-        Scanner sc = GameByConsole.getScanner();
+        // 스캐너는 GameByConsole에서 만든 하나의 스캐너를 공유받음
+        Scanner sc = new Scanner(System.in);
 
         // 플레이어 수
         int numberOfPlayer = 0;
@@ -20,10 +20,9 @@ public class Application {
             try {
                 System.out.print("플레이어 수를 입력하세요 (2~4인) : ");
                 numberOfPlayer = sc.nextInt();
-                sc.nextLine(); // 버퍼 비우기
 
                 if (numberOfPlayer >= 2 && numberOfPlayer <= 4) {
-                    System.out.println("----------------------------------------------------------------");
+                    // System.out.println("\n================================================================================================");
                     System.out.println(numberOfPlayer + "인 플레이 가능한 게임을 생성합니다.");
                     break; // 유효한 입력이므로 루프 종료
                 } else {
@@ -31,7 +30,7 @@ public class Application {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("유효한 숫자를 입력해주세요.");
-                sc.nextLine(); // 잘못된 입력을 처리하고 버퍼 비우기
+                sc.nextLine(); // 개행 버퍼 제거용
             }
         }
 
@@ -42,7 +41,7 @@ public class Application {
         try {
             game.start();
         } catch (GameOver e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage()); // "님이 게임을 우승하셨습니다. 게임을 종료합니다."
         }
     }
 }

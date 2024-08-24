@@ -17,4 +17,11 @@ public class GoldenKey {
         this.description = description;
         this.function = function;
     }
+
+    @Override
+    public String toString() {
+        return "황금열쇠 : {" +
+                title + " : " +
+                description + "}";
+    }
 }

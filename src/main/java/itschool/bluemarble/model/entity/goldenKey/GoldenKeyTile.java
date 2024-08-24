@@ -51,7 +51,7 @@ public class GoldenKeyTile extends Tile {
                 // new GoldenKey("유람선 여행", "우주여행 칸으로 간다. (황금열쇠로 이동하는 경우 소유자가 있어도 무료 이용 가능하다.)",),
                 new GoldenKey("이사", "뒤로 두 칸 이동합니다.",(InstantFunction) ((player) -> player.moveByRelativeValue(-2))),
                 new GoldenKey("이사","뒤로 세 칸 이동합니다." ,(InstantFunction) ((player) -> player.moveByRelativeValue(-3))),
-                new GoldenKey("특정 장소로 이동","원하는 곳으로 이동 가능하다. (이동은 한 방향으로 고정되어 있기에 이동하는 길에 출발지가 있으면 월급을 받는다.)", (InstantFunction) (player) -> { System.out.println("이동할 타일번호를 입력하세요"); player.moveByAbsoluteValue(GameByConsole.getScanner().nextInt());}),
+                new GoldenKey("특정 장소로 이동","원하는 곳으로 이동 가능하다. (이동은 한 방향으로 고정되어 있기에 이동하는 길에 출발지가 있으면 월급을 받는다.)", (InstantFunction) (player) -> player.moveByAbsoluteValue(GameByConsole.requestTileIndex(player))),
                 // new GoldenKey("항공여행","콩코드 여객기를 타고 타이베이로 이동(주인이 있을 경우 통행료 지불 여객기, 건물 주인)" ,),
                 // 이동 끝
 

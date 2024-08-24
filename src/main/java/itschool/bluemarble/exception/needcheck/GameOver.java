@@ -1,4 +1,4 @@
-package itschool.bluemarble.exception.needchecked;
+package itschool.bluemarble.exception.needcheck;
 
 // 검사 예외 : throws나 try, catch가 강제됨
 public class GameOver extends Exception {

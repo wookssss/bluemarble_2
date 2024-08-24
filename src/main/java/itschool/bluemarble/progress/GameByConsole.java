@@ -1,6 +1,7 @@
 package itschool.bluemarble.progress;
 
-import itschool.bluemarble.exception.rule.HoldableKeyEvent;
+import itschool.bluemarble.exception.event.HoldableKeyEvent;
+import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
@@ -11,28 +12,24 @@ import java.util.Scanner;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameByConsole extends Game {
-    private final int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
-
-    public final static Scanner SCANNER = new Scanner(System.in);
-
-    public static Scanner getScanner() {
-        // SCANNER.nextLine(); // 버퍼 지우기용
-        return SCANNER;
-    }
+    final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
 
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
         setPlayer(numberOfPlayer);
     }
 
-    public void setPlayer(int numberOfPlayer) {
-        System.out.println("----------------------------------------------------------------");
+    private void setPlayer(int numberOfPlayer) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("============================================================================================");
         System.out.println("플레이어명은 한글 5자, 영문 또는 숫자 10자 이내로 입력이 가능합니다.");
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("============================================================================================");
 
         for (int i = 0; i < numberOfPlayer; i++) {
             System.out.print("플레이어" + (i+1) + " 이름 입력 : ");
-            String playerName = SCANNER.next();
+
+            String playerName = sc.next();
 
             if(checkPlayerNameLength(playerName) > 10) {
                 System.out.println("글자 제한을 초과하셨습니다. 다시 입력해주세요");
@@ -41,7 +38,7 @@ public class GameByConsole extends Game {
                 PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
             }
         }
-        System.out.println("----------------------------------------------------------------");
+        System.out.println("============================================================================================\n");
     }
 
     public static GameByConsole createGameByConsole(int numberOfPlayer) {
@@ -49,15 +46,18 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void showMapPhase() {
+    public void showMapByConsole(Player player, Dice dice) {
         showHeaderOrFooterTiles(true);
 
         showMiddleTiles();
 
         showHeaderOrFooterTiles(false);
+
+        System.out.println();
+        System.out.println();
     }
 
-    public void showHeaderOrFooterTiles(boolean isHeader) {
+    private void showHeaderOrFooterTiles(boolean isHeader) {
 
         // ┌ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┬ㅡㅡㅡㅡㅡㅡㅡㅡㅡ┐
         System.out.print(isHeader?"┌":"├");
@@ -349,7 +349,7 @@ public class GameByConsole extends Game {
 
     }
 
-    public void showTileName(Tile tile) {
+    private void showTileName(Tile tile) {
 
         int prefix = (TILE_WIDTH - tile.getName().length());
         int suffix = prefix;
@@ -366,7 +366,7 @@ public class GameByConsole extends Game {
 
     }
 
-    public void showPlayerLocation(Player player, int index) {
+    private void showPlayerLocation(Player player, int index) {
 
         if(index == player.getLocation()) {
             int prefix = (TILE_WIDTH * 2 - checkPlayerNameLength(player.getName()))/2;
@@ -392,7 +392,7 @@ public class GameByConsole extends Game {
     }
 
     // 영문자와 한글간의 칸수 설정을 위한 메소드
-    public int checkPlayerNameLength(String playerName) {
+    private int checkPlayerNameLength(String playerName) {
         int length = 0;
 
         for (int i = 0; i < playerName.length(); i++) {
@@ -408,49 +408,133 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void wantToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent {
+    public boolean confirm(String message) {
+        Scanner sc = new Scanner(System.in);
 
-        System.out.println(player.getName() + "님 " + goldenKey.getTitle() + "을 사용하시겠습니까? (Y/N)");
-        // SCANNER.nextLine(); // 버퍼 제거용
-        String input = SCANNER.next();
-
-        if("y".equals(input) || "Y".equals(input) || "".equals(input)) {
-            GoldenKey needUse = player.useGoldenKey(goldenKey);
-            throw new HoldableKeyEvent(needUse.getTitle());
-        }
-    }
-
-    @Override
-    public boolean checkYesOrNo(String message) {
-        sc.reset(); // 스캐너 초기화
-        // sc.nextLine(); // 개행 제거용
-        System.out.println(message);
-
+        System.out.print(message + " (y/n)\n> ");
         String input = sc.nextLine();
 
         if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
             return true;
         }
+
         return false;
     }
 
-    public void showDiceResult(Player player, int dice1, int dice2, boolean isDouble) {
-        String result = "dice1=" + dice1 +
-                "\ndice2=" + dice2;
-
-        if (isDouble)
-            result += "\n더블입니다.";
-
-        result += "\n" + player.getName() + "님의 주사위 값 : " + (dice1 + dice2);
-
-        println(result);
+    @Override
+    public void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent {
+        if(confirm(player.getName() + "님 " + goldenKey.getTitle() + "을 사용하시겠습니까?")) {
+            GoldenKey needUse = player.useGoldenKey(goldenKey);
+            throw new HoldableKeyEvent(needUse.getTitle());
+        }
     }
 
-    public void println(String message) {
-        System.out.println(message);
+    public static int requestTileIndex(Player player) {
+        Scanner sc = new Scanner(System.in);
+
+        int tileIndex = -1;
+
+        do {
+            System.out.print(player.getName() + "이동할 타일번호를 입력하세요. (0 ~ 39) :");
+            tileIndex = sc.nextInt();
+        } while(tileIndex < 0 || tileIndex > 39);
+
+        return tileIndex;
     }
 
-    public void print(String message) {
-        System.out.print(message);
+    private void doThreadSleep(int sec, String message, boolean needLineBreak) {
+
+        try {
+            int totalMilliseconds = Math.max(sec * 1000, 1); // 최소 1 밀리초로 설정
+            int elapsedMilliseconds = 0; // 경과된 시간
+            int printInterval = 330; // 출력 주기 (밀리초)
+
+            // 메시지 출력
+            message = (sec > 0) ? sec + message : message;
+            if (needLineBreak) {
+                System.out.println(message);
+            } else {
+                System.out.print(message);
+            }
+
+            if (sec > 0) {
+                // sec가 0보다 클 때
+                while (elapsedMilliseconds < totalMilliseconds) {
+                    int remainingTime = (totalMilliseconds - elapsedMilliseconds) / 1000; // 남은 초
+
+                    if (remainingTime > 0) {
+                        System.out.print(remainingTime); // 남은 시간을 출력
+                    }
+
+                    // 지정된 시간 동안 대기
+                    for (int j = 0; j < 3; j++) {
+                        System.out.print(".");
+                        Thread.sleep(printInterval);
+                        elapsedMilliseconds += printInterval;
+                        if (elapsedMilliseconds >= totalMilliseconds) {
+                            break; // 전체 대기 시간을 초과하면 루프 종료
+                        }
+                    }
+
+                    // 남은 시간이 있을 경우 줄 바꿈
+                    if (remainingTime > 0) {
+                        System.out.println();
+                    }
+                }
+            } else {
+                // sec가 0일 때
+                for (int i = 0; i < 3; i++) {
+                    System.out.print(".");
+                    Thread.sleep(printInterval);
+                }
+                System.out.println();
+            }
+
+            System.out.println();
+
+            throw new InterruptedException("출력 타이머 끝");
+
+        } catch (InterruptedException e) {}
+    }
+
+    @Override
+    public void printOutDiceResult(Player player, Dice dice) {
+        System.out.println(dice.toString(player));
+    }
+
+    @Override
+    protected void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey) {
+        doThreadSleep(5, "초 뒤에 황금열쇠 화면을 출력합니다.", true);
+        System.out.println("\n===================================   황금열쇠 드로우    ===================================\n");
+        System.out.println(player.getName() + "님이 황금 열쇠를 뽑습니다.");
+        System.out.println(goldenKey);
+        System.out.println();
+        System.out.println("============================================================================================\n");
+    }
+
+    @Override
+    protected void printOutOfException(RuntimeException exception) {
+        doThreadSleep(5, "초 뒤에 이벤트 화면을 출력합니다.", true);
+        System.out.println("\n=====================================     이벤트 발생     =====================================");
+        System.out.println(exception.getMessage());
+        System.out.println("============================================================================================\n");
+    }
+    @Override
+    protected void printOutOfMoving(Player player) {
+        doThreadSleep(0, "도착지 정보를 찾고 있습니다.", false);
+
+        System.out.println("=====================================     이동 페이즈     =====================================\n");
+        System.out.println(TILES.get(player.getLocation()).getName() + "으로 이동합니다.\n");
+        System.out.println("============================================================================================\n");
+
+        doThreadSleep(5, "초 뒤에 해당 타일로 이동합니다.", true);
+    }
+
+    @Override
+    protected void printOutOfPlayerInfo(Player player) {
+        System.out.println("============================================================================================\n");
+        doThreadSleep(0, "사용자 정보를 찾는 중입니다", false);
+
+        System.out.println(player);
     }
 }

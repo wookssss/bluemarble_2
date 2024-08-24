@@ -15,6 +15,7 @@ import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.HoldableFunction;
+import itschool.bluemarble.model.factory.TileFactory;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -73,7 +74,7 @@ public class Player extends Payable {
         receiver.payAmountTo(receiver, this.asset);
         asset = 0;
         amount = 0;
-        throw new BankruptPlayerViolation();
+        throw new BankruptPlayerViolation(this.name);
     }
 
     public void getPaid(){
@@ -134,7 +135,7 @@ public class Player extends Payable {
         int max = Integer.MIN_VALUE;
         //  제일 비싼 땅 (현재 땅값 기준 이후 수정필요)
         if(myLandList.size() == 0){
-            throw new PlayerHasNoLandViolation();
+            throw new PlayerHasNoLandViolation(this.name);
         } else {
             for(PurchasableTile myland : myLandList){
                 int price =  myland.getPrice();
@@ -175,10 +176,32 @@ public class Player extends Payable {
         throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
     }
 
+    @Override
+    public boolean payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
+        if(super.payAmountTo(receiver, amount)) {
+            return true;
+        } else {
+            throw new PlayerHasNoMoneyViolation(this.name);
+        }
+    }
+
+    // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
+
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
     public void loanRepay(int amount){
         curMoney -= amount;
         loanMoney = 0;
     } */
 
+    @Override
+    public String toString() {
+        return "============================================================================================\n\n" +
+                "플레이어명 : " + name + "\n" +
+                "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
+                "빚 = " + debt + "원" + '\n' +
+                "자산 = " + asset + "원" + '\n' +
+                "보유 열쇠 = " + goldenkeyList + '\n' +
+                "부동산 = " + myLandList + '\n' +
+                "\n============================================================================================";
+    }
 }

@@ -3,32 +3,29 @@
 
 package itschool.bluemarble.progress.abs;
 
-import itschool.bluemarble.exception.rule.HoldableKeyEvent;
+import itschool.bluemarble.exception.event.HoldableKeyEvent;
+import itschool.bluemarble.exception.event.LoanEvent;
 import itschool.bluemarble.exception.violation.BankruptPlayerViolation;
-import itschool.bluemarble.exception.needchecked.GameOver;
+import itschool.bluemarble.exception.needcheck.GameOver;
 import itschool.bluemarble.exception.violation.PlayerHasNoLandViolation;
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
-import itschool.bluemarble.model.entity.tile.Island;
-import itschool.bluemarble.model.entity.tile.SpecialVehicle;
-import itschool.bluemarble.model.entity.tile.Tile;
+import itschool.bluemarble.model.entity.tile.*;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.InstantFunction;
-import itschool.bluemarble.progress.GameByConsole;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 // 게임 룰을 담당하는 클래스
 // 게임 안에는 매턴이 발생하며 (플레이어가) 매턴마다 순서에 따라 주사위를 굴린다.
 public abstract class Game {
-    final protected Scanner sc = GameByConsole.getScanner();
     final protected int NUMBER_OF_PLAYER;
-    final protected List TILES = TileFactory.getTiles(); // Tiles에 getTiles 메소드 필요
+    final protected List<Tile> TILES = TileFactory.getTiles(); // Tiles에 getTiles 메소드 필요
     final protected List<Player> PLAYERS = new ArrayList<Player>();
     protected int turn = 1;
 
@@ -36,26 +33,60 @@ public abstract class Game {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
     }
 
-    abstract public void showMapPhase();
+    abstract protected void showMapByConsole(Player player, Dice dice);
 
-    abstract public void wantToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent;
+    abstract protected void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent;
 
-    abstract public boolean checkYesOrNo(String message);
+    abstract protected boolean confirm(String message);
 
-    abstract public void showDiceResult(Player player, int dice1, int dice2, boolean isDouble);
+    abstract public void printOutDiceResult(Player player, Dice dice);
 
-    abstract public void println(String message);
+    abstract protected void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey);
 
-    abstract public void print(String message);
+    abstract protected void printOutOfException(RuntimeException exception);
+
+    abstract protected void printOutOfPlayerInfo(Player player);
+
+    abstract protected void printOutOfMoving(Player player);
 
     public void start() throws GameOver {
         while (true) {
             for (Player player : PLAYERS) {
-                try {
-                    startPhase(player);
+                try { // Exception은 어느서 발생시킬 건지 담당자에게 나눠줘야 함, 게임 내 발생하는 예외는 Game에 어떻게 처리할 지 정한다.
+                    proceedPhase(player);
                     turn++;
-                } catch (BankruptPlayerViolation e) {
-                    println(player.getName() + e.getMessage()); // "님이 파산하셨습니다."
+                } catch (PlayerHasNoLandViolation e1) { // 황금열쇠:반액대매출, 반액대매출을 하고 싶어도 땅이 없음
+                    printOutOfException(e1); // 반액대매출, "님이 땅을 가지고 있지 않습니다."
+                } catch (HoldableKeyEvent e1) { // 우대권, 무인도 탈출권
+                    printOutOfException(e1); // 님이/가 황금열쇠"+ goldenKeyTitle + "을 사용하셨습니다."
+                } catch (PlayerHasNoMoneyViolation e1) { // 지출을 해결할 현금 부족
+                    try {
+                        printOutOfException(e1); // "이/가 보유한 돈이 부족합니다."
+
+                        if(true/*대출 수행 가능 여부를 확인*/) { // 대출 가능
+                            throw new LoanEvent(player.getName());
+                        } else { // 대출 불가
+                            // 현재 보유한 부동산 매각(플레이어가 가격이 높은 순으로 판매하고 빚을 갚을 수 있다면 그렇게 처리.
+
+
+                            // 부동산을 매각하여 갚기 로직 작성
+                            
+                            
+                            // 매각으로도 해결이 안된다면 다시 PlayerHasNoMoneyViolation 다시 발생 -> 파산 처리 할거임
+                            throw new PlayerHasNoMoneyViolation(player.getName());
+                        }
+                    } catch (LoanEvent e2) { // 대출4
+                        // 대출 수행하고 갚기
+                        printOutOfException(e2); // "님, 대출은 진행하시겠습니까?"
+                        // 대출 수행 페이즈 로직 필요 (player의 대출 절차 메소드 수행, 해당 플레이어가 은행에 돈을 빌린다음 몇 턴 후에 갚는다)
+                        // 상대 플레이어에게 갚는 로직 필요
+                    } catch (PlayerHasNoMoneyViolation e2) { // BankruptPlayerViolation bankruptcy
+                        // 대출조차 못하면 파산 처리한다
+                        throw new BankruptPlayerViolation(player.getName());
+                    }
+                } catch (BankruptPlayerViolation e1) {
+                    // 파산 처리
+                    printOutOfException(e1); // "님이 파산하셨습니다."
                     PLAYERS.remove(player);
                 }
 
@@ -66,87 +97,148 @@ public abstract class Game {
         // PLAYERS.get(0).setWinCount(PLAYERS.get(0).getWinCount()+1); // 승리 횟수 저장은 제거
     }
 
-    public void startPhase(Player player) throws RuntimeException {
-        if (checkTurnPhase(player)) { // 턴 수행 여부 확인
-            int diceValue = rollDicePhase(player);
-
-            int locationIdx = movePhase(player, diceValue);
-
-            showMapPhase(); // 이 페이즈의 위치가 적절한가?
-
-            // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
-            arriveTilePhase(player, locationIdx);
-        }
-    }
-
-    public boolean checkTurnPhase(Player player) {
-        return checkYesOrNo(turn + "번째 턴입니다. " + player.getName() + "님 주사위를 굴리시겠습니까? (Y)");
-    }
-
-    public int rollDicePhase(Player player) {
+    private void proceedPhase(Player player) throws RuntimeException {
         Dice dice = new Dice();
 
-        int rollValue;
+        // 현재 플레이어 정보 출력
+        printOutOfPlayerInfo(player);
 
-        do {
-            rollValue = dice.roll(player, this);
-        } while (dice.isDouble());
+        do { // 더블이 나오면 나머지 페이즈 다 수행하고 다시 던진다.
+            if (checkTurn(player, dice)) { // 턴 수행 여부 및 직전에 더블인지 체크
 
-        if (dice.getDoubleCount() == 3 & dice.isDouble()) {
-            player.moveByAbsoluteValue(10); // 무인도(10) 타일로 이동
-        }
+                dice = rollDicePhase(player, dice);
 
-        return rollValue;
+                // 주사위 결과 출력
+                printOutDiceResult(player, dice);
+
+                int beforeRollIndex = player.getLocation();
+                int afterRollIndex = -1;
+
+                if (dice.getDoubleCount() == 3 & dice.isDouble()) {
+                    player.moveByAbsoluteValue(10); // 무인도(10) 타일로 이동
+                    afterRollIndex = 10;
+                } else {
+                    afterRollIndex = movePhase(player, (dice.getDice1() + dice.getDice2()));
+                }
+
+                // 이동 결과 출력
+                printOutOfMoving(player);
+
+
+                // 타일 맵 출력
+                showMapByConsole(player, dice); // 맵과 함께 주사위 결과도 아래 출력
+
+
+                // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
+                arriveTilePhase(player, afterRollIndex);
+
+                // 도착한 타일 구입 확인, 구입, 통행료 지불 등을 할 추가 페이즈 필요해보임(현 메소드에서 분리하여 페이즈명 지어보기)
+
+                // 우주 여행 등 특수 타일에 대한 특수 페이즈도 필요해보임
+            }
+        } while (dice.isDouble()); // 더블이면 턴 내 페이즈를 재수행한다.
+    }
+
+    private boolean checkTurn(Player player, Dice dice) {
+        StringBuilder message = new StringBuilder();
+
+        message.append("\n============================  " + turn + "번째 턴입니다. " + player.getName() + "님 차례" + "  ============================\n\n");
+        message.append(player.getName());
+
+        if(dice.getDoubleCount() > 0)
+            message.append("님, 더블이 나왔습니다. 주사위를 다시 굴려주세요.");
+        else
+            message.append("님, 주사위를 굴려주세요.");
+
+        return confirm(message.toString());
+    }
+
+    private Dice rollDicePhase(Player player, Dice dice) {
+
+        dice.roll();
+
+        return dice;
     }
 
 
-    public int movePhase(Player player, int rel) {
-        return player.moveByRelativeValue(rel);
+    private int movePhase(Player player, int rel) {
+        int index = player.moveByRelativeValue(rel);
+        return index;
     }
 
-    public void arriveTilePhase(Player player, int index) throws RuntimeException {
+    private void arriveTilePhase(Player player, int index) throws RuntimeException {
 
         Tile currentTile = (Tile) TILES.get(index);
 
         // 도착한 타일이 무엇인지 확인
-        if (currentTile instanceof GoldenKeyTile) { // 황금열쇠 타일 도착
-            GoldenKey goldenKey = null;
-
-            goldenKey = player.drawGoldenKey((GoldenKeyTile) currentTile);
-
-            if (goldenKey.getFunction() instanceof InstantFunction) {// 인스턴트 평션을 뽑았구나
-                try {
-                    ((InstantFunction) goldenKey.getFunction()).execute(player);
-                } catch (PlayerHasNoLandViolation e) {
-                    println("----------------------------------------------------------------");
-                    println("반액대매출을 실행했습니다.");
-                    println(player.getName() + e.getMessage()); // "님이 땅을 가지고 있지 않습니다."
-                    println("----------------------------------------------------------------");
-                }
-
-            } // 홀더블 펑션을 뽑았으면 아무것도 수행하지 않는다.
-            println("----------------------------------------------------------------");
-            println("황금 열쇠를 뽑습니다.");
-            println(player.getName() + "님이 황금열쇠 " + goldenKey.getTitle());
-            println("----------------------------------------------------------------");
-        } else if (currentTile instanceof PurchasableTile) { // 건물 지을 수 있는 도시 도착
-            boolean shouldPay = ((PurchasableTile) currentTile).shouldPay(player);
-            if (shouldPay) { // 통행료를 내야하는 상황
-                try {
-                    // 우대권을 찾아야됨
-                    wantToUseGoldenKey(player, player.findTollFreePassKey());
-                } catch (HoldableKeyEvent e) {
-                    println(e.getMessage()); // 황금열쇠를 사용했음
-                } catch (RuntimeException e) {
-                    println(e.getMessage()); // 해당 황금열쇠가 존재하지 않음
-                }
-            }
-        } else if (currentTile instanceof Island) { // 무인도 도착
-
-        } else if (currentTile instanceof SpecialVehicle) {
-
+        if (currentTile instanceof GoldenKeyTile) { // 황금열쇠 타일
+            arriveGoldenKeyTile(player, currentTile);
         }
 
-        // 도착한 타일 구입 페이즈
+        if (currentTile instanceof PurchasableTile) { // 건물 지을 수 있는 도시
+            arrivePurchasableTile(player, currentTile);
+        } else if (currentTile instanceof Island) { // 무인도
+            // arriveIsland(player, currentTile);
+        } else if (currentTile instanceof FixedTollCity) { // 제주도, 부산, 콩고드, 퀸엘리자베스호 등
+            // arriveFixedTollCity(player, currentTile);
+        } else if (currentTile instanceof GiveDonation) { // 사회복지기금 지급처
+            // arriveGiveDonation(player, currentTile);
+        } else if (currentTile instanceof DonationParty) { // 사회복지기금 수령처
+            // arriveDonationParty(player, currentTile);
+        } else if (currentTile instanceof SpaceTravel) { // 우주 여행
+            // arriveSpaceTravel(player, currentTile);
+        } else {
+            // 시작 타일.. 수행 할 것  없음
+        }
+    }
+
+    private void arriveGoldenKeyTile(Player player, Tile tile) throws PlayerHasNoLandViolation, PlayerHasNoMoneyViolation {
+        GoldenKey goldenKey = null;
+
+        goldenKey = player.drawGoldenKey((GoldenKeyTile) tile);
+
+        printOutOfDrawedGoldenKey(player, goldenKey);
+
+        if (goldenKey.getFunction() instanceof InstantFunction) // 즉시 수행해야 하는 인스턴트 평션
+            ((InstantFunction) goldenKey.getFunction()).execute(player); // 반액대매출에서 PlayerHasNoLandViolation 예외 던질 수 있음
+    }
+
+    private void arrivePurchasableTile(Player player, Tile tile) throws HoldableKeyEvent, PlayerHasNoMoneyViolation {
+        boolean shouldPay = ((PurchasableTile) tile).shouldPay(player);
+        if (shouldPay) { // 통행료를 내야하는 상황
+
+            // confirmToUseGoldenKey 발생 가능 예외
+            // RuntimeException : 해당 황금열쇠가 존재하지 않음
+            // HoldableKeyEvent : 황금열쇠 사용 완료
+            confirmToUseGoldenKey(player, player.findTollFreePassKey());
+
+
+            // 땅의 주인에게 통행료 지불 로직 필요
+
+
+            // 통행료 지불 불가한 경우 PlayerHasNoMoneyViolation 발생 필요
+        }
+    }
+
+    private void arriveIsland(Player player, Tile currentTile) {
+        // 무인도 도착 로직 필요
+    }
+
+    private void arriveFixedTollCity(Player player, Tile currentTile) {
+        // 가격 고정인 도시 도착 로직 필요
+    }
+
+    private void arriveGiveDonation(Player player, Tile currentTile) {
+        // GiveDonation 이름으로 할지는 회의 필요
+        // 사회보장기금 접수처 도착 로직 필요
+    }
+
+    private void arriveDonationParty(Player player, Tile currentTile) {
+        // DonationParty 이름으로 할지는 회의 필요
+        // 사회보장기금 수령처 도착 로직 필요
+    }
+
+    private void arriveSpaceTravel(Player player, Tile currentTile) {
+        // 우주여행 도착 로직 필요
     }
 }

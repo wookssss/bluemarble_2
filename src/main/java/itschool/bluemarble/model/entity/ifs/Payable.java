@@ -10,13 +10,13 @@ public abstract class Payable {
     public int amount;
     public abstract void payAllAssetsTo(Payable receiver) throws Exception;
 
-    public void payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
+    public boolean payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
         if(this.amount >= amount){
             minusAmount(amount);
             receiver.plusAmount(amount);
+            return true;
         } else {
-            throw new PlayerHasNoMoneyViolation();
-            // Game에 있는 대출 or 파산 or 땅팔기 선택 호출
+            return false;
         }
     }
 
