@@ -4,8 +4,6 @@
 
 package itschool.bluemarble.model.entity;
 
-import itschool.bluemarble.progress.GameByConsole;
-import itschool.bluemarble.progress.abs.Game;
 import lombok.Getter;
 import java.util.Random;
 

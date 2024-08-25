@@ -2,7 +2,7 @@ package itschool.bluemarble;
 
 import itschool.bluemarble.exception.needcheck.GameOver;
 import itschool.bluemarble.progress.GameByConsole;
-import itschool.bluemarble.progress.abs.Game;
+import itschool.bluemarble.progress.Game;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

@@ -6,7 +6,6 @@ import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
-import itschool.bluemarble.progress.abs.Game;
 
 import java.util.Scanner;
 
@@ -46,7 +45,7 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void showMapByConsole(Player player, Dice dice) {
+    public void showMap(Player player, Dice dice) {
         showHeaderOrFooterTiles(true);
 
         showMiddleTiles();
@@ -503,7 +502,7 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    protected void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey) {
+    public void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey) {
         doThreadSleep(5, "초 뒤에 황금열쇠 화면을 출력합니다.", true);
         System.out.println("\n===================================   황금열쇠 드로우    ===================================\n");
         System.out.println(player.getName() + "님이 황금 열쇠를 뽑습니다.");
@@ -513,14 +512,14 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    protected void printOutOfException(RuntimeException exception) {
+    public void printOutOfException(RuntimeException exception) {
         doThreadSleep(5, "초 뒤에 이벤트 화면을 출력합니다.", true);
         System.out.println("\n=====================================     이벤트 발생     =====================================");
         System.out.println(exception.getMessage());
         System.out.println("============================================================================================\n");
     }
     @Override
-    protected void printOutOfMoving(Player player) {
+    public void printOutOfMoving(Player player) {
         doThreadSleep(0, "도착지 정보를 찾고 있습니다.", false);
 
         System.out.println("=====================================     이동 페이즈     =====================================\n");
@@ -531,7 +530,7 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    protected void printOutOfPlayerInfo(Player player) {
+    public void printOutOfPlayerInfo(Player player) {
         System.out.println("============================================================================================\n");
         doThreadSleep(0, "사용자 정보를 찾는 중입니다", false);
 

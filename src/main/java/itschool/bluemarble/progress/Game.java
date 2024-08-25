@@ -1,7 +1,7 @@
 // 담당자 : 오재헌
 // 부루마블 판이 나오고 주사위 결과 나오도록 수정
 
-package itschool.bluemarble.progress.abs;
+package itschool.bluemarble.progress;
 
 import itschool.bluemarble.exception.event.HoldableKeyEvent;
 import itschool.bluemarble.exception.event.LoanEvent;
@@ -17,13 +17,14 @@ import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.InstantFunction;
+import itschool.bluemarble.progress.ifs.GameInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 // 게임 룰을 담당하는 클래스
 // 게임 안에는 매턴이 발생하며 (플레이어가) 매턴마다 순서에 따라 주사위를 굴린다.
-public abstract class Game {
+public abstract class Game implements GameInterface {
     final protected int NUMBER_OF_PLAYER;
     final protected List<Tile> TILES = TileFactory.getTiles(); // Tiles에 getTiles 메소드 필요
     final protected List<Player> PLAYERS = new ArrayList<Player>();
@@ -32,22 +33,6 @@ public abstract class Game {
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
     }
-
-    abstract protected void showMapByConsole(Player player, Dice dice);
-
-    abstract protected void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent;
-
-    abstract protected boolean confirm(String message);
-
-    abstract public void printOutDiceResult(Player player, Dice dice);
-
-    abstract protected void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey);
-
-    abstract protected void printOutOfException(RuntimeException exception);
-
-    abstract protected void printOutOfPlayerInfo(Player player);
-
-    abstract protected void printOutOfMoving(Player player);
 
     public void start() throws GameOver {
         while (true) {
@@ -126,7 +111,7 @@ public abstract class Game {
 
 
                 // 타일 맵 출력
-                showMapByConsole(player, dice); // 맵과 함께 주사위 결과도 아래 출력
+                showMap(player, dice); // 맵과 함께 주사위 결과도 아래 출력
 
 
                 // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
