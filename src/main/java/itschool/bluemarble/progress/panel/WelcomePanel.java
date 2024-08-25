@@ -13,7 +13,6 @@ public class WelcomePanel extends JPanel {
     JTextField $playerNameField;
 
     public WelcomePanel(GameByJFrame frame) {
-        frame.setTitle("초기 화면");
         this.frame = frame;
 
         this.setLayout(new GridLayout(3, 4));
