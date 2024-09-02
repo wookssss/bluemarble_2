@@ -30,6 +30,7 @@ public class Application {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("유효한 숫자를 입력해주세요.");
+            } finally {
                 sc.nextLine(); // 개행 버퍼 제거용
             }
         }

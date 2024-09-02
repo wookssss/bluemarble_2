@@ -424,7 +424,7 @@ public class GameByConsole extends Game {
         System.out.print(message + " (y)\n> ");
         String input = sc.nextLine().trim();
 
-        if ("y".equalsIgnoreCase(input)) {
+        if ("y".equalsIgnoreCase(input) || "".equals("")) {
             return true;
         }
 
@@ -445,6 +445,7 @@ public class GameByConsole extends Game {
         do {
             System.out.print(player.getName() + "이동할 타일번호를 입력하세요. (0 ~ 39) :");
             tileIndex = sc.nextInt();
+            sc.nextLine(); // 개행 버퍼 제거용
         } while(tileIndex < 0 || tileIndex > 39);
 
         return tileIndex;
