@@ -19,6 +19,7 @@ import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.InstantFunction;
 import itschool.bluemarble.progress.ifs.GameInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,25 @@ public abstract class Game implements GameInterface {
 
     protected Game(int numberOfPlayer) {
         this.NUMBER_OF_PLAYER = numberOfPlayer;
+    }
+
+    public static void ClearConsole() {
+        try {
+            // 콘솔 화면을 지우는 명령어 실행
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                // cmd를 사용하여 콘솔 지우기
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                // PowerShell을 사용하여 콘솔 지우기
+                // new ProcessBuilder("powershell", "-Command", "Clear-Host").inheritIO().start().waitFor();
+            } else {
+                // Unix/Linux/Mac에서 ANSI 이스케이프 코드 사용
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+            System.out.println();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void start() throws GameOver {
@@ -85,6 +105,10 @@ public abstract class Game implements GameInterface {
     private void proceedPhase(Player player) throws RuntimeException {
         Dice dice = new Dice();
 
+        // 타일 맵 출력
+        ClearConsole();
+        showMap();
+
         // 현재 플레이어 정보 출력
         printOutOfPlayerInfo(player);
 
@@ -109,10 +133,9 @@ public abstract class Game implements GameInterface {
                 // 이동 결과 출력
                 printOutOfMoving(player);
 
-
                 // 타일 맵 출력
-                showMap(player, dice); // 맵과 함께 주사위 결과도 아래 출력
-
+                ClearConsole();
+                showMap();
 
                 // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
                 arriveTilePhase(player, afterRollIndex);

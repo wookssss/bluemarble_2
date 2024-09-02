@@ -7,12 +7,14 @@ import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameByConsole extends Game {
-    final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
     private static final Scanner sc = new Scanner(System.in);
+
+    final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
 
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
@@ -48,7 +50,7 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void showMap(Player player, Dice dice) {
+    public void showMap() {
         showHeaderOrFooterTiles(true);
 
         showMiddleTiles();
@@ -371,15 +373,16 @@ public class GameByConsole extends Game {
     private void showPlayerLocation(Player player, int index) {
 
         if(index == player.getLocation()) {
-            int prefix = (TILE_WIDTH * 2 - checkPlayerNameLength(player.getName()))/2;
+            int check = checkPlayerNameLength(player.getName()+'*');
+            int prefix = (TILE_WIDTH * 2 - check)/2;
             int suffix = prefix;
-            suffix += (checkPlayerNameLength(player.getName()) % 2 == 1)? 1: 0;
+            suffix += (check % 2 == 1)? 1: 0;
 
             for (int j = 0; j < prefix; j++) {
                 System.out.print(" ");
             }
 
-            System.out.printf("%s", player.getName());
+            System.out.printf("%s", player.getName()+'*');
 
             for (int k = 0; k < suffix; k++) {
                 System.out.print(" ");
@@ -400,7 +403,9 @@ public class GameByConsole extends Game {
         for (int i = 0; i < playerName.length(); i++) {
             if (playerName.charAt(i) >= 'a' && playerName.charAt(i) <= 'z'
                 || playerName.charAt(i) >= 'A' && playerName.charAt(i) <= 'Z'
-                || playerName.charAt(i) >= '1' && playerName.charAt(i) <= '9')
+                || playerName.charAt(i) >= '1' && playerName.charAt(i) <= '9'
+                || playerName.charAt(i) == '*'
+            )
                 length++;
             else
                 length += 2;
@@ -420,10 +425,10 @@ public class GameByConsole extends Game {
 
     @Override
     public boolean confirm(String message) {
-        System.out.print(message + " (y/n)\n> ");
+        System.out.print(message + " (y)\n> ");
         String input = sc.nextLine().trim();
 
-        if ("y".equalsIgnoreCase(input) || "".equals(input)) {
+        if ("y".equalsIgnoreCase(input)) {
             return true;
         }
 
@@ -534,7 +539,7 @@ public class GameByConsole extends Game {
         System.out.println(TILES.get(player.getLocation()).getName() + "(으)로 이동합니다.\n");
         System.out.println("============================================================================================\n");
 
-        doThreadSleep(2, "초 뒤에 해당 타일로 이동합니다.", true);
+        doThreadSleep(3, "초 뒤에 해당 타일로 이동합니다.", true);
     }
 
     @Override

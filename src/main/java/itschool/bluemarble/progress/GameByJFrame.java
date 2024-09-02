@@ -31,7 +31,7 @@ public class GameByJFrame extends JFrame implements GameInterface {
 
 
     @Override
-    public void showMap(Player player, Dice dice) {
+    public void showMap() {
 
     }
 

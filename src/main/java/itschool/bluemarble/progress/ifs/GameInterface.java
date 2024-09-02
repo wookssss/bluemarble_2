@@ -6,7 +6,7 @@ import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 
 public interface GameInterface {
-    void showMap(Player player, Dice dice);
+    void showMap();
 
     void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent;
 
