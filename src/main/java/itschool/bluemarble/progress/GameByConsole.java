@@ -12,6 +12,7 @@ import java.util.Scanner;
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
 public class GameByConsole extends Game {
     final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
+    private static final Scanner sc = new Scanner(System.in);
 
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
@@ -19,19 +20,21 @@ public class GameByConsole extends Game {
     }
 
     private void setPlayer(int numberOfPlayer) {
-        Scanner sc = new Scanner(System.in);
 
         System.out.println("============================================================================================");
         System.out.println("플레이어명은 한글 5자, 영문 또는 숫자 10자 이내로 입력이 가능합니다.");
         System.out.println("============================================================================================");
 
-        for (int i = 0; i < numberOfPlayer; i++) {
+        for(int i = 0; PLAYERS.size() < numberOfPlayer; i++) {
             System.out.print("플레이어" + (i+1) + " 이름 입력 : ");
 
-            String playerName = sc.next();
+            String playerName = sc.nextLine();
 
             if(checkPlayerNameLength(playerName) > 10) {
-                System.out.println("글자 제한을 초과하셨습니다. 다시 입력해주세요");
+                System.out.println("글자 제한을 초과하셨습니다. 다시 입력해주세요.");
+                i--;
+            } else if(isExistsDuplicateName(playerName)) {
+                System.out.println("이미 입력한 플레이어 이름입니다. 다시 입력해주세요.");
                 i--;
             } else {
                 PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
@@ -406,18 +409,25 @@ public class GameByConsole extends Game {
         return length;
     }
 
+    // 영문자와 한글간의 칸수 설정을 위한 메소드
+    private boolean isExistsDuplicateName (String playerName) {
+        for (int i = 0; i < PLAYERS.size(); i++) {
+            if(PLAYERS.get(i).getName().equals(playerName))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean confirm(String message) {
-        Scanner sc = new Scanner(System.in);
-
         System.out.print(message + " (y/n)\n> ");
-        String input = sc.nextLine();
+        String input = sc.nextLine().trim();
 
-        if ("y".equals(input) || "Y".equals(input) || "".equals(input)) {
+        if ("y".equalsIgnoreCase(input) || "".equals(input)) {
             return true;
         }
 
-        return false;
+        return confirm(message);
     }
 
     @Override
@@ -429,8 +439,6 @@ public class GameByConsole extends Game {
     }
 
     public static int requestTileIndex(Player player) {
-        Scanner sc = new Scanner(System.in);
-
         int tileIndex = -1;
 
         do {
@@ -503,7 +511,7 @@ public class GameByConsole extends Game {
 
     @Override
     public void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey) {
-        doThreadSleep(5, "초 뒤에 황금열쇠 화면을 출력합니다.", true);
+        doThreadSleep(0, "황금열쇠 화면을 출력합니다.", false);
         System.out.println("\n===================================   황금열쇠 드로우    ===================================\n");
         System.out.println(player.getName() + "님이 황금 열쇠를 뽑습니다.");
         System.out.println(goldenKey);
@@ -513,7 +521,7 @@ public class GameByConsole extends Game {
 
     @Override
     public void printOutOfException(RuntimeException exception) {
-        doThreadSleep(5, "초 뒤에 이벤트 화면을 출력합니다.", true);
+        doThreadSleep(3, "초 뒤에 이벤트 화면을 출력합니다.", true);
         System.out.println("\n=====================================     이벤트 발생     =====================================");
         System.out.println(exception.getMessage());
         System.out.println("============================================================================================\n");
@@ -523,10 +531,10 @@ public class GameByConsole extends Game {
         doThreadSleep(0, "도착지 정보를 찾고 있습니다.", false);
 
         System.out.println("=====================================     이동 페이즈     =====================================\n");
-        System.out.println(TILES.get(player.getLocation()).getName() + "으로 이동합니다.\n");
+        System.out.println(TILES.get(player.getLocation()).getName() + "(으)로 이동합니다.\n");
         System.out.println("============================================================================================\n");
 
-        doThreadSleep(5, "초 뒤에 해당 타일로 이동합니다.", true);
+        doThreadSleep(2, "초 뒤에 해당 타일로 이동합니다.", true);
     }
 
     @Override
