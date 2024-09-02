@@ -404,8 +404,7 @@ public class GameByConsole extends Game {
             if (playerName.charAt(i) >= 'a' && playerName.charAt(i) <= 'z'
                 || playerName.charAt(i) >= 'A' && playerName.charAt(i) <= 'Z'
                 || playerName.charAt(i) >= '1' && playerName.charAt(i) <= '9'
-                || playerName.charAt(i) == '*'
-            )
+                || playerName.charAt(i) >= '!' && playerName.charAt(i) <= '/')
                 length++;
             else
                 length += 2;
