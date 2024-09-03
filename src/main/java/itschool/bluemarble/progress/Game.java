@@ -254,8 +254,7 @@ public abstract class Game implements GameInterface {
         donationParty.payAmountTo(player, donationParty.getAmount());
     }
 
-    private void arriveSpaceTravel(Player player, Tile currentTile) {
-        SpaceTravel spaceTravel = new SpaceTravel(player.getName());
+    private void arriveSpaceTravel(Player player) {
         choiceTile(player);
     }
 }

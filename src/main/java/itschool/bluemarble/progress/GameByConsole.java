@@ -447,7 +447,7 @@ public class GameByConsole extends Game {
         int tileIndex = -1;
 
         do {
-            System.out.print(player.getName() + "이동할 타일번호를 입력하세요. (0 ~ 39) :");
+            System.out.print(player.getName() + "님, 이동할 타일번호를 입력하세요. (0 ~ 39) :");
             tileIndex = sc.nextInt();
             sc.nextLine(); // 개행 버퍼 제거용
         } while(tileIndex < 0 || tileIndex > 39);
@@ -555,6 +555,12 @@ public class GameByConsole extends Game {
 
     @Override
     public void choiceTile(Player player) {
+        System.out.println("============================================================================================\n");
+        doThreadSleep(0, "우주여행을 시작합니다.");
+
         // 우주여행 타일 선택 메소드
+        int index = requestTileIndex(player);
+
+        player.moveByAbsoluteValue(index);
     }
 }
