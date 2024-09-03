@@ -7,7 +7,6 @@ import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
@@ -15,8 +14,8 @@ public class GameByConsole extends Game {
     private static final Scanner sc = new Scanner(System.in);
 
     final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
-    final private int MOREPAYERSTARTMONEY = 2_880_000;
-    final private int TWOPLAYERSTARTMONEY = 5_760_000;
+    final private int MORE_PLAYER_START_MONEY = 2_880_000;
+    final private int TWO_PLAYER_START_MONEY = MORE_PLAYER_START_MONEY * 2;
 
 
     private GameByConsole(int numberOfPlayer) {
@@ -43,9 +42,8 @@ public class GameByConsole extends Game {
                 i--;
             } else {
                 if(numberOfPlayer == 2) {
-                    PLAYERS.add(new Player(playerName,TWOPLAYERSTARTMONEY)); // name을 세팅할 생성자 필요
-                }else PLAYERS.add(new Player(playerName,MOREPAYERSTARTMONEY)); // name을 세팅할 생성자 필요
-
+                    PLAYERS.add(new Player(playerName, TWO_PLAYER_START_MONEY)); // name을 세팅할 생성자 필요
+                } else PLAYERS.add(new Player(playerName, MORE_PLAYER_START_MONEY)); // name을 세팅할 생성자 필요
             }
         }
         System.out.println("============================================================================================\n");
