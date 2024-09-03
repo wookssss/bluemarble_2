@@ -38,7 +38,7 @@ public class Player extends Payable {
     // 생성자 - 이름, 초기자금 셋팅
     public Player(String name, int amount) {
         this.name = name;
-        this.asset = amount;
+        this.cash = amount;
     }
 
 
@@ -85,7 +85,7 @@ public class Player extends Payable {
     public void payAllAssetsTo(Payable receiver) throws BankruptPlayerViolation {
         receiver.payAmountTo(receiver, this.asset);
         asset = 0;
-        amount = 0;
+        cash = 0;
         throw new BankruptPlayerViolation(this.name);
     }
 
@@ -98,7 +98,7 @@ public class Player extends Payable {
 
     // 대출금 default 100만원
     public void loan(){
-        amount += 1_000_000;
+        cash += 1_000_000;
         debt += 1_000_000;
         
     }
@@ -198,6 +198,7 @@ public class Player extends Payable {
         return "============================================================================================\n\n" +
                 "플레이어명 : " + name + "\n" +
                 "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
+                "보유 현금 = " + cash + "원" + '\n' +
                 "빚 = " + debt + "원" + '\n' +
                 "자산 = " + asset + "원" + '\n' +
                 "보유 열쇠 = " + goldenkeyList + '\n' +
@@ -207,7 +208,7 @@ public class Player extends Payable {
 
     /* 대출금 갚는 부분 보류 (우선 마지막 자산 계산 때 loanMoney - 계산
     public void loanRepay(int amount){
-        curMoney -= amount;
+        cash -= amount;
         loanMoney = 0;
     } */
 }

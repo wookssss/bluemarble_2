@@ -7,11 +7,11 @@ package itschool.bluemarble.model.entity.ifs;
 import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 
 public abstract class Payable {
-    public int amount;
+    public int cash; // 보유 현금
     public abstract void payAllAssetsTo(Payable receiver) throws Exception;
 
     public boolean payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
-        if(this.amount >= amount){
+        if(this.cash >= amount){
             minusAmount(amount);
             receiver.plusAmount(amount);
             return true;
@@ -21,13 +21,13 @@ public abstract class Payable {
     }
 
     public void plusAmount(int amount){
-        this.amount += amount;
+        this.cash += amount;
     }
     public void minusAmount (int amount){
-        this.amount -= amount;
+        this.cash -= amount;
     }
 
     public int getAmount() {
-        return amount;
+        return cash;
     }
 }
