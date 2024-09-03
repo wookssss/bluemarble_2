@@ -35,9 +35,10 @@ public class Player extends Payable {
     private List<PurchasableTile> myLandList = new ArrayList<>(); //보유하고 있는 땅
     private Bank bank = Bank.getInstance();
 
-
-    public Player(String name) {
+    // 생성자 - 이름, 초기자금 셋팅
+    public Player(String name, int amount) {
         this.name = name;
+        this.asset = amount;
     }
 
 
