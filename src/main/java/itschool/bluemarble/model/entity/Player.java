@@ -108,7 +108,7 @@ public class Player extends Payable {
         islandCount = 3;
     }
     //무인도 카운트-- 0이되면 탈출
-    public void islandStatus(){
+    public void stayIsland(){
         islandCount--;
         if (islandCount == 0)
             islandCount = 0;
@@ -198,9 +198,9 @@ public class Player extends Payable {
         return "============================================================================================\n\n" +
                 "플레이어명 : " + name + "\n" +
                 "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
-                "보유 현금 = " + cash + "원" + '\n' +
-                "빚 = " + debt + "원" + '\n' +
-                "자산 = " + asset + "원" + '\n' +
+                "보유 현금 = " + String.format("%d", cash) + "원" + '\n' +
+                "빚 = " + String.format("%d", debt) + "원" + '\n' +
+                "자산 = " + String.format("%d", asset) + "원" + '\n' +
                 "보유 열쇠 = " + goldenkeyList + '\n' +
                 "부동산 = " + myLandList + '\n' +
                 "\n============================================================================================";
