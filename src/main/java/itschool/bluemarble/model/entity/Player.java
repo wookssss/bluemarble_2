@@ -19,6 +19,7 @@ import itschool.bluemarble.model.factory.TileFactory;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +114,13 @@ public class Player extends Payable {
         if (islandCount == 0)
             islandCount = 0;
     }
+    //무인도 확인
+    public boolean checkIsland(){
+        if(islandCount!=0){
+            return true;
+        }
+        return false;
+    }
 
     // 땅 사기
     public void buyLand(PurchasableTile tile) throws PlayerHasNoMoneyViolation {
@@ -193,14 +201,20 @@ public class Player extends Payable {
         throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
     }
 
+    // 숫자 출력시 3자리수 , 추가
+    public String formatWithCommas(int number){
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(number);
+    }
+
     @Override
     public String toString() {
         return "============================================================================================\n\n" +
                 "플레이어명 : " + name + "\n" +
                 "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
-                "보유 현금 = " + String.format("%d", cash) + "원" + '\n' +
-                "빚 = " + String.format("%d", debt) + "원" + '\n' +
-                "자산 = " + String.format("%d", asset) + "원" + '\n' +
+                "보유 현금 = " + formatWithCommas(cash) + "원" + '\n' +
+                "빚 = " + formatWithCommas(debt) + "원" + '\n' +
+                "자산 = " + formatWithCommas(asset) + "원" + '\n' +
                 "보유 열쇠 = " + goldenkeyList + '\n' +
                 "부동산 = " + myLandList + '\n' +
                 "\n============================================================================================";
