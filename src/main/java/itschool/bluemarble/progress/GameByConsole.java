@@ -435,9 +435,11 @@ public class GameByConsole extends Game {
             System.out.print(message + " (y/n)\n> ");
             String input = sc.nextLine().trim();
 
-            if ("y".equalsIgnoreCase(input) || "".equals(""))
+            if("n".equalsIgnoreCase(input))
+                return false;
+            else if ("y".equalsIgnoreCase(input) || "".equals(""))
                 return true;
-            else if ("n".equalsIgnoreCase(input))
+            else
                 return false;
         }
     }
@@ -456,7 +458,8 @@ public class GameByConsole extends Game {
 
     @Override
     public void confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
-        if(confirm(player.getName() + "님 " + tile.getName() + "(" + formatWithCommas(tile.getPrice()) + "원)을/를 구입하시겠습니까?")) {
+        boolean needBuy = confirm(player.getName() + "님 " + tile.getName() + "(" + formatWithCommas(tile.getPrice()) + "원)을/를 구입하시겠습니까?");
+        if(needBuy) {
             System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입을 진행합니다.");
             player.buyLand(tile);
             Collections.sort(player.getMyLandList(), ((o1, o2) -> {
