@@ -455,12 +455,14 @@ public class GameByConsole extends Game {
         return tileIndex;
     }
 
-    private void doThreadSleep(int sec, String message, boolean needLineBreak) {
+    private void doThreadSleep(int sec, String message) {
 
         try {
             int totalMilliseconds = Math.max(sec * 1000, 1); // 최소 1 밀리초로 설정
             int elapsedMilliseconds = 0; // 경과된 시간
             int printInterval = 330; // 출력 주기 (밀리초)
+
+            boolean needLineBreak = (sec != 0);
 
             // 메시지 출력
             message = (sec > 0) ? sec + message : message;
@@ -517,7 +519,7 @@ public class GameByConsole extends Game {
 
     @Override
     public void printOutOfDrawedGoldenKey(Player player, GoldenKey goldenKey) {
-        doThreadSleep(0, "황금열쇠 화면을 출력합니다.", false);
+        doThreadSleep(0, "황금열쇠 화면을 출력합니다.");
         System.out.println("\n===================================   황금열쇠 드로우    ===================================\n");
         System.out.println(player.getName() + "님이 황금 열쇠를 뽑습니다.");
         System.out.println(goldenKey);
@@ -527,26 +529,26 @@ public class GameByConsole extends Game {
 
     @Override
     public void printOutOfException(RuntimeException exception) {
-        doThreadSleep(3, "초 뒤에 이벤트 화면을 출력합니다.", true);
+        doThreadSleep(0, "이벤트가 발생했습니다.");
         System.out.println("\n=====================================     이벤트 발생     =====================================");
         System.out.println(exception.getMessage());
         System.out.println("============================================================================================\n");
     }
     @Override
     public void printOutOfMoving(Player player) {
-        doThreadSleep(0, "도착지 정보를 찾고 있습니다.", false);
+        doThreadSleep(0, "도착지 정보를 찾고 있습니다.");
 
         System.out.println("=====================================     이동 페이즈     =====================================\n");
         System.out.println(TILES.get(player.getLocation()).getName() + "(으)로 이동합니다.\n");
         System.out.println("============================================================================================\n");
 
-        doThreadSleep(3, "초 뒤에 해당 타일로 이동합니다.", true);
+        doThreadSleep(0, "해당 타일로 이동합니다.");
     }
 
     @Override
     public void printOutOfPlayerInfo(Player player) {
         System.out.println("============================================================================================\n");
-        doThreadSleep(0, "사용자 정보를 찾는 중입니다", false);
+        doThreadSleep(0, "사용자 정보를 찾는 중입니다");
 
         System.out.println(player);
     }
