@@ -1,9 +1,11 @@
 package itschool.bluemarble.progress.ifs;
 
 import itschool.bluemarble.exception.event.HoldableKeyEvent;
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
+import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
 import java.lang.management.PlatformLoggingMXBean;
 
@@ -11,6 +13,8 @@ public interface GameInterface {
     void showMap();
 
     void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent;
+
+    void confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation;
 
     boolean confirm(String message);
 

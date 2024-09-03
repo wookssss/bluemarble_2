@@ -6,4 +6,9 @@ public class Hotel extends Construction {
     public Hotel(int price) {
         super(price);
     }
+
+    @Override
+    public String toString() {
+        return "호텔";
+    }
 }

@@ -7,4 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Tile {
     protected String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

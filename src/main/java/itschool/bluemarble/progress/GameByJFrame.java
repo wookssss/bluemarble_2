@@ -1,9 +1,11 @@
 package itschool.bluemarble.progress;
 
 import itschool.bluemarble.exception.event.HoldableKeyEvent;
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
+import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.progress.ifs.GameInterface;
 import itschool.bluemarble.progress.panel.WelcomePanel;
 
@@ -37,6 +39,11 @@ public class GameByJFrame extends JFrame implements GameInterface {
 
     @Override
     public void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent {
+
+    }
+
+    @Override
+    public void confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
 
     }
 

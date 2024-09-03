@@ -1,12 +1,16 @@
 package itschool.bluemarble.progress;
 
 import itschool.bluemarble.exception.event.HoldableKeyEvent;
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
+import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
+import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Scanner;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
@@ -26,7 +30,7 @@ public class GameByConsole extends Game {
     private void setPlayer(int numberOfPlayer) {
 
         System.out.println("============================================================================================");
-        System.out.println("플레이어명은 한글 5자, 영문 또는 숫자 10자 이내로 입력이 가능합니다.");
+        System.out.println("플레이어명은 한글 1~5자, 영문 또는 숫자 1~10자로 입력이 가능합니다.");
         System.out.println("============================================================================================");
 
         for(int i = 0; PLAYERS.size() < numberOfPlayer; i++) {
@@ -34,7 +38,9 @@ public class GameByConsole extends Game {
 
             String playerName = sc.nextLine();
 
-            if(checkPlayerNameLength(playerName) > 10) {
+            int nameLength = checkPlayerNameLength(playerName);
+
+            if(nameLength > 10 || nameLength < 1) {
                 System.out.println("글자 제한을 초과하셨습니다. 다시 입력해주세요.");
                 i--;
             } else if(isExistsDuplicateName(playerName)) {
@@ -425,21 +431,39 @@ public class GameByConsole extends Game {
 
     @Override
     public boolean confirm(String message) {
-        System.out.print(message + " (y)\n> ");
-        String input = sc.nextLine().trim();
+        while(true) {
+            System.out.print(message + " (y/n)\n> ");
+            String input = sc.nextLine().trim();
 
-        if ("y".equalsIgnoreCase(input) || "".equals("")) {
-            return true;
+            if ("y".equalsIgnoreCase(input) || "".equals(""))
+                return true;
+            else if ("n".equalsIgnoreCase(input))
+                return false;
         }
-
-        return confirm(message);
     }
 
     @Override
     public void confirmToUseGoldenKey(Player player, GoldenKey goldenKey) throws HoldableKeyEvent {
         if(confirm(player.getName() + "님 " + goldenKey.getTitle() + "을 사용하시겠습니까?")) {
-            GoldenKey needUse = player.useGoldenKey(goldenKey);
-            throw new HoldableKeyEvent(needUse.getTitle());
+            try {
+                GoldenKey needUse = player.useGoldenKey(goldenKey);
+                throw new HoldableKeyEvent(needUse.getTitle());
+            } catch (RuntimeException e) { // 황금열쇠가 존재하지 않음
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
+        if(confirm(player.getName() + "님 " + tile.getName() + "(" + formatWithCommas(tile.getPrice()) + "원)을/를 구입하시겠습니까?")) {
+            System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입을 진행합니다.");
+            player.buyLand(tile);
+            Collections.sort(player.getMyLandList(), ((o1, o2) -> {
+                return TILES.indexOf(o1) - TILES.indexOf(o2);
+            }));
+        } else {
+            System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입 의사가 없습니다.");
         }
     }
 
@@ -562,5 +586,11 @@ public class GameByConsole extends Game {
         int index = requestTileIndex(player);
 
         player.moveByAbsoluteValue(index);
+    }
+
+    // 숫자 출력시 3자리수 , 추가
+    public static String formatWithCommas(int number){
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        return formatter.format(number);
     }
 }

@@ -1,6 +1,5 @@
 package itschool.bluemarble.model.entity.tile;
 
-import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.abs.ConstructibleTile;
 import lombok.Getter;
 import lombok.Setter;

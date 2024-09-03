@@ -18,6 +18,8 @@ import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.InstantFunction;
 import itschool.bluemarble.progress.ifs.GameInterface;
+import itschool.bluemarble.progress.phase.MovePhase;
+import itschool.bluemarble.progress.phase.RollDicePhase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,7 +117,7 @@ public abstract class Game implements GameInterface {
         do { // 더블이 나오면 나머지 페이즈 다 수행하고 다시 던진다.
             if (checkTurn(player, dice)) { // 턴 수행 여부 및 직전에 더블인지 체크
 
-                dice = rollDicePhase(player, dice);
+                dice = RollDicePhase.rollDice(player, dice);
 
                 // 주사위 결과 출력
                 printOutDiceResult(player, dice);
@@ -125,24 +127,25 @@ public abstract class Game implements GameInterface {
 
                 if (dice.getDoubleCount() == 3 & dice.isDouble()) {
                     player.moveByAbsoluteValue(10); // 무인도(10) 타일로 이동
-                    afterRollIndex = 10;
+                    // afterRollIndex = 10;
+                    break;
                 } else {
-                    afterRollIndex = movePhase(player, (dice.getDice1() + dice.getDice2()));
+                    afterRollIndex = MovePhase.move(player, (dice.getDice1() + dice.getDice2()));
                 }
 
                 // 이동 결과 출력
                 printOutOfMoving(player);
 
                 // 타일 맵 출력
-                ClearConsole();
-                showMap();
+                // ClearConsole();
+                // showMap();
 
                 // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
                 arriveTilePhase(player, afterRollIndex);
 
-                // 도착한 타일 구입 확인, 구입, 통행료 지불 등을 할 추가 페이즈 필요해보임(현 메소드에서 분리하여 페이즈명 지어보기)
+                // 현재 플레이어 정보 출력
+                printOutOfPlayerInfo(player);
 
-                // 우주 여행 등 특수 타일에 대한 특수 페이즈도 필요해보임
             }
         } while (dice.isDouble()); // 더블이면 턴 내 페이즈를 재수행한다.
     }
@@ -161,19 +164,7 @@ public abstract class Game implements GameInterface {
         return confirm(message.toString());
     }
 
-    private Dice rollDicePhase(Player player, Dice dice) {
-
-        dice.roll();
-
-        return dice;
-    }
-
-
-    private int movePhase(Player player, int rel) {
-        int index = player.moveByRelativeValue(rel);
-        return index;
-    }
-
+    // 도착한 타일 구입 확인, 구입, 통행료 지불 등을 할 추가 페이즈
     private void arriveTilePhase(Player player, int index) throws RuntimeException {
 
         Tile currentTile = (Tile) TILES.get(index);
@@ -184,7 +175,7 @@ public abstract class Game implements GameInterface {
         }
 
         if (currentTile instanceof PurchasableTile) { // 건물 지을 수 있는 도시
-            arrivePurchasableTile(player, currentTile);
+            arrivePurchasableTile(player, (PurchasableTile)currentTile);
         } else if (currentTile instanceof Island) { // 무인도
             // arriveIsland(player, currentTile);
         } else if (currentTile instanceof FixedTollCity) { // 제주도, 부산, 콩고드, 퀸엘리자베스호 등
@@ -194,7 +185,8 @@ public abstract class Game implements GameInterface {
         } else if (currentTile instanceof DonationParty) { // 사회복지기금 수령처
             // arriveDonationParty(player, currentTile);
         } else if (currentTile instanceof SpaceTravel) { // 우주 여행
-            // arriveSpaceTravel(player, currentTile);
+            // 우주 여행 등 특수 타일에 대한 특수
+            arriveSpaceTravel(player);
         } else {
             // 시작 타일.. 수행 할 것  없음
         }
@@ -207,24 +199,31 @@ public abstract class Game implements GameInterface {
 
         printOutOfDrawedGoldenKey(player, goldenKey);
 
-        if (goldenKey.getFunction() instanceof InstantFunction) // 즉시 수행해야 하는 인스턴트 평션
+        if (goldenKey.getFunction() instanceof InstantFunction) // 즉시 수-행해야 하는 인스턴트 평션
             ((InstantFunction) goldenKey.getFunction()).execute(player); // 반액대매출에서 PlayerHasNoLandViolation 예외 던질 수 있음
     }
 
-    private void arrivePurchasableTile(Player player, Tile tile) throws HoldableKeyEvent, PlayerHasNoMoneyViolation {
-        boolean shouldPay = ((PurchasableTile) tile).shouldPay(player);
+    private void arrivePurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
+        boolean shouldPay = tile.shouldPay(player);
         if (shouldPay) { // 통행료를 내야하는 상황
 
             // confirmToUseGoldenKey 발생 가능 예외
             // RuntimeException : 해당 황금열쇠가 존재하지 않음
             // HoldableKeyEvent : 황금열쇠 사용 완료
-            confirmToUseGoldenKey(player, player.findTollFreePassKey());
-
+            try {
+                if(player.hasTollFreePassKey(player))
+                    confirmToUseGoldenKey(player, player.findTollFreePassKey());
+            } catch (HoldableKeyEvent e) {
+                System.out.println(e.getMessage());
+                return;
+            }
 
             // 땅의 주인에게 통행료 지불 로직 필요
+            // 통행료 지불 불가한 경우 PlayerHasNoMoneyViolation 발생
+            player.payAmountTo(tile.getOwner(), tile.getPrice());
 
-
-            // 통행료 지불 불가한 경우 PlayerHasNoMoneyViolation 발생 필요
+        } else { // 부동산 주인이 없음, 구입 여부 확인 및 구입 진행
+            confirmToBuyPurchasableTile(player, tile);
         }
     }
 

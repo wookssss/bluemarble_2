@@ -16,6 +16,7 @@ import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.goldenKey.ifs.HoldableFunction;
 import itschool.bluemarble.model.factory.TileFactory;
+import itschool.bluemarble.progress.GameByConsole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -104,6 +105,14 @@ public class Player extends Payable {
         
     }
 
+    public void plusAsset(int amount) {
+        asset += amount;
+    }
+
+    public void minusAsset(int amount) {
+        asset -= amount;
+    }
+
     //무인도 도착시 무인도 카운트 3으로 설정
     public void arriveIsland(){
         islandCount = 3;
@@ -124,13 +133,8 @@ public class Player extends Payable {
 
     // 땅 사기
     public void buyLand(PurchasableTile tile) throws PlayerHasNoMoneyViolation {
-        try {
-            tile.purchaseTile(this);
-            myLandList.add(tile);
-        } catch (Exception e){
-            throw e;
-        }
-
+        tile.purchaseTile(this);
+        myLandList.add(tile);
     }
 
     // 땅 팔기
@@ -201,12 +205,6 @@ public class Player extends Payable {
         throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
     }
 
-    // 숫자 출력시 3자리수 , 추가
-    public String formatWithCommas(int number){
-        DecimalFormat formatter = new DecimalFormat("#,###");
-        return formatter.format(number);
-    }
-
     @Override
     public String toString() {
         if(islandCount!=0){ //무인도에 체류하고 있는 player는 무인도 체류 횟수 포함해서 출력
@@ -214,9 +212,9 @@ public class Player extends Payable {
                     "플레이어명 : " + name + "\n" +
                     "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
                     "남은 무인도 체류 횟수" + islandCount + "회" + '\n' +
-                    "보유 현금 = " + formatWithCommas(cash) + "원" + '\n' +
-                    "빚 = " + formatWithCommas(debt) + "원" + '\n' +
-                    "자산 = " + formatWithCommas(asset) + "원" + '\n' +
+                    "보유 현금 = " + GameByConsole.formatWithCommas(cash) + "원" + '\n' +
+                    "빚 = " + GameByConsole.formatWithCommas(debt) + "원" + '\n' +
+                    "자산 = " + GameByConsole.formatWithCommas(asset) + "원" + '\n' +
                     "보유 열쇠 = " + goldenkeyList + '\n' +
                     "부동산 = " + myLandList + '\n' +
                     "\n============================================================================================";
@@ -225,9 +223,9 @@ public class Player extends Payable {
             return "============================================================================================\n\n" +
                     "플레이어명 : " + name + "\n" +
                     "현재 위치 = " + TileFactory.getTiles().get(location).getName() + "[" + location + "]\n" +
-                    "보유 현금 = " + formatWithCommas(cash) + "원" + '\n' +
-                    "빚 = " + formatWithCommas(debt) + "원" + '\n' +
-                    "자산 = " + formatWithCommas(asset) + "원" + '\n' +
+                    "보유 현금 = " + GameByConsole.formatWithCommas(cash) + "원" + '\n' +
+                    "빚 = " + GameByConsole.formatWithCommas(debt) + "원" + '\n' +
+                    "자산 = " + GameByConsole.formatWithCommas(asset) + "원" + '\n' +
                     "보유 열쇠 = " + goldenkeyList + '\n' +
                     "부동산 = " + myLandList + '\n' +
                     "\n============================================================================================";

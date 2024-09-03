@@ -6,15 +6,17 @@ import itschool.bluemarble.model.entity.construction.Hotel;
 import itschool.bluemarble.model.entity.construction.Villa;
 import itschool.bluemarble.model.entity.construction.abs.Construction;
 import itschool.bluemarble.model.enumclass.Color;
+import itschool.bluemarble.progress.GameByConsole;
+import lombok.Getter;
 
 public abstract class ConstructibleTile extends PurchasableTile {
 
-    private Construction construction = null; // 현재 건물
-    
-    private Villa villa;
-    private Building building;
-    private Hotel hotel;
-    private Color color;
+    protected Construction construction = null; // 현재 건물
+
+    protected Villa villa;
+    protected Building building;
+    protected Hotel hotel;
+    protected Color color;
     
     public ConstructibleTile(String name) {
         super(name);
@@ -167,4 +169,15 @@ public abstract class ConstructibleTile extends PurchasableTile {
     // 건물을 산다 (이미 있는 경우에는 판 다음에 살 수 있다)
 
     // 건물을 판다
+
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(name + "(");
+        sb.append((construction != null)? construction + "有," : "");
+        sb.append(GameByConsole.formatWithCommas(price) + ", " + GameByConsole.formatWithCommas(toll) + ")");
+
+        return sb.toString();
+    }
 }

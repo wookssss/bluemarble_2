@@ -3,6 +3,8 @@ package itschool.bluemarble.model.entity.tile.abs;
 import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
+import itschool.bluemarble.progress.Game;
+import itschool.bluemarble.progress.GameByConsole;
 import lombok.Getter;
 
 @Getter
@@ -100,6 +102,7 @@ public abstract class PurchasableTile extends Tile {
     public void purchaseTile(Player player) throws PlayerHasNoMoneyViolation {
         if(isPurchasable()) {
             player.payAmountToBank(price);
+            player.plusAsset(price);
             this.owner = player;
         } else {
             throw new RuntimeException("이미 주인이 있는 땅입니다.");
@@ -115,5 +118,10 @@ public abstract class PurchasableTile extends Tile {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public String toString() {
+        return name + '(' + GameByConsole.formatWithCommas(price) + "," + GameByConsole.formatWithCommas(toll) + ')';
     }
 }

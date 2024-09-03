@@ -6,4 +6,9 @@ public class Villa extends Construction {
     public Villa(int price) {
         super(price);
     }
+
+    @Override
+    public String toString() {
+        return "빌라";
+    }
 }
