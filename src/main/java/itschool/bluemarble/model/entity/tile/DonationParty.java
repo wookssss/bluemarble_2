@@ -4,7 +4,7 @@ import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.ifs.Payable;
 
 public class DonationParty extends Tile {
-    private int amount;
+    private int amount=0;
 
     // 싱글톤 시작
     final private static DonationParty instance = new DonationParty();
@@ -23,7 +23,7 @@ public class DonationParty extends Tile {
         receiver.plusAmount(this.amount);
         this.amount = 0;
     }
-
+    public int getAmount(){ return this.amount; }
     public void plusAmount(int amount) {
         this.amount += amount;
     }

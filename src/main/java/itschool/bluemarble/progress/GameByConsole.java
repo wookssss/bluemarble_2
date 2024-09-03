@@ -552,4 +552,9 @@ public class GameByConsole extends Game {
 
         System.out.println(player);
     }
+
+    @Override
+    public void choiceTile(Player player) {
+        // 우주여행 타일 선택 메소드
+    }
 }

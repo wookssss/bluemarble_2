@@ -229,7 +229,6 @@ public abstract class Game implements GameInterface {
     }
 
     private void arriveIsland(Player player, Tile currentTile) {
-        // 무인도 도착 로직
         player.arriveIsland(); // 카운트가 0이 되면 탈출하도록 초기 카운트 3으로 설정
     }
 
@@ -240,20 +239,23 @@ public abstract class Game implements GameInterface {
     private void arriveGiveDonation(Player player, Tile currentTile) {
         GiveDonation giveDonation = new GiveDonation();
         DonationParty donationParty = DonationParty.getInstance();
-        // GiveDonation 이름으로 할지는 회의 필요
-        if(currentTile instanceof GiveDonation){
-            player.payAmountToBank(150_000);
-            donationParty.plusAmount(150_000);
-        }
-        // 사회보장기금 접수처 도착 로직 필요
+
+        // 은행에 15만원 지불
+        player.payAmountToBank(150_000);
+
+        // 사회복지기금 수령처 잔액은 15만원 증가
+        donationParty.plusAmount(150_000);
     }
 
     private void arriveDonationParty(Player player, Tile currentTile) {
-        // DonationParty 이름으로 할지는 회의 필요
-        // 사회보장기금 수령처 도착 로직 필요
+        DonationParty donationParty = DonationParty.getInstance();
+
+        // 도착한 플레이어에게 지불
+        donationParty.payAmountTo(player, donationParty.getAmount());
     }
 
     private void arriveSpaceTravel(Player player, Tile currentTile) {
-        // 우주여행 도착 로직 필요
+        SpaceTravel spaceTravel = new SpaceTravel(player.getName());
+        choiceTile(player);
     }
 }

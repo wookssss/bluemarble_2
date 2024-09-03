@@ -69,4 +69,8 @@ public class GameByJFrame extends JFrame implements GameInterface {
     public void printOutOfMoving(Player player) {
 
     }
+
+    public void choiceTile(Player player){
+
+    }
 }

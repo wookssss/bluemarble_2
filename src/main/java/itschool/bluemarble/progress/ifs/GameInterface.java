@@ -5,6 +5,8 @@ import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 
+import java.lang.management.PlatformLoggingMXBean;
+
 public interface GameInterface {
     void showMap();
 
@@ -21,4 +23,6 @@ public interface GameInterface {
     void printOutOfPlayerInfo(Player player);
 
     void printOutOfMoving(Player player);
+
+    void choiceTile(Player player);
 }
