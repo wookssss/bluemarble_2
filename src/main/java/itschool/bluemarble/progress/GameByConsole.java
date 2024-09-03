@@ -15,6 +15,9 @@ public class GameByConsole extends Game {
     private static final Scanner sc = new Scanner(System.in);
 
     final private int TILE_WIDTH = 9; // 콘솔에 타일 폭 확인
+    final private int MOREPAYERSTARTMONEY = 2_880_000;
+    final private int TWOPLAYERSTARTMONEY = 5_760_000;
+
 
     private GameByConsole(int numberOfPlayer) {
         super(numberOfPlayer);
@@ -39,7 +42,10 @@ public class GameByConsole extends Game {
                 System.out.println("이미 입력한 플레이어 이름입니다. 다시 입력해주세요.");
                 i--;
             } else {
-                PLAYERS.add(new Player(playerName)); // name을 세팅할 생성자 필요
+                if(numberOfPlayer == 2) {
+                    PLAYERS.add(new Player(playerName,TWOPLAYERSTARTMONEY)); // name을 세팅할 생성자 필요
+                }else PLAYERS.add(new Player(playerName,MOREPAYERSTARTMONEY)); // name을 세팅할 생성자 필요
+
             }
         }
         System.out.println("============================================================================================\n");
