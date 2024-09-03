@@ -1,5 +1,6 @@
 package itschool.bluemarble.model.entity.tile;
 
+import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.ifs.Payable;
 
 public class DonationParty extends Tile {
