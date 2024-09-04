@@ -2,6 +2,7 @@ package itschool.bluemarble.model.factory;
 
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.tile.*;
+import itschool.bluemarble.model.entity.tile.abs.City;
 
 import java.util.ArrayList;
 import java.util.Arrays;

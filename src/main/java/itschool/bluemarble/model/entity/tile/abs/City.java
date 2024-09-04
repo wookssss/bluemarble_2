@@ -6,22 +6,25 @@ import itschool.bluemarble.model.entity.construction.Hotel;
 import itschool.bluemarble.model.entity.construction.Villa;
 import itschool.bluemarble.model.entity.construction.abs.Construction;
 import itschool.bluemarble.model.enumclass.Color;
-import itschool.bluemarble.progress.GameByConsole;
+import itschool.bluemarble.model.enumclass.ConstructionType;
 import lombok.Getter;
 
-public abstract class ConstructibleTile extends PurchasableTile {
+@Getter
+public class City extends PurchasableTile {
 
     protected Construction construction = null; // 현재 건물
+    protected ConstructionType constructionType = null; // 현재 건물
 
     protected Villa villa;
     protected Building building;
     protected Hotel hotel;
     protected Color color;
     
-    public ConstructibleTile(String name) {
+    // 생성자
+    public City(String name) {
         super(name);
     }
-
+    
     // 초기화 블록
     {
         // 색깔 정의
@@ -166,12 +169,45 @@ public abstract class ConstructibleTile extends PurchasableTile {
                 break;
         }
     }
+
+    // 지역명(파라미터)에 따라 땅 구매가 리턴
+    // 지역명(파라미터)에 따라 빌라 구매가 리턴
+    // 지역명(파라미터)에 따라 빌딩 구매가 리턴
+    // 지역명(파라미터)에 따라 호텔 구매가 리턴
+
+    // 지역명(파라미터)에 따라 땅 통행료 리턴
+    // 지역명(파라미터)에 따라 빌라 통행료 리턴
+    // 지역명(파라미터)에 따라 빌딩 통행료 리턴
+    // 지역명(파라미터)에 따라 호텔 통행료 리턴
+
     // 건물을 산다 (이미 있는 경우에는 판 다음에 살 수 있다)
-
-    // 건물을 판다
-
+    // 1. 빌라 | 2. 빌딩 | 3. 호텔
+    // 타일의 주인 필드를 땅을 구매한 플레이어 이름으로 변경
+    public void purchaseCity(Player player) {
+        if(!isPurchasable() && super.owner == player) {
+            if(constructionType == ConstructionType.VILLA) {
+                System.out.println("이미 빌라가 건설되어있습니다.");
+            } else if (constructionType == ConstructionType.BUILDING) {
+                System.out.println("이미 빌딩이 건설되어있습니다.");
+            } else if (constructionType == ConstructionType.HOTEL) {
+                System.out.println("이미 호텔이 건설되어있습니다.");
+            } else { // constructionType == null 일 때
+                System.out.println("미완성 메소드");
+            }
+        }
+    }
 
     @Override
+    public int getToll() throws Exception {
+        if(!isPurchasable()) {
+            // ConstructibleTile에서 건물 여부를 체크하고 합산하는 메소드가 필요함
+
+        }
+        return 0;
+    }
+
+    // 건물을 판다
+    /*@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name + "(");
@@ -179,5 +215,5 @@ public abstract class ConstructibleTile extends PurchasableTile {
         sb.append(GameByConsole.formatWithCommas(price) + ", " + GameByConsole.formatWithCommas(toll) + ")");
 
         return sb.toString();
-    }
+    }*/
 }

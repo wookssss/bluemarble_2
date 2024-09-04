@@ -4,9 +4,9 @@ import itschool.bluemarble.exception.event.HoldableKeyEvent;
 import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
-import itschool.bluemarble.model.entity.tile.City;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.tile.Tile;
+import itschool.bluemarble.model.entity.tile.abs.City;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
 import java.text.DecimalFormat;
