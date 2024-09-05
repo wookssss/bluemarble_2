@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 public class City extends PurchasableTile {
-
+    
     protected Construction construction = null; // 현재 건물
     protected ConstructionType constructionType = null; // 현재 건물
 
@@ -230,4 +230,5 @@ public class City extends PurchasableTile {
 
         return sb.toString();
     }*/
+    //ㅇㅇ
 }
