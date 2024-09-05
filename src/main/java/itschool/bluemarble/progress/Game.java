@@ -228,6 +228,7 @@ public abstract class Game implements GameInterface {
     }
 
     private void arriveIsland(Player player, Tile currentTile) {
+        Island island = new Island();
         player.arriveIsland(); // 카운트가 0이 되면 탈출하도록 초기 카운트 3으로 설정
     }
 
