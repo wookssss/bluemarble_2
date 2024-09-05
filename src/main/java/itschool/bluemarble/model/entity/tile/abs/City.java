@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 public class City extends PurchasableTile {
-
+    
     protected Construction construction = null; // 현재 건물
     protected ConstructionType constructionType = null; // 현재 건물
 
@@ -180,22 +180,36 @@ public class City extends PurchasableTile {
     // 지역명(파라미터)에 따라 빌딩 통행료 리턴
     // 지역명(파라미터)에 따라 호텔 통행료 리턴
 
-    // 건물을 산다 (이미 있는 경우에는 판 다음에 살 수 있다)
-    // 1. 빌라 | 2. 빌딩 | 3. 호텔
-    // 타일의 주인 필드를 땅을 구매한 플레이어 이름으로 변경
-    public void purchaseCity(Player player) {
-        if(!isPurchasable() && super.owner == player) {
-            if(constructionType == ConstructionType.VILLA) {
-                System.out.println("이미 빌라가 건설되어있습니다.");
-            } else if (constructionType == ConstructionType.BUILDING) {
-                System.out.println("이미 빌딩이 건설되어있습니다.");
-            } else if (constructionType == ConstructionType.HOTEL) {
-                System.out.println("이미 호텔이 건설되어있습니다.");
-            } else { // constructionType == null 일 때
-                System.out.println("미완성 메소드");
+    // isPurchasable() 메소드 실행 후 리턴값이 false 일 때 실행하는 메소드
+    // 1 : 건물 구매 가능 | 2 : 내 땅이지만 이미 건물을 보유중 | 3 : 남의 땅이므로 통행료 지급
+    public int isCity(Player player) {
+        if(super.owner == player) {
+            if(constructionType == null) {
+                return 1;
+            } else {
+                return 2;
             }
+        } else {
+            return 3;
         }
     }
+
+    // isCity() 메소드에서 1이 출력됐을 때 구매 여부 확인 후 실행
+    // VILLA 구매
+    public int isVillaPrice() {
+        return color.getVillaPrice();
+    }
+
+    // BUILDING 구매
+    public int isBuildingPrice() {
+        return color.getBuildingPrice();
+    }
+
+    // HOTEL 구매
+    public int isHotelPrice() {
+        return color.getHotelPrice();
+    }
+
 
     @Override
     public int getToll() throws Exception {
@@ -216,4 +230,5 @@ public class City extends PurchasableTile {
 
         return sb.toString();
     }*/
+    //ㅇㅇ
 }
