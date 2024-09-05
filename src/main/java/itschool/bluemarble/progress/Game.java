@@ -130,24 +130,28 @@ public abstract class Game implements GameInterface {
                     // afterRollIndex = 10;
                     break;
                 } else {
-                    afterRollIndex = MovePhase.move(player, (dice.getDice1() + dice.getDice2()));
+                    if (player.checkIsland()) {
+                        player.stayIsland();
+                        break;
+                    }else {
+                        afterRollIndex = MovePhase.move(player, (dice.getDice1() + dice.getDice2()));
+                    }
                 }
 
                 // 이동 결과 출력
                 printOutOfMoving(player);
-
-                // 타일 맵 출력
-                // ClearConsole();
-                // showMap();
 
                 // 도착한 타일에 대한 수행 페이즈(황금열쇠, 도시, 특수 도시)
                 arriveTilePhase(player, afterRollIndex);
 
                 // 현재 플레이어 정보 출력
                 printOutOfPlayerInfo(player);
+                if (player.checkIsland()) {
+                    break;
+                }
 
             }
-        } while (dice.isDouble()); // 더블이면 턴 내 페이즈를 재수행한다.
+        } while (dice.isDouble() ); // 더블이면 턴 내 페이즈를 재수행한다.
     }
 
     private boolean checkTurn(Player player, Dice dice) {
@@ -177,7 +181,7 @@ public abstract class Game implements GameInterface {
         if (currentTile instanceof PurchasableTile) { // 건물 지을 수 있는 도시
             arrivePurchasableTile(player, (PurchasableTile)currentTile);
         } else if (currentTile instanceof Island) { // 무인도
-            // arriveIsland(player, currentTile);
+             arriveIsland(player, (Island) currentTile);
         } else if (currentTile instanceof FixedTollCity) { // 제주도, 부산, 콩고드, 퀸엘리자베스호 등
             // arriveFixedTollCity(player, currentTile);
         } else if (currentTile instanceof GiveDonation) { // 사회복지기금 지급처
@@ -227,8 +231,8 @@ public abstract class Game implements GameInterface {
         }
     }
 
-    private void arriveIsland(Player player, Tile currentTile) {
-
+    private void arriveIsland(Player player, Island island) {
+        island.getSpecialFunction();
         player.arriveIsland(); // 카운트가 0이 되면 탈출하도록 초기 카운트 3으로 설정
     }
 
