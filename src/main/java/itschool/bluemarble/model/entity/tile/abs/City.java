@@ -230,5 +230,4 @@ public class City extends PurchasableTile {
 
         return sb.toString();
     }*/
-    //ㅇㅇ
 }
