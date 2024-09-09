@@ -77,7 +77,13 @@ public class GameByJFrame extends JFrame implements GameInterface {
 
     }
 
+    @Override
     public void choiceTile(Player player){
+
+    }
+
+    @Override
+    public void printOutOfIslandCount(Player player) {
 
     }
 }

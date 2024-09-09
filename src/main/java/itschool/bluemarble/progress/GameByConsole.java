@@ -36,7 +36,7 @@ public class GameByConsole extends Game {
         for(int i = 0; PLAYERS.size() < numberOfPlayer; i++) {
             System.out.print("플레이어" + (i+1) + " 이름 입력 : ");
 
-            String playerName = sc.nextLine();
+            String playerName = sc.nextLine().trim();
 
             int nameLength = checkPlayerNameLength(playerName);
 
@@ -595,5 +595,10 @@ public class GameByConsole extends Game {
     public static String formatWithCommas(int number){
         DecimalFormat formatter = new DecimalFormat("#,###");
         return formatter.format(number);
+    }
+
+    @Override
+    public void printOutOfIslandCount(Player player) {
+
     }
 }

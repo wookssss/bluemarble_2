@@ -7,8 +7,6 @@ import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
-import java.lang.management.PlatformLoggingMXBean;
-
 public interface GameInterface {
     void showMap();
 
@@ -29,4 +27,6 @@ public interface GameInterface {
     void printOutOfMoving(Player player);
 
     void choiceTile(Player player);
+
+    void printOutOfIslandCount(Player player);
 }
