@@ -110,7 +110,7 @@ public abstract class PurchasableTile extends Tile {
     }
 
     // 통행료가 얼마인지 반환
-    public abstract int getToll() throws Exception;
+    public abstract int getToll() throws RuntimeException;
 
     public boolean shouldPay(Player player) {
         if(player.equals(owner) || null == owner) { // 땅의 주인이거나 땅에 주인이 없거나

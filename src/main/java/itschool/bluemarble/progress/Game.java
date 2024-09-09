@@ -13,6 +13,7 @@ import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.tile.*;
+import itschool.bluemarble.model.entity.tile.abs.City;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
@@ -224,7 +225,7 @@ public abstract class Game implements GameInterface {
 
             // 땅의 주인에게 통행료 지불 로직 필요
             // 통행료 지불 불가한 경우 PlayerHasNoMoneyViolation 발생
-            player.payAmountTo(tile.getOwner(), tile.getPrice());
+            player.payAmountTo(tile.getOwner(), tile.getToll());
 
         } else { // 부동산 주인이 없음, 구입 여부 확인 및 구입 진행
             confirmToBuyPurchasableTile(player, tile);
