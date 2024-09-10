@@ -132,7 +132,7 @@ public abstract class Game implements GameInterface {
                     break;
                 } else {
                     if (player.checkIsland()) {
-                        player.stayIsland();
+                        player.stayIsland(dice.isDouble());
                         break;
                     }else {
                         afterRollIndex = MovePhase.move(player, (dice.getDice1() + dice.getDice2()));
