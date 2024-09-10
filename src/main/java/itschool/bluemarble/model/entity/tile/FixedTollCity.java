@@ -24,11 +24,11 @@ public class FixedTollCity extends PurchasableTile {
     }
 
     @Override
-    public int getToll() throws Exception {
+    public int getToll() throws RuntimeException {
         if(!isPurchasable()) {
             return toll;
-        } else {
-            throw new Exception("현재 주인이 없으므로 통행료 지불 의무가 없습니다.");
+        }  else {
+            throw new RuntimeException("현재 주인이 없으므로 통행료 지불 의무가 없습니다.");
         }
     }
 }

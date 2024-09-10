@@ -10,4 +10,10 @@ public class SpaceTravel extends SpecialTile {
             System.out.println(player.getName() + "님이 우주여행을 시작합니다.");
         });
     }
+
+    public void checkOwner(SpecialVehicle special){
+        if(special.getOwner() != null){
+
+        }
+    }
 }

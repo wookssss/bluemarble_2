@@ -212,7 +212,7 @@ public class City extends PurchasableTile {
 
 
     @Override
-    public int getToll() throws Exception {
+    public int getToll() throws RuntimeException {
         if(!isPurchasable()) {
             // ConstructibleTile에서 건물 여부를 체크하고 합산하는 메소드가 필요함
 

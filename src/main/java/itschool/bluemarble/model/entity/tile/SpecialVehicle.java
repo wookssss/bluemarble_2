@@ -28,7 +28,7 @@ public class SpecialVehicle extends FixedTollCity {
     }
 
     @Override
-    public int getToll() throws Exception {
+    public int getToll() throws RuntimeException {
         return 0;
     }
 }
