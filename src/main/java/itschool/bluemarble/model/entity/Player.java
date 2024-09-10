@@ -118,17 +118,16 @@ public class Player extends Payable {
         islandCount = 3;
     }
     //무인도 카운트-- 0이되면 탈출
-    public void stayIsland(){
+    public void stayIsland(Boolean Double){
         islandCount--;
-        if (islandCount == 0)
-            islandCount = 0;
+        if (Double) islandCount = 0;
     }
     //무인도 확인
     public boolean checkIsland(){
         if(islandCount!=0){
-            return true;
+            return true; // 체류해야 되는 조건의 사람
         }
-        return false;
+        return false; // 탈출할 차례인 사람
     }
 
     // 땅 사기
