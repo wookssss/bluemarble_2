@@ -9,6 +9,8 @@ import itschool.bluemarble.model.enumclass.Color;
 import itschool.bluemarble.model.enumclass.ConstructionType;
 import lombok.Getter;
 
+import java.util.Scanner;
+
 @Getter
 public class City extends PurchasableTile {
     
@@ -170,27 +172,47 @@ public class City extends PurchasableTile {
         }
     }
 
-    // 지역명(파라미터)에 따라 땅 구매가 리턴
-    // 지역명(파라미터)에 따라 빌라 구매가 리턴
-    // 지역명(파라미터)에 따라 빌딩 구매가 리턴
-    // 지역명(파라미터)에 따라 호텔 구매가 리턴
-
-    // 지역명(파라미터)에 따라 땅 통행료 리턴
-    // 지역명(파라미터)에 따라 빌라 통행료 리턴
-    // 지역명(파라미터)에 따라 빌딩 통행료 리턴
-    // 지역명(파라미터)에 따라 호텔 통행료 리턴
-
     // isPurchasable() 메소드 실행 후 리턴값이 false 일 때 실행하는 메소드
-    // 1 : 건물 구매 가능 | 2 : 내 땅이지만 이미 건물을 보유중 | 3 : 남의 땅이므로 통행료 지급
-    public int isCity(Player player) {
+    public void isCity(Player player) {
+        Scanner sc = new Scanner(System.in);
+
         if(super.owner == player) {
             if(constructionType == null) {
-                return 1;
-            } else {
-                return 2;
-            }
+                boolean foo1 = true;
+                boolean foo2 = true;
+                do {
+                    System.out.println("내 땅에 도착했습니다!! 건물을 구매하시겠습니까? ( 예 : Y | 아니오 : N )");
+                    String str = sc.next();
+                    if(str.equals("Y") || str.equals("y")) {
+                        foo1 = false;
+                        do {
+                            System.out.println("건설한 건물을 선택하세요. ( 빌라 : V | 빌딩 : B | 호텔 : H )");
+                            str = sc.next();
+                            switch (str) {
+                                case "V": case "v":
+                                    isVillaPrice(player);
+                                    foo2 = true;
+                                    break;
+                                case "B": case "b":
+                                    isBuildingPrice(player);
+                                    foo2 = true;
+                                    break;
+                                case "H": case"h":
+                                    isHotelPrice(player);
+                                    foo2 = true;
+                                    break;
+                            }
+                        } while (foo2);
+
+                    } else if(str.equals("N") || str.equals("n")) {
+                        foo1 = false;
+                        // 건물을 구매하지 않아 반응없이 넘어감
+                    }
+                } while(foo1);
+            } // 이미 건물이 존재하여 반응없이 넘어감
         } else {
-            return 3;
+            System.out.println(player.getName() + "님 땅에 도착했습니다ㅠㅠ 통행료를 지불합니다.");
+            // 통행료 지불하는 메소드 작성란
         }
     }
 
@@ -219,6 +241,10 @@ public class City extends PurchasableTile {
         }
         return 0;
     }
+
+    // 통행료 지불 메소드
+    public void payToll() {}
+
 
     // 건물을 판다
     /*@Override
