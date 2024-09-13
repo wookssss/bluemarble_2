@@ -20,7 +20,6 @@ import itschool.bluemarble.progress.GameByConsole;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +36,11 @@ public class Player extends Payable {
     private List<PurchasableTile> myLandList = new ArrayList<>(); //보유하고 있는 땅
     private Bank bank = Bank.getInstance();
 
-    // 생성자 - 이름, 초기자금 셋팅
+    // 생성자 - 이름, 초기자금, 플레이어생명 셋팅
     public Player(String name, int amount) {
         this.name = name;
         this.cash = amount;
     }
-
 
     // 절대적인 타일번호로 이동
     public int moveByAbsoluteValue(int abs) {
@@ -58,11 +56,11 @@ public class Player extends Payable {
         location += rel;
         if(location > 39) {
             location -= 39 + 1;
-            if(location < 0){
-                location = 40 + location;
-            }
             getPaid(); // 월급 받기
             return location;
+        }
+        if(location < 0){ // 황금열쇠 뒤로가기 나와서 location이 -값 되었을 경우
+            location = 40 + location;
         }
         return location;
     }
@@ -204,6 +202,7 @@ public class Player extends Payable {
         throw new RuntimeException("해당 황금열쇠가 존재하지 않습니다.");
     }
 
+
     @Override
     public String toString() {
         if(islandCount!=0){ //무인도에 체류하고 있는 player는 무인도 체류 횟수 포함해서 출력
@@ -238,4 +237,6 @@ public class Player extends Payable {
         cash -= amount;
         loanMoney = 0;
     } */
+
+
 }
