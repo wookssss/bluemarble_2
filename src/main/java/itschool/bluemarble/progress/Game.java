@@ -62,7 +62,7 @@ public abstract class Game implements GameInterface {
             for (Player player : PLAYERS) {
                 try { // Exception은 어느서 발생시킬 건지 담당자에게 나눠줘야 함, 게임 내 발생하는 예외는 Game에 어떻게 처리할 지 정한다.
                     proceedPhase(player);
-                    turn++;
+
                 } catch (PlayerHasNoLandViolation e1) { // 황금열쇠:반액대매출, 반액대매출을 하고 싶어도 땅이 없음
                     printOutOfException(e1); // 반액대매출, "님이 땅을 가지고 있지 않습니다."
                 } catch (HoldableKeyEvent e1) { // 우대권, 무인도 탈출권
@@ -101,8 +101,22 @@ public abstract class Game implements GameInterface {
                 if (PLAYERS.size() == 1) throw new GameOver(PLAYERS.get(0).getName());
                 // 라운드 개념을 추가하려면 추가 또는 수정 바람
             }
+            turn++; // 한번씩 돌아간 후에 턴을 증가
+            if (PLAYERS.size() <= 1 || turn > 100){ // 100턴이 끝나면 게임이 종료
+                throw new GameOver(winplayer());
+            }
         }
         // PLAYERS.get(0).setWinCount(PLAYERS.get(0).getWinCount()+1); // 승리 횟수 저장은 제거
+    }
+
+    private String winplayer() {
+        Player winner = PLAYERS.get(0);
+        for (Player player : PLAYERS) {
+            if (player.myAllAsset() > winner.myAllAsset()) {
+                winner = player;
+            }
+        }
+        return winner.getName();
     }
 
     private void proceedPhase(Player player) throws RuntimeException {
