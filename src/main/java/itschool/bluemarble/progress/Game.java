@@ -273,9 +273,12 @@ public abstract class Game implements GameInterface {
     }
 
     private void arriveSpaceTravel(Player player) {
-        // 인덱스 32번 타일의 주인 판별
-        // 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
+        // 인덱스 32번(컬럼비아 호) 타일 정보
+        PurchasableTile spaceTravelTile = (PurchasableTile) TILES.get(32);
+        SpaceTravel spaceTravel = new SpaceTravel(spaceTravelTile.getOwner().getName());
 
+        // 컬럼비아 호 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
+        spaceTravel.payFee(player, spaceTravelTile.getOwner());
         choiceTile(player);
     }
 }
