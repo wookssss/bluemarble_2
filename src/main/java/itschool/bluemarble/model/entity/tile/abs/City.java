@@ -212,7 +212,16 @@ public class City extends PurchasableTile {
             } // 이미 건물이 존재하여 반응없이 넘어감
         } else {
             System.out.println(player.getName() + "님 땅에 도착했습니다ㅠㅠ 통행료를 지불합니다.");
-            // 통행료 지불하는 메소드 작성란
+            // 통행료 지불하는 메소드 작성란(미완성)
+            /*if(constructionType == null) { // 상대방의 땅이지만 건물이 없을 때
+                
+            } else { // 상대방의 땅이고 건물이 null이 아닐 때
+                switch(constructionType) {
+                    case ConstructionType.VILLA:
+                        // 빌라 통행료 지급
+                        break;
+                }
+            }*/
         }
     }
 
