@@ -122,6 +122,6 @@ public abstract class PurchasableTile extends Tile {
 
     @Override
     public String toString() {
-        return name + '(' + GameByConsole.formatWithCommas(price) + "," + GameByConsole.formatWithCommas(toll) + ')';
+        return name + '(' + GameByConsole.formatWithCommas(price) + " / " + GameByConsole.formatWithCommas(toll) + ')';
     }
 }
