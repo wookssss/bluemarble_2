@@ -5,12 +5,13 @@ package itschool.bluemarble.model.entity.ifs;
 
 
 import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
+import itschool.bluemarble.model.entity.Player;
 
 public abstract class Payable {
     public int cash; // 보유 현금
     public abstract void payAllAssetsTo(Payable receiver) throws Exception;
 
-    public boolean payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
+    public boolean payAmountTo(Player receiver, int amount) throws PlayerHasNoMoneyViolation {
         if(this.cash >= amount){
             minusAmount(amount);
             receiver.plusAmount(amount);
