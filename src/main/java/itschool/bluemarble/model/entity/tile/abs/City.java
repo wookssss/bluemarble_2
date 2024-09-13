@@ -1,5 +1,6 @@
 package itschool.bluemarble.model.entity.tile.abs;
 
+import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.construction.Building;
 import itschool.bluemarble.model.entity.construction.Hotel;
@@ -13,8 +14,7 @@ import java.util.Scanner;
 
 @Getter
 public class City extends PurchasableTile {
-    
-    protected Construction construction = null; // 현재 건물
+
     protected ConstructionType constructionType = null; // 현재 건물
 
     protected Villa villa;
@@ -227,18 +227,21 @@ public class City extends PurchasableTile {
 
     // isCity() 메소드에서 1이 출력됐을 때 구매 여부 확인 후 실행
     // VILLA 구매
-    public int isVillaPrice() {
-        return color.getVillaPrice();
+    public void isVillaPrice(Player player) throws PlayerHasNoMoneyViolation {
+        player.payAmountToBank(color.getVillaPrice());
+        constructionType = ConstructionType.VILLA;
     }
 
     // BUILDING 구매
-    public int isBuildingPrice() {
-        return color.getBuildingPrice();
+    public void isBuildingPrice(Player player) throws PlayerHasNoMoneyViolation {
+        player.payAmountToBank(color.getBuildingPrice());
+        constructionType = ConstructionType.BUILDING;
     }
 
     // HOTEL 구매
-    public int isHotelPrice() {
-        return color.getHotelPrice();
+    public void isHotelPrice(Player player) throws PlayerHasNoMoneyViolation {
+        player.payAmountToBank(color.getHotelPrice());
+        constructionType = ConstructionType.HOTEL;
     }
 
 
