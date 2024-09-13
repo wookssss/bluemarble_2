@@ -11,6 +11,7 @@ import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
 import java.text.DecimalFormat;
 import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // 상속받아 추상메서드를 구현하며 콘솔 출력을 담당
@@ -437,7 +438,7 @@ public class GameByConsole extends Game {
 
             if("n".equalsIgnoreCase(input))
                 return false;
-            else if ("y".equalsIgnoreCase(input) || "".equals(""))
+            else if ("y".equalsIgnoreCase(input))
                 return true;
             else
                 return false;
@@ -457,8 +458,11 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public void confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
+    public boolean confirmToBuyPurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
         boolean needBuy = confirm(player.getName() + "님 " + tile.getName() + "(" + formatWithCommas(tile.getPrice()) + "원)을/를 구입하시겠습니까?");
+        // System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입을 진행합니다.");
+        // System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입 의사가 없습니다.");
+        // 수정 중
         if(needBuy) {
             System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입을 진행합니다.");
             player.buyLand(tile);
@@ -468,15 +472,50 @@ public class GameByConsole extends Game {
         } else {
             System.out.println(player.getName() + "님이 " + tile.getName() + "의 구입 의사가 없습니다.");
         }
+
+        return needBuy;
+    }
+
+    @Override
+    public boolean confirmToBuyConstruction(Player player, City city) throws PlayerHasNoMoneyViolation {
+        if(city.getConstructionType() == null) {
+            boolean needBuy = confirm("내 땅에 도착했습니다!! 건물을 구매하시겠습니까?");
+            if(needBuy) {
+                while(true) {
+                    System.out.println("빌라 가격 : " + city.getColor().getVillaPrice());
+                    System.out.println("빌딩 가격 : " + city.getColor().getBuildingPrice());
+                    System.out.println("호텔 가격 : " + city.getColor().getHotelPrice());
+                    System.out.println("건설한 건물을 선택하세요. (빌라 : v | 빌딩 : b | 호텔 : h)");
+                    String str = sc.next();
+                    switch (str) {
+                        case "V": case "v":
+                            city.buyVilla(player);
+                            return true;
+                        case "B": case "b":
+                            city.buyBuilding(player);
+                            return true;
+                        case "H": case "h":
+                            city.buyHotel(player);
+                            return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public static int requestTileIndex(Player player) {
         int tileIndex = -1;
 
         do {
-            System.out.print(player.getName() + "님, 이동할 타일번호를 입력하세요. (0 ~ 39) :");
-            tileIndex = sc.nextInt();
-            sc.nextLine(); // 개행 버퍼 제거용
+            try {
+                System.out.print(player.getName() + "님, 이동할 타일번호를 입력하세요. (0 ~ 39) :");
+                tileIndex = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("유효한 숫자를 입력해주세요.");
+            } finally {
+                sc.nextLine(); // 개행 버퍼 제거용
+            }
         } while(tileIndex < 0 || tileIndex > 39);
 
         return tileIndex;
