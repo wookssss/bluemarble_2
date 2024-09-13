@@ -14,7 +14,7 @@ public class Bank extends Payable {
     private Bank() {}
 
     @Override
-    public void payAllAssetsTo(Payable receiver) throws Exception {
+    public void payAllAssetsTo(Player receiver) throws Exception {
         throw new Exception("은행은 사용하지 않습니다.");
     }
     // 싱글톤 끝

@@ -30,7 +30,7 @@ public class Player extends Payable {
     private String name; // 플레이어 이름
     private int location = 0; // 현재 위치 : 타일 번호 0 ~ 39
     private int debt = 0; // 현재 대출금
-    private int asset = 0; // 총 자산
+    private int asset = 0; // 현재 자산
     private int islandCount = 0; // 무인도 체류 횟수
     private List<GoldenKey> goldenkeyList = new ArrayList<>(); //보유하고 있는 황금열쇠
     private List<PurchasableTile> myLandList = new ArrayList<>(); //보유하고 있는 땅
@@ -40,6 +40,10 @@ public class Player extends Payable {
     public Player(String name, int amount) {
         this.name = name;
         this.cash = amount;
+    }
+
+    public int myAllAsset(){ // 총 자산 + 현금
+        return asset + cash;
     }
 
     // 절대적인 타일번호로 이동
@@ -68,12 +72,12 @@ public class Player extends Payable {
 
     //은행에 지불
     public void payAmountToBank(int amount) throws PlayerHasNoMoneyViolation {
-        payAmountTo(bank, amount);
+        minusAmount(amount);
     }
 
     // 다른 플레이어에게 지불
     @Override
-    public boolean payAmountTo(Payable receiver, int amount) throws PlayerHasNoMoneyViolation {
+    public boolean payAmountTo(Player receiver, int amount) throws PlayerHasNoMoneyViolation {
         if(super.payAmountTo(receiver, amount)) {
             return true;
         } else {
@@ -82,7 +86,7 @@ public class Player extends Payable {
     }
 
     //전재산 지불
-    public void payAllAssetsTo(Payable receiver) throws BankruptPlayerViolation {
+    public void payAllAssetsTo(Player receiver) throws BankruptPlayerViolation {
         receiver.payAmountTo(receiver, this.asset);
         asset = 0;
         cash = 0;

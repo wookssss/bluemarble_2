@@ -9,7 +9,7 @@ import itschool.bluemarble.model.entity.Player;
 
 public abstract class Payable {
     public int cash; // 보유 현금
-    public abstract void payAllAssetsTo(Payable receiver) throws Exception;
+    public abstract void payAllAssetsTo(Player receiver) throws Exception;
 
     public boolean payAmountTo(Player receiver, int amount) throws PlayerHasNoMoneyViolation {
         if(this.cash >= amount){
