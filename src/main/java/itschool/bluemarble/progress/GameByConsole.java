@@ -477,31 +477,33 @@ public class GameByConsole extends Game {
     }
 
     @Override
-    public boolean confirmToBuyConstruction(Player player, City city) throws PlayerHasNoMoneyViolation {
+    public void confirmToBuyConstruction(Player player, City city) throws PlayerHasNoMoneyViolation {
         if(city.getConstructionType() == null) {
             boolean needBuy = confirm("내 땅에 도착했습니다!! 건물을 구매하시겠습니까?");
             if(needBuy) {
                 while(true) {
-                    System.out.println("빌라 가격 : " + city.getColor().getVillaPrice());
-                    System.out.println("빌딩 가격 : " + city.getColor().getBuildingPrice());
-                    System.out.println("호텔 가격 : " + city.getColor().getHotelPrice());
+                    System.out.println("빌라 가격 : " + formatWithCommas(city.getColor().getVillaPrice()));
+                    System.out.println("빌딩 가격 : " + formatWithCommas(city.getColor().getBuildingPrice()));
+                    System.out.println("호텔 가격 : " + formatWithCommas(city.getColor().getHotelPrice()));
                     System.out.println("건설한 건물을 선택하세요. (빌라 : v | 빌딩 : b | 호텔 : h)");
                     String str = sc.next();
                     switch (str) {
                         case "V": case "v":
                             city.buyVilla(player);
-                            return true;
+                            System.out.println(player.getName() + "님이 "+ city.getName() + "에 빌라를 구입하셨습니다.");
+                            return;
                         case "B": case "b":
                             city.buyBuilding(player);
-                            return true;
+                            System.out.println(player.getName() + "님이 "+ city.getName() + "에 빌딩을 구입하셨습니다.");
+                            return;
                         case "H": case "h":
                             city.buyHotel(player);
-                            return true;
+                            System.out.println(player.getName() + "님이 "+ city.getName() + "에 호텔을 구입하셨습니다.");
+                            return;
                     }
                 }
             }
         }
-        return false;
     }
 
     public static int requestTileIndex(Player player) {

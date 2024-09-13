@@ -14,6 +14,7 @@ import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
 import itschool.bluemarble.model.entity.goldenKey.ifs.MoveFunction;
 import itschool.bluemarble.model.entity.tile.*;
+import itschool.bluemarble.model.entity.tile.abs.City;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
@@ -197,8 +198,6 @@ public abstract class Game implements GameInterface {
             arrivePurchasableTile(player, (PurchasableTile)currentTile);
         } else if (currentTile instanceof Island) { // 무인도
              arriveIsland(player, (Island) currentTile);
-        } else if (currentTile instanceof FixedTollCity) { // 제주도, 부산, 콩고드, 퀸엘리자베스호 등
-            // arriveFixedTollCity(player, currentTile);
         } else if (currentTile instanceof GiveDonation) { // 사회복지기금 지급처
             // arriveGiveDonation(player, currentTile);
         } else if (currentTile instanceof DonationParty) { // 사회복지기금 수령처
@@ -228,7 +227,9 @@ public abstract class Game implements GameInterface {
     private void arrivePurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
         boolean shouldPay = tile.shouldPay(player);
         if (shouldPay) { // 통행료를 내야하는 상황
-
+            System.out.println("============================================================================================\n");
+            System.out.println(tile.getOwner().getName() + "님 땅에 도착했습니다ㅠㅠ 통행료 " + GameByConsole.formatWithCommas(tile.getToll()) + "원을 지불합니다.");
+            System.out.println("\n============================================================================================");
             // confirmToUseGoldenKey 발생 가능 예외
             // RuntimeException : 해당 황금열쇠가 존재하지 않음
             // HoldableKeyEvent : 황금열쇠 사용 완료
@@ -244,8 +245,12 @@ public abstract class Game implements GameInterface {
             // 통행료 지불 불가한 경우 PlayerHasNoMoneyViolation 발생
             player.payAmountTo(tile.getOwner(), tile.getToll());
 
-        } else { // 부동산 주인이 없음, 구입 여부 확인 및 구입 진행
-            confirmToBuyPurchasableTile(player, tile);
+        } else {
+            if(tile.getOwner() == null) // 부동산 주인이 없는 경우 구입 여부 확인 및 구입 진행
+                confirmToBuyPurchasableTile(player, tile);
+            else // 내가 땅 주인인 경우
+                if(tile instanceof City)
+                    confirmToBuyConstruction(player, (City)tile);
         }
     }
 
@@ -278,7 +283,7 @@ public abstract class Game implements GameInterface {
     private void arriveSpaceTravel(Player player) {
         // 인덱스 32번(컬럼비아 호) 타일 정보
         PurchasableTile spaceTravelTile = (PurchasableTile) TILES.get(32);
-        SpaceTravel spaceTravel = new SpaceTravel(spaceTravelTile.getOwner().getName());
+        SpaceTravel spaceTravel = new SpaceTravel("우주여행 주인");
 
         // 컬럼비아 호 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
         spaceTravel.payFee(player, spaceTravelTile.getOwner());

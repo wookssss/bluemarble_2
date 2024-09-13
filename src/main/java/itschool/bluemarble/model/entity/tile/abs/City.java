@@ -172,79 +172,21 @@ public class City extends PurchasableTile {
         }
     }
 
-    // isPurchasable() 메소드 실행 후 리턴값이 false 일 때 실행하는 메소드
-    @Deprecated
-    public void isCity(Player player) {
-        Scanner sc = new Scanner(System.in);
-
-        if(super.owner == player) {
-            if(constructionType == null) {
-                boolean foo1 = true;
-                boolean foo2 = true;
-                do {
-                    System.out.println("내 땅에 도착했습니다!! 건물을 구매하시겠습니까? ( 예 : Y | 아니오 : N )");
-                    String str = sc.next();
-                    if(str.equals("Y") || str.equals("y")) {
-                        foo1 = false;
-                        do {
-                            System.out.println("건설한 건물을 선택하세요. ( 빌라 : V | 빌딩 : B | 호텔 : H )");
-                            str = sc.next();
-                            switch (str) {
-                                case "V": case "v":
-                                    isVillaPrice(player);
-                                    foo2 = true;
-                                    break;
-                                case "B": case "b":
-                                    isBuildingPrice(player);
-                                    foo2 = true;
-                                    break;
-                                case "H": case "h":
-                                    isHotelPrice(player);
-                                    foo2 = true;
-                                    break;
-                            }
-                        } while (foo2);
-
-                    } else if(str.equals("N") || str.equals("n")) {
-                        foo1 = false;
-                        // 건물을 구매하지 않아 반응없이 넘어감
-                    }
-                } while(foo1);
-            } // 이미 건물이 존재하여 반응없이 넘어감
-        } else {
-            System.out.println(super.owner.getName() + "님 땅에 도착했습니다ㅠㅠ 통행료를 지불합니다.");
-            // 통행료 지불하는 메소드
-            if(constructionType == null) { // 건물이 없을 때
-                player.payAmountTo(super.owner, this.toll);
-            } else { // 건물이 존재할 때
-                if(constructionType == ConstructionType.VILLA) {
-                    player.payAmountTo(super.owner, villa.getToll());
-
-                } else if(constructionType == ConstructionType.BUILDING) {
-                    player.payAmountTo(super.owner, building.getToll());
-
-                } else if(constructionType == ConstructionType.HOTEL) {
-                    player.payAmountTo(super.owner, hotel.getToll());
-                }
-            }
-        }
-    }
-
     // isCity() 메소드에서 활용
     // VILLA 구매
-    public void isVillaPrice(Player player) throws PlayerHasNoMoneyViolation {
+    public void buyVilla(Player player) throws PlayerHasNoMoneyViolation {
         player.payAmountToBank(color.getVillaPrice());
         constructionType = ConstructionType.VILLA;
     }
 
     // BUILDING 구매
-    public void isBuildingPrice(Player player) throws PlayerHasNoMoneyViolation {
+    public void buyBuilding(Player player) throws PlayerHasNoMoneyViolation {
         player.payAmountToBank(color.getBuildingPrice());
         constructionType = ConstructionType.BUILDING;
     }
 
     // HOTEL 구매
-    public void isHotelPrice(Player player) throws PlayerHasNoMoneyViolation {
+    public void buyHotel(Player player) throws PlayerHasNoMoneyViolation {
         player.payAmountToBank(color.getHotelPrice());
         constructionType = ConstructionType.HOTEL;
     }

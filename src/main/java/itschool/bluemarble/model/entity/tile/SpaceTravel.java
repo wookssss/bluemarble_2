@@ -11,10 +11,10 @@ public class SpaceTravel extends SpecialTile {
         });
     }
     public void payFee(Player user, Player owner) {
-        if(owner.getName() == null){
+        /*if(owner.getName() == null){
             user.payAmountToBank(200_000);
         } else if(!owner.equals(user)){
             user.payAmountTo(owner,200_000);
-        }
+        }*/
     }
 }
