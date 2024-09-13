@@ -12,8 +12,8 @@ import itschool.bluemarble.exception.violation.PlayerHasNoMoneyViolation;
 import itschool.bluemarble.model.entity.Dice;
 import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKeyTile;
+import itschool.bluemarble.model.entity.goldenKey.ifs.MoveFunction;
 import itschool.bluemarble.model.entity.tile.*;
-import itschool.bluemarble.model.entity.tile.abs.City;
 import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.model.entity.goldenKey.GoldenKey;
@@ -218,8 +218,11 @@ public abstract class Game implements GameInterface {
 
         printOutOfDrawedGoldenKey(player, goldenKey);
 
-        if (goldenKey.getFunction() instanceof InstantFunction) // 즉시 수-행해야 하는 인스턴트 평션
+        if (goldenKey.getFunction() instanceof InstantFunction) { // 즉시 수-행해야 하는 인스턴트 평션
             ((InstantFunction) goldenKey.getFunction()).execute(player); // 반액대매출에서 PlayerHasNoLandViolation 예외 던질 수 있음
+            if (goldenKey.getFunction() instanceof MoveFunction)
+                arriveTilePhase(player, player.getLocation());
+        }
     }
 
     private void arrivePurchasableTile(Player player, PurchasableTile tile) throws PlayerHasNoMoneyViolation {
