@@ -254,12 +254,14 @@ public abstract class Game implements GameInterface {
 
     private void arriveDonationParty(Player player, Tile currentTile) {
         DonationParty donationParty = DonationParty.getInstance();
-
         // 도착한 플레이어에게 지불
         donationParty.payAmountTo(player, donationParty.getAmount());
     }
 
     private void arriveSpaceTravel(Player player) {
+        // 인덱스 32번 타일의 주인 판별
+        // 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
+
         choiceTile(player);
     }
 }
