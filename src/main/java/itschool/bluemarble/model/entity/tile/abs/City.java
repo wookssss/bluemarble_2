@@ -5,7 +5,6 @@ import itschool.bluemarble.model.entity.Player;
 import itschool.bluemarble.model.entity.construction.Building;
 import itschool.bluemarble.model.entity.construction.Hotel;
 import itschool.bluemarble.model.entity.construction.Villa;
-import itschool.bluemarble.model.entity.construction.abs.Construction;
 import itschool.bluemarble.model.enumclass.Color;
 import itschool.bluemarble.model.enumclass.ConstructionType;
 import lombok.Getter;
@@ -17,9 +16,9 @@ public class City extends PurchasableTile {
 
     protected ConstructionType constructionType = null; // 현재 건물
 
-    protected Villa villa;
-    protected Building building;
-    protected Hotel hotel;
+    protected Villa villa = new Villa();
+    protected Building building = new Building();
+    protected Hotel hotel = new Hotel();
     protected Color color;
     
     // 생성자
@@ -64,10 +63,10 @@ public class City extends PurchasableTile {
                 break;
         }
 
-        // 건물 가격 정의 및 객체 생성
+        /*// 건물 가격 정의 및 객체 생성
         villa = new Villa(color.getVillaPrice());
         building = new Building(color.getBuildingPrice());
-        hotel = new Hotel(color.getHotelPrice());
+        hotel = new Hotel(color.getHotelPrice());*/
 
         // 통행료 정의
         switch (name) {
@@ -197,7 +196,7 @@ public class City extends PurchasableTile {
                                     isBuildingPrice(player);
                                     foo2 = true;
                                     break;
-                                case "H": case"h":
+                                case "H": case "h":
                                     isHotelPrice(player);
                                     foo2 = true;
                                     break;
@@ -211,21 +210,25 @@ public class City extends PurchasableTile {
                 } while(foo1);
             } // 이미 건물이 존재하여 반응없이 넘어감
         } else {
-            System.out.println(player.getName() + "님 땅에 도착했습니다ㅠㅠ 통행료를 지불합니다.");
-            // 통행료 지불하는 메소드 작성란(미완성)
-            /*if(constructionType == null) { // 상대방의 땅이지만 건물이 없을 때
-                
-            } else { // 상대방의 땅이고 건물이 null이 아닐 때
-                switch(constructionType) {
-                    case ConstructionType.VILLA:
-                        // 빌라 통행료 지급
-                        break;
+            System.out.println(super.owner.getName() + "님 땅에 도착했습니다ㅠㅠ 통행료를 지불합니다.");
+            // 통행료 지불하는 메소드
+            if(constructionType == null) { // 건물이 없을 때
+                player.payAmountTo(super.owner, this.toll);
+            } else { // 건물이 존재할 때
+                if(constructionType == ConstructionType.VILLA) {
+                    player.payAmountTo(super.owner, villa.getToll());
+
+                } else if(constructionType == ConstructionType.BUILDING) {
+                    player.payAmountTo(super.owner, building.getToll());
+
+                } else if(constructionType == ConstructionType.HOTEL) {
+                    player.payAmountTo(super.owner, hotel.getToll());
                 }
-            }*/
+            }
         }
     }
 
-    // isCity() 메소드에서 1이 출력됐을 때 구매 여부 확인 후 실행
+    // isCity() 메소드에서 활용
     // VILLA 구매
     public void isVillaPrice(Player player) throws PlayerHasNoMoneyViolation {
         player.payAmountToBank(color.getVillaPrice());
