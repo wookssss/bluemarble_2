@@ -1,6 +1,7 @@
 package itschool.bluemarble.model.entity.tile;
 
 import itschool.bluemarble.model.entity.Player;
+import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 import itschool.bluemarble.model.entity.tile.abs.SpecialTile;
 import itschool.bluemarble.model.entity.tile.ifs.SpecialFunction;
 
@@ -11,10 +12,10 @@ public class SpaceTravel extends SpecialTile {
         });
     }
     public void payFee(Player user, Player owner) {
-        /*if(owner.getName() == null){
+        if (owner == null) {
             user.payAmountToBank(200_000);
-        } else if(!owner.equals(user)){
-            user.payAmountTo(owner,200_000);
-        }*/
+        } else if (!user.equals(owner)) {
+            user.payAmountTo(owner, 200_000);
+        }
     }
 }

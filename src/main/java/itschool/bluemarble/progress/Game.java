@@ -199,9 +199,9 @@ public abstract class Game implements GameInterface {
         } else if (currentTile instanceof Island) { // 무인도
              arriveIsland(player, (Island) currentTile);
         } else if (currentTile instanceof GiveDonation) { // 사회복지기금 지급처
-            // arriveGiveDonation(player, currentTile);
+            arriveGiveDonation(player, currentTile);
         } else if (currentTile instanceof DonationParty) { // 사회복지기금 수령처
-            // arriveDonationParty(player, currentTile);
+            arriveDonationParty(player, currentTile);
         } else if (currentTile instanceof SpaceTravel) { // 우주 여행
             // 우주 여행 등 특수 타일에 대한 특수
             arriveSpaceTravel(player);
@@ -282,11 +282,11 @@ public abstract class Game implements GameInterface {
 
     private void arriveSpaceTravel(Player player) {
         // 인덱스 32번(컬럼비아 호) 타일 정보
-        PurchasableTile spaceTravelTile = (PurchasableTile) TILES.get(32);
-        SpaceTravel spaceTravel = new SpaceTravel("우주여행 주인");
+        PurchasableTile columbia = (PurchasableTile) TILES.get(32);
+        SpaceTravel spaceTravel = new SpaceTravel(player.getName());
 
         // 컬럼비아 호 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
-        spaceTravel.payFee(player, spaceTravelTile.getOwner());
+        spaceTravel.payFee(player, columbia.getOwner());
         choiceTile(player);
     }
 }
