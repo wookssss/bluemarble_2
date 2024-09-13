@@ -7,6 +7,7 @@ import itschool.bluemarble.model.entity.construction.Hotel;
 import itschool.bluemarble.model.entity.construction.Villa;
 import itschool.bluemarble.model.enumclass.Color;
 import itschool.bluemarble.model.enumclass.ConstructionType;
+import itschool.bluemarble.progress.GameByConsole;
 import lombok.Getter;
 
 import java.util.Scanner;
@@ -172,6 +173,7 @@ public class City extends PurchasableTile {
     }
 
     // isPurchasable() 메소드 실행 후 리턴값이 false 일 때 실행하는 메소드
+    @Deprecated
     public void isCity(Player player) {
         Scanner sc = new Scanner(System.in);
 
@@ -250,25 +252,24 @@ public class City extends PurchasableTile {
 
     @Override
     public int getToll() throws RuntimeException {
-        if(!isPurchasable()) {
-            // ConstructibleTile에서 건물 여부를 체크하고 합산하는 메소드가 필요함
-
+        if(constructionType == ConstructionType.VILLA) {
+            return villa.getToll();
+        } else if(constructionType == ConstructionType.BUILDING) {
+            return building.getToll();
+        } else if(constructionType == ConstructionType.HOTEL) {
+            return hotel.getToll();
         }
-        return 0;
+
+        return toll;
     }
 
-    // 통행료 지불 메소드
-    public void payToll() {}
-
-
-    // 건물을 판다
-    /*@Override
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(name + "(");
-        sb.append((construction != null)? construction + "有," : "");
+        sb.append((constructionType != null)? constructionType.name() + "有/" : "");
         sb.append(GameByConsole.formatWithCommas(price) + ", " + GameByConsole.formatWithCommas(toll) + ")");
 
         return sb.toString();
-    }*/
+    }
 }
