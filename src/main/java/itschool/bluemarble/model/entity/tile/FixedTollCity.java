@@ -4,23 +4,10 @@ import itschool.bluemarble.model.entity.tile.abs.PurchasableTile;
 
 public class FixedTollCity extends PurchasableTile {
 
-    public FixedTollCity(String name) {
-        super(name);
-    }
-
-    {
-        // 통행료 고정
-        switch (name) {
-            case "제주도":
-                toll = 300_000;
-                break;
-            case "부산":
-                toll = 600_000;
-                break;
-            case "서울":
-                toll = 2_000_000;
-                break;
-        }
+    public FixedTollCity(int index,String name, int price, int toll) {
+        super(index, name);
+        this.price = price;
+        this.toll = toll;
     }
 
     @Override

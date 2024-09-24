@@ -1,6 +1,7 @@
 package itschool.bluemarble;
 
 import itschool.bluemarble.exception.needcheck.GameOver;
+import itschool.bluemarble.model.factory.TileFactory;
 import itschool.bluemarble.progress.GameByConsole;
 import itschool.bluemarble.progress.Game;
 

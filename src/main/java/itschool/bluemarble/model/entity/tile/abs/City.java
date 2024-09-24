@@ -21,12 +21,20 @@ public class City extends PurchasableTile {
     protected Building building = new Building();
     protected Hotel hotel = new Hotel();
     protected Color color;
-    
     // 생성자
-    public City(String name) {
-        super(name);
+    public City(int index, String name) {
+        super(index, name);
     }
-    
+
+    public City(int index, String name, Color color, int price, int toll, int villaToll, int buildingToll, int hotelToll){
+        super(index, name);
+        this.color = color;
+        this. price = price;
+        this.toll = toll;
+        this.villa.setToll(villaToll);
+        this.building.setToll(buildingToll);
+        this.hotel.setToll(hotelToll);
+    }
     // 초기화 블록
     {
         // 색깔 정의
@@ -210,7 +218,7 @@ public class City extends PurchasableTile {
         StringBuilder sb = new StringBuilder();
         sb.append(name + "(");
         sb.append((constructionType != null)? constructionType.name() + "有/" : "");
-        sb.append(GameByConsole.formatWithCommas(price) + ", " + GameByConsole.formatWithCommas(toll) + ")");
+        sb.append(GameByConsole.formatWithCommas(price) + " / " + GameByConsole.formatWithCommas(toll) + ")\n");
 
         return sb.toString();
     }

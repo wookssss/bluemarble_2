@@ -204,7 +204,7 @@ public abstract class Game implements GameInterface {
             arriveDonationParty(player, currentTile);
         } else if (currentTile instanceof SpaceTravel) { // 우주 여행
             // 우주 여행 등 특수 타일에 대한 특수
-            arriveSpaceTravel(player);
+            arriveSpaceTravel(player,currentTile);
         } else {
             // 시작 타일.. 수행 할 것  없음
         }
@@ -280,10 +280,10 @@ public abstract class Game implements GameInterface {
         donationParty.payAmountTo(player, donationParty.getAmount());
     }
 
-    private void arriveSpaceTravel(Player player) {
+    private void arriveSpaceTravel(Player player, Tile currentTile) {
         // 인덱스 32번(컬럼비아 호) 타일 정보
         PurchasableTile columbia = (PurchasableTile) TILES.get(32);
-        SpaceTravel spaceTravel = new SpaceTravel(player.getName());
+        SpaceTravel spaceTravel = new SpaceTravel(currentTile.getIndex(), player.getName());
 
         // 컬럼비아 호 없으면 은행에 20만원 지불, 있다면 땅 주인에게 20만원 지불
         spaceTravel.payFee(player, columbia.getOwner());
